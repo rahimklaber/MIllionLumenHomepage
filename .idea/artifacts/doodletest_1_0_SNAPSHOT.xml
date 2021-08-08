@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="doodletest-1.0-SNAPSHOT">
+    <output-path>C:\Users\rahim\Desktop\doodletest\build\libs</output-path>
+    <root id="archive" name="doodletest-1.0-SNAPSHOT.jar">
+      <element id="module-output" name="doodletest.main" />
+    </root>
+  </artifact>
+</component>

@@ -18,6 +18,7 @@ dependencies {
         implementation ("io.nacular.doodle:core:$doodleVersion")
         implementation ("io.nacular.doodle:browser:$doodleVersion")
         implementation(npm("stellar-sdk","8.2.5"))
+        implementation(npm("@albedo-link/intent","^0.11.2"))
         // Optional
         // implementation ("io.nacular.doodle:controls:$doodleVersion")
         // implementation ("io.nacular.doodle:animation:$doodleVersion")

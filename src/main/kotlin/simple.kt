@@ -3,6 +3,7 @@ import io.nacular.doodle.application.Application
 import io.nacular.doodle.application.Modules.Companion.PointerModule
 import io.nacular.doodle.application.application
 import io.nacular.doodle.controls.panels.ScrollPanel
+import io.nacular.doodle.controls.panels.ScrollPanelBehavior
 import io.nacular.doodle.core.*
 import io.nacular.doodle.drawing.*
 import io.nacular.doodle.event.PointerEvent
@@ -12,11 +13,12 @@ import io.nacular.doodle.geometry.Rectangle
 import io.nacular.doodle.geometry.Size
 import io.nacular.doodle.image.ImageLoader
 import io.nacular.doodle.image.impl.ImageLoaderImpl
-import io.nacular.doodle.layout.ConstraintLayout
-import io.nacular.doodle.layout.HorizontalConstraint
-import io.nacular.doodle.layout.constrain
+import io.nacular.doodle.layout.*
 import io.nacular.doodle.system.Cursor
 import io.nacular.doodle.text.StyledText
+import io.nacular.doodle.theme.ThemeManager
+import io.nacular.doodle.theme.adhoc.DynamicTheme
+import io.nacular.doodle.theme.native.NativeTheme.Companion.nativeScrollPanelBehavior
 import kotlinx.browser.window
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -158,27 +160,45 @@ class AppHeader(size: Size) : View() {
 
 }
 
-class MillionLumenApplication(display: Display, imageLoader: ImageLoader) : Application {
+class MillionLumenApplication(display: Display, imageLoader: ImageLoader, themes     : ThemeManager, theme: DynamicTheme) : Application {
 
 
     init {
+
+        themes.selected = theme
         val pixelView = PixelView(Size(1000), imageLoader)
 
         val header = AppHeader(Size(1000,200))
 
-
-        display += header
-        display += pixelView
-        val scrollPanel = ScrollPanel()
-
-        display.layout = constrain(pixelView,header){ pixelViewConstrains,headerConstrains ->
-            headerConstrains.centerX = parent.centerX
-            headerConstrains.top = parent.top
+//
+//        display += header
+//        display += pixelView
+        val content = object : Container(){
+            init {
+                children += header
+                children += pixelView
+                size = Size(display.size.width,pixelView.height + header.height)
+                layout = constrain(pixelView,header){ pixelViewConstraints,headerConstraints ->
+                    headerConstraints.centerX = parent.centerX
+                    headerConstraints.top = parent.top
 //            headerConstrains.bottom = pixelViewConstrains.top
-            pixelViewConstrains.centerX = parent.centerX
-            pixelViewConstrains.top = headerConstrains.bottom
+                    pixelViewConstraints.centerX = parent.centerX
+                    pixelViewConstraints.top = headerConstraints.bottom
 //            pixelViewConstrains.bottom = parent.bottom
+                }
+            }
         }
+        val scrollPanel = ScrollPanel(content).apply {
+
+        }
+        display += scrollPanel
+
+        display.layout = constrain(scrollPanel){ constraints ->
+            constraints.width =parent.width
+            constraints.height = parent.height
+            constraints.centerX = parent.centerX
+        }
+
     }
 
     override fun shutdown() {}
@@ -187,10 +207,11 @@ class MillionLumenApplication(display: Display, imageLoader: ImageLoader) : Appl
 fun main() {
     application(modules = listOf(
         PointerModule,
+        nativeScrollPanelBehavior(),
         DI.Module(name = "doodle") {
             bindSingleton<ImageLoader> { ImageLoaderImpl(instance(), instance()) }
         }
     )) {
-        MillionLumenApplication(display = instance(), imageLoader = instance())
+        MillionLumenApplication(display = instance(), imageLoader = instance(), instance(), instance())
     }
 }

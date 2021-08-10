@@ -2,6 +2,7 @@
 import io.nacular.doodle.application.Application
 import io.nacular.doodle.application.Modules.Companion.PointerModule
 import io.nacular.doodle.application.application
+import io.nacular.doodle.controls.panels.ScrollPanel
 import io.nacular.doodle.core.*
 import io.nacular.doodle.drawing.*
 import io.nacular.doodle.event.PointerEvent
@@ -15,6 +16,7 @@ import io.nacular.doodle.layout.ConstraintLayout
 import io.nacular.doodle.layout.HorizontalConstraint
 import io.nacular.doodle.layout.constrain
 import io.nacular.doodle.system.Cursor
+import io.nacular.doodle.text.StyledText
 import kotlinx.browser.window
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -145,7 +147,14 @@ class PixelView(size: Size, private val imageLoader: ImageLoader) : View() {
     }
 }
 
-class AppHeader : View() {
+class AppHeader(size: Size) : View() {
+    init {
+        this.size = size
+    }
+    override fun render(canvas: Canvas) {
+        canvas.rect(Rectangle(Point(100,100),Size(100)), Color.Blue)
+        canvas.text(StyledText("Million Lumen Home Page",foreground = ColorPaint(Color.Black)),this.position)
+    }
 
 }
 
@@ -153,17 +162,22 @@ class MillionLumenApplication(display: Display, imageLoader: ImageLoader) : Appl
 
 
     init {
-        val pixelView = PixelView(Size(1000), imageLoader).apply {
-            this.minimumSize = Size(1000)
-            this.idealSize = Size(1000)
-        }
-//        pixelView.position = Point((display.size.width-1000)/2)
+        val pixelView = PixelView(Size(1000), imageLoader)
+
+        val header = AppHeader(Size(1000,200))
+
+
+        display += header
         display += pixelView
+        val scrollPanel = ScrollPanel()
 
-        display.layout = constrain(pixelView){ pixelViewContrains ->
-            pixelViewContrains.centerX = parent.centerX
-        }.then {
-
+        display.layout = constrain(pixelView,header){ pixelViewConstrains,headerConstrains ->
+            headerConstrains.centerX = parent.centerX
+            headerConstrains.top = parent.top
+//            headerConstrains.bottom = pixelViewConstrains.top
+            pixelViewConstrains.centerX = parent.centerX
+            pixelViewConstrains.top = headerConstrains.bottom
+//            pixelViewConstrains.bottom = parent.bottom
         }
     }
 

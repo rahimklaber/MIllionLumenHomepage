@@ -1,2 +1,8 @@
-build\
-.gradle\
+.*/
+build/
+out/
+/refresh.sh
+*.imp
+*.ipr
+*.iws
+*.idea

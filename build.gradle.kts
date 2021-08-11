@@ -55,6 +55,8 @@ kotlin {
         implementation("io.kvision:kvision-bootstrap:$kvisionVersion")
         implementation("io.kvision:kvision-bootstrap-css:$kvisionVersion")
         implementation("io.kvision:kvision-routing-navigo-ng:$kvisionVersion")
+        implementation(npm("stellar-sdk","8.2.5"))
+        implementation(npm("@albedo-link/intent","^0.11.2"))
     }
     sourceSets["test"].dependencies {
         implementation(kotlin("test-js"))

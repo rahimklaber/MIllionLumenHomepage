@@ -57,6 +57,7 @@ kotlin {
         implementation("io.kvision:kvision-routing-navigo-ng:$kvisionVersion")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
         implementation(npm("stellar-sdk","8.2.5"))
+        implementation(npm("node-polyfill-webpack-plugin","1.1.4"))
         implementation(npm("@albedo-link/intent","^0.11.2"))
     }
     sourceSets["test"].dependencies {

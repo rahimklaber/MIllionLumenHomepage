@@ -13,3 +13,8 @@ config.performance = {
       return !assetFilename.endsWith('.js');
     },
 };
+
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
+
+
+config.plugins.push(new NodePolyfillPlugin())

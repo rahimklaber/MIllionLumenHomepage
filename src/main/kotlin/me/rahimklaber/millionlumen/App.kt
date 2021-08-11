@@ -1,5 +1,6 @@
 package me.rahimklaber.millionlumen
 
+import Server
 import io.kvision.Application
 import io.kvision.core.*
 import io.kvision.form.text.text
@@ -18,6 +19,10 @@ import org.w3c.dom.HTMLCanvasElement
 
 class App : Application() {
     override fun start() {
+        val server = Server("https://horizon-testnet.stellar.org")
+        server.payments().call().then {
+            console.log(it)
+        }
         root("kvapp") {
             vPanel(alignItems = AlignItems.CENTER) {
                 header("hi")

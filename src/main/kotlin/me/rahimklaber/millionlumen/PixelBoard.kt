@@ -30,22 +30,28 @@ class ImageInfo(
     val onClickLink: String
 )
 
-fun CanvasRenderingContext2D.canvasImage(
+fun CanvasRenderingContext2D.drawImage(
     url: String,
     x: Double,
     y: Double,
     width: Double,
-    height: Double
+    height: Double,
+    initialDraw: Boolean = false
 ) {
     val image = Image(width.toInt(), height.toInt())
     image.src = url
-    image.onload = {
+    if(initialDraw){
+        image.onload = {
+            this.drawImage(image, x, y, width, height)
+        }
+    }else{
         this.drawImage(image, x, y, width, height)
     }
+
 }
 
-fun CanvasRenderingContext2D.canvasImage(imageInfo: ImageInfo) {
-    this.canvasImage(imageInfo.url, imageInfo.x, imageInfo.y, imageInfo.width, imageInfo.height)
+fun CanvasRenderingContext2D.drawImage(imageInfo: ImageInfo, initialDraw: Boolean = false) {
+    this.drawImage(imageInfo.url, imageInfo.x, imageInfo.y, imageInfo.width, imageInfo.height, initialDraw)
 }
 
 /**
@@ -59,25 +65,25 @@ fun CanvasRenderingContext2D.canvasImage(imageInfo: ImageInfo) {
 fun Container.pixelBoard(width: Int, height: Int) = Canvas(width, height) {
     val scope =  CoroutineScope(Dispatchers.Default)
     val imageInfos = mutableListOf<ImageInfo>()
-    val draw = { ctx: CanvasRenderingContext2D->
-            imageInfos.forEach(ctx::canvasImage)
+    val draw = { ctx: CanvasRenderingContext2D, init: Boolean->
+            imageInfos.forEach{ctx.drawImage(it,init)}
     }
     onEvent {
-//        this.mousemove = {
-//            val rect = (this@Canvas.getElement() as HTMLCanvasElement).getBoundingClientRect()
-//            val ctx = this@Canvas.context2D
-//            val x = it.clientX - rect.left
-//            val y = it.clientY - rect.top
-//            console.log("x: $x, y: $y")
-//            ctx.clearRect(0.0,0.0,1000.0,1000.0)
-//            draw(ctx)
-//            for (imageInfo in imageInfos){
-//                if(x > imageInfo.x && x < imageInfo.x + imageInfo.width && y > imageInfo.y && y < imageInfo.y + imageInfo.height){
-//                    ctx.fillText(imageInfo.hoverText,imageInfo.x,imageInfo.y-10)
-//                    break
-//                }
-//            }
-//        }
+        this.mousemove = {
+            val rect = (this@Canvas.getElement() as HTMLCanvasElement).getBoundingClientRect()
+            val ctx = this@Canvas.context2D
+            val x = it.x - rect.left
+            val y = it.y - rect.top
+            console.log("x: $x, y: $y")
+            ctx.clearRect(0.0,0.0,1000.0,1000.0)
+            draw(ctx,false)
+            for (imageInfo in imageInfos){
+                if(x > imageInfo.x && x < imageInfo.x + imageInfo.width && y > imageInfo.y && y < imageInfo.y + imageInfo.height){
+                    ctx.fillText(imageInfo.hoverText,500.0,500.0)
+                    break
+                }
+            }
+        }
     }
     addAfterInsertHook {
         val ctx = this.context2D
@@ -122,7 +128,7 @@ fun Container.pixelBoard(width: Int, height: Int) = Canvas(width, height) {
             }
             launch(Dispatchers.Main) {
                 println("Test")
-                draw(ctx)
+                draw(ctx,true)
             }
         }
     }

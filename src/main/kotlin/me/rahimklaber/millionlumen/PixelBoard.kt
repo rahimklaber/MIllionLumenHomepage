@@ -39,7 +39,9 @@ fun CanvasRenderingContext2D.canvasImage(
 ) {
     val image = Image(width.toInt(), height.toInt())
     image.src = url
-    this.drawImage(image, x, y, width, height)
+    image.onload = {
+        this.drawImage(image, x, y, width, height)
+    }
 }
 
 fun CanvasRenderingContext2D.canvasImage(imageInfo: ImageInfo) {
@@ -58,69 +60,71 @@ fun Container.pixelBoard(width: Int, height: Int) = Canvas(width, height) {
     val scope =  CoroutineScope(Dispatchers.Default)
     val imageInfos = mutableListOf<ImageInfo>()
     val draw = { ctx: CanvasRenderingContext2D->
-        scope.launch {
             imageInfos.forEach(ctx::canvasImage)
-        }
     }
     onEvent {
-        this.mousemove = {
-            val rect = (this@Canvas.getElement() as HTMLCanvasElement).getBoundingClientRect()
-            val ctx = this@Canvas.context2D
-            val x = it.clientX - rect.left
-            val y = it.clientY - rect.top
-            console.log("x: $x, y: $y")
-            ctx.clearRect(0.0,0.0,1000.0,1000.0)
-            draw(ctx)
-            for (imageInfo in imageInfos){
-                if(x > imageInfo.x && x < imageInfo.x + imageInfo.width && y > imageInfo.y && y < imageInfo.y + imageInfo.height){
-                    ctx.fillText(imageInfo.hoverText,imageInfo.x,imageInfo.y-10)
-                    break
-                }
-            }
-        }
+//        this.mousemove = {
+//            val rect = (this@Canvas.getElement() as HTMLCanvasElement).getBoundingClientRect()
+//            val ctx = this@Canvas.context2D
+//            val x = it.clientX - rect.left
+//            val y = it.clientY - rect.top
+//            console.log("x: $x, y: $y")
+//            ctx.clearRect(0.0,0.0,1000.0,1000.0)
+//            draw(ctx)
+//            for (imageInfo in imageInfos){
+//                if(x > imageInfo.x && x < imageInfo.x + imageInfo.width && y > imageInfo.y && y < imageInfo.y + imageInfo.height){
+//                    ctx.fillText(imageInfo.hoverText,imageInfo.x,imageInfo.y-10)
+//                    break
+//                }
+//            }
+//        }
     }
     addAfterInsertHook {
         val ctx = this.context2D
         scope.launch {
             val transactions = server.transactions().forAccount(address).call().await()
-                transactions.records.forEach { tx ->
-                    if(tx.memo == "millionlumen"){
-                        try {
-                            require(tx.operation_count == 2){"operation count not 2"}
-                            val ops = tx.operations().await()
-                            val paymentOp = ops.records[0]
-                            val manageDataOp = ops.records[1]
-                            require(paymentOp.type == "payment"){"first op not payment"}
-                            require(manageDataOp.type == "manage_data"){"second op not manageData"}
-                            manageDataOp as ServerApi.ManageDataOperationRecord
-                            paymentOp as ServerApi.PaymentOperationRecord
-                            val amountPaid = paymentOp.amount
-                            val ipfsHash = manageDataOp.name
-                            val data = window.atob(manageDataOp.value.toString()).split(";")
-                            val dimensions = data[0].split("x")
-                            val width = dimensions[0].toInt()
-                            val height = dimensions[1].toInt()
-                            val x = data[1].toInt()
-                            val y = data[2].toInt()
-                            println(window.atob(manageDataOp.value.toString()))
-                            imageInfos.add(
-                                ImageInfo(
-                                    "https://ipfs.io/ipfs/$ipfsHash",
-                                    x.toDouble(),
-                                    y.toDouble(),
-                                    height.toDouble(),
-                                    width.toDouble(),
-                                    "test",
-                                    ""
-                                )
+            transactions.records.forEach { tx ->
+                if (tx.memo == "millionlumen") {
+                    try {
+                        require(tx.operation_count == 2) { "operation count not 2" }
+                        val ops = tx.operations().await()
+                        val paymentOp = ops.records[0]
+                        val manageDataOp = ops.records[1]
+                        require(paymentOp.type == "payment") { "first op not payment" }
+                        require(manageDataOp.type == "manage_data") { "second op not manageData" }
+                        manageDataOp as ServerApi.ManageDataOperationRecord
+                        paymentOp as ServerApi.PaymentOperationRecord
+                        val amountPaid = paymentOp.amount
+                        val ipfsHash = manageDataOp.name
+                        val data = window.atob(manageDataOp.value.toString()).split(";")
+                        val dimensions = data[0].split("x")
+                        val width = dimensions[0].toInt()
+                        val height = dimensions[1].toInt()
+                        val x = data[1].toInt()
+                        val y = data[2].toInt()
+                        println(window.atob(manageDataOp.value.toString()))
+                        imageInfos.add(
+                            ImageInfo(
+                                "https://ipfs.io/ipfs/$ipfsHash",
+                                x.toDouble(),
+                                y.toDouble(),
+                                height.toDouble(),
+                                width.toDouble(),
+                                "yeetss",
+                                ""
                             )
-                        }catch (e : Exception){
-                            println(e)
-                        }
+                        )
+                    } catch (e: Exception) {
+                        println(tx.hash)
+                        println(e)
                     }
                 }
-            draw(ctx)
             }
+            launch(Dispatchers.Main) {
+                println("Test")
+                draw(ctx)
+            }
+        }
     }
 }.apply {
     this.style {

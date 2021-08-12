@@ -49,7 +49,7 @@ fun CanvasRenderingContext2D.canvasImage(imageInfo: ImageInfo) {
 /**
  *  Render a canvas with the bought images.
  *
- *  
+ *
  *
  * @param width width of the image.
  * @param height height of the image.
@@ -60,20 +60,6 @@ fun Container.pixelBoard(width: Int, height: Int) = Canvas(width, height) {
     val draw = { ctx: CanvasRenderingContext2D->
         scope.launch {
             imageInfos.forEach(ctx::canvasImage)
-            ctx.canvasImage(
-                "https://zvelo.com/wp-content/uploads/2018/11/anatomy-of-a-full-path-url-hostname-tld-path-protocol.jpg",
-                100.0,
-                100.0,
-                100.0,
-                100.0
-            )
-            ctx.canvasImage(
-                "https://zvelo.com/wp-content/uploads/2018/11/anatomy-of-a-full-path-url-hostname-tld-path-protocol.jpg",
-                200.0,
-                200.0,
-                100.0,
-                100.0
-            )
         }
     }
     onEvent {

@@ -13,6 +13,7 @@ import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.Image
 import org.w3c.files.FileReader
 import org.w3c.files.get
+import kotlin.math.PI
 
 /**
  * Class to hold info about images which need to be rendered.
@@ -112,6 +113,17 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                 ctx.lineTo(width.toDouble(), 10.0 * i)
                 ctx.stroke()
             }
+            //draw "anchors"
+//            if(state.value.settingImageLocation) {
+//                for (y in 0 until 100) {
+//                    for (x in 0 until 100) {
+//                        ctx.beginPath()
+//                        ctx.arc(x * 10.0, y * 10.0, 2.0, 0.0, 2 * PI)
+//                        ctx.fillStyle = "blue"
+//                        ctx.fill()
+//                    }
+//                }
+//            }
             imageInfos.forEach { ctx.drawImage(it, init) }
         }
         onEvent {
@@ -140,22 +152,53 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
             var moving = false
             var movingX = 0.0
             var movingY = 0.0
+            var currentlyMoving : ImageInfo? = null
             mousedown = {
                 if (state.value.imageAddedToCanvas) {
                     it.preventDefault()
                     it.stopPropagation()
 
-                    moving = true
                     movingX = it.offsetX
                     movingY = it.offsetY
+
+                    for (imageInfo in imageInfos) {
+                        if (imageInfo.draggable && movingX > imageInfo.x && movingX < imageInfo.x + imageInfo.width && movingY > imageInfo.y && movingY < imageInfo.y + imageInfo.height) {
+                            moving = true
+                            currentlyMoving = imageInfo
+//                            imageInfo.x += dx
+//                            imageInfo.y += dy
+//                            movingX = x
+//                            movingY = y
+//                            draw(ctx, false)
+//                            break
+                        }
+                    }
+
+
                 }
             }
             mouseup = {
                 if (state.value.imageAddedToCanvas) {
-
+                    val ctx = this@Canvas.context2D
                     it.preventDefault()
                     it.stopPropagation()
 
+                    currentlyMoving?.also {
+                        val remainderX = it.x % 10
+                        val remainderY = it.y % 10
+                        if(remainderX > 5){
+                            it.x = it.x - remainderX +10
+                        }else{
+                            it.x = it.x - remainderX
+                        }
+                        if(remainderY > 5){
+                            it.y = it.y - remainderY +10
+                        }else{
+                            it.y = it.y - remainderY
+                        }
+                        draw(ctx,false)
+                    }
+                    currentlyMoving = null
                     moving = false
                 }
             }
@@ -172,15 +215,12 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
 
                     val ctx = this@Canvas.context2D
                     if (moving) {
-                        for (imageInfo in imageInfos) {
-                            if (imageInfo.draggable && x > imageInfo.x && x < imageInfo.x + imageInfo.width && y > imageInfo.y && y < imageInfo.y + imageInfo.height) {
-                                imageInfo.x += dx
-                                imageInfo.y += dy
-                                movingX = x
-                                movingY = y
-                                draw(ctx, false)
-                                break
-                            }
+                        currentlyMoving?.also{
+                            it.x += dx
+                            it.y += dy
+                            movingX = x
+                            movingY = y 
+                            draw(ctx,false)
                         }
                     }
                 }
@@ -222,6 +262,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                                 state.value = state.value.apply {
                                     addingImageToCanvas = false
                                     imageAddedToCanvas = true
+                                    settingImageLocation = true
                                 }
                                 draw(this@Canvas.context2D,true)
                                 null

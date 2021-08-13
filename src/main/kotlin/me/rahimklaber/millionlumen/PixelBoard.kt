@@ -3,8 +3,15 @@ package me.rahimklaber.millionlumen
 import externals.stellar.ServerApi
 import io.kvision.core.*
 import io.kvision.html.Canvas
+import io.kvision.html.button
+import io.kvision.state.ObservableState
+import io.kvision.state.ObservableValue
 import kotlinx.browser.window
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.await
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.Image
@@ -22,8 +29,8 @@ import org.w3c.dom.Image
  */
 class ImageInfo(
     val url: String,
-    val x: Double,
-    val y: Double,
+    var x: Double,
+    var y: Double,
     val height: Double,
     val width: Double,
     val hoverText: String,
@@ -39,19 +46,33 @@ fun CanvasRenderingContext2D.drawImage(
     initialDraw: Boolean = false
 ) {
     val image = Image(width.toInt(), height.toInt())
+    //todo save these image objects so we don't have to keep recreating objects.
     image.src = url
-    if(initialDraw){
+    if (initialDraw) {
         image.onload = {
-            this.drawImage(image, x, y, width, height)
+            this.drawImage(image, 0.0, 0.0, width, height, x, y, width, height)
         }
-    }else{
-        this.drawImage(image, x, y, width, height)
+    } else {
+        this.drawImage(image, 0.0, 0.0, width, height, x, y, width, height)
     }
 
 }
 
+/**
+ * Draw image on canvas.
+ *
+ * @param imageInfo Object containing image url, coords and dimensions.
+ * @param initialDraw If true, we wait until the image loads before drawing.
+ */
 fun CanvasRenderingContext2D.drawImage(imageInfo: ImageInfo, initialDraw: Boolean = false) {
-    this.drawImage(imageInfo.url, imageInfo.x, imageInfo.y, imageInfo.width, imageInfo.height, initialDraw)
+    this.drawImage(
+        imageInfo.url,
+        imageInfo.x,
+        imageInfo.y,
+        imageInfo.width,
+        imageInfo.height,
+        initialDraw
+    )
 }
 
 /**
@@ -62,25 +83,80 @@ fun CanvasRenderingContext2D.drawImage(imageInfo: ImageInfo, initialDraw: Boolea
  * @param width width of the image.
  * @param height height of the image.
  */
-fun Container.pixelBoard(width: Int, height: Int) = Canvas(width, height) {
-    val scope =  CoroutineScope(Dispatchers.Default)
+fun Container.pixelBoard(state: ObservableValue<Boolean>,width: Int, height: Int) = Canvas(width, height) {
+    val scope = CoroutineScope(Dispatchers.Default)
     val imageInfos = mutableListOf<ImageInfo>()
-    val draw = { ctx: CanvasRenderingContext2D, init: Boolean->
-            imageInfos.forEach{ctx.drawImage(it,init)}
+    val draw = { ctx: CanvasRenderingContext2D, init: Boolean ->
+        ctx.fillStyle = "#D3D3D3"
+        ctx.fillRect(0.0,0.0,width.toDouble(),height.toDouble())
+        // draw lines
+        ctx.strokeStyle = "grey"
+        for(i in 0 until 100){
+            ctx.beginPath()
+            ctx.moveTo(10.0 * i,0.0)
+            ctx.lineTo(10.0 * i, height.toDouble())
+            ctx.stroke()
+        }
+        for(i in 0 until 100){
+            ctx.beginPath()
+            ctx.moveTo(0.0,10.0 * i)
+            ctx.lineTo(width.toDouble(), 10.0 * i)
+            ctx.stroke()
+        }
+        imageInfos.forEach { ctx.drawImage(it, init) }
     }
     onEvent {
-        this.mousemove = {
+        //todo deal with hover text later
+
+        mousemove = {
             val rect = (this@Canvas.getElement() as HTMLCanvasElement).getBoundingClientRect()
             val ctx = this@Canvas.context2D
-            val x = it.x - rect.left
-            val y = it.y - rect.top
-            console.log("x: $x, y: $y")
-            ctx.clearRect(0.0,0.0,1000.0,1000.0)
-            draw(ctx,false)
-            for (imageInfo in imageInfos){
-                if(x > imageInfo.x && x < imageInfo.x + imageInfo.width && y > imageInfo.y && y < imageInfo.y + imageInfo.height){
-                    ctx.fillText(imageInfo.hoverText,500.0,500.0)
+            val x = it.pageX - rect.left
+            val y = it.pageY - rect.top
+            ctx.clearRect(0.0, 0.0, 1000.0, 1000.0)
+            draw(ctx, false)
+            for (imageInfo in imageInfos) {
+                if (x > imageInfo.x && x < imageInfo.x + imageInfo.width && y > imageInfo.y && y < imageInfo.y + imageInfo.height) {
+                    ctx.fillText(imageInfo.hoverText, 500.0, 500.0)
                     break
+                }
+            }
+        }
+        /**
+         * Be able to drag and move image.
+         * //todo only allow this when trying to upload something.
+         */
+        var moving = false
+        var movingX = 0.0
+        var movingY = 0.0
+        mousedown={
+            moving = true
+            movingX = it.offsetX
+            movingY = it.offsetY
+        }
+        mouseup={
+            moving = false
+        }
+        mousemove ={
+            it.preventDefault()
+            it.stopPropagation()
+
+            val x = it.offsetX
+            val y = it.offsetY
+            val dx =  x - movingX
+            val dy = y - movingY
+
+            val ctx = this@Canvas.context2D
+            if(moving) {
+                for (imageInfo in imageInfos) {
+                    if (x > imageInfo.x && x < imageInfo.x + imageInfo.width && y > imageInfo.y && y < imageInfo.y + imageInfo.height) {
+                        imageInfo.x+= dx
+                        imageInfo.y+= dy
+                        movingX = x
+                        movingY = y
+                        draw(ctx, false)
+                        break
+                    }
                 }
             }
         }
@@ -128,13 +204,13 @@ fun Container.pixelBoard(width: Int, height: Int) = Canvas(width, height) {
             }
             launch(Dispatchers.Main) {
                 println("Test")
-                draw(ctx,true)
+                draw(ctx, true)
             }
         }
     }
 }.apply {
     this.style {
-        border = Border(CssSize(10, UNIT.px), BorderStyle.DOTTED, Color.name(Col.RED))
+        border = Border(CssSize(1, UNIT.px), BorderStyle.SOLID, Color.name(Col.RED))
     }
     this@pixelBoard.add(this)
 }

@@ -9,13 +9,14 @@ import io.kvision.module
 import io.kvision.panel.root
 import io.kvision.panel.vPanel
 import io.kvision.startApplication
+import io.kvision.state.ObservableValue
 
 class App : Application() {
     override fun start() {
         root("kvapp") {
             vPanel(alignItems = AlignItems.CENTER) {
-                header("hi")
-                pixelBoard(1000, 1000)
+                appHeader()
+                pixelBoard(ObservableValue(false),1000, 1000)
             }
 
         }.apply {

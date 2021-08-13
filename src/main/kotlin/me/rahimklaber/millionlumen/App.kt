@@ -4,6 +4,7 @@ import externals.stellar.Server
 import externals.stellar.ServerApi
 import io.kvision.Application
 import io.kvision.core.*
+import io.kvision.html.button
 import io.kvision.html.header
 import io.kvision.module
 import io.kvision.panel.root
@@ -16,7 +17,15 @@ class App : Application() {
         root("kvapp") {
             vPanel(alignItems = AlignItems.CENTER) {
                 appHeader()
-                pixelBoard(ObservableValue(false),1000, 1000)
+                val pixelBoardState = ObservableValue(PixelBoardState())
+                button("Add pic"){
+                    onClick {
+                        pixelBoardState.value = pixelBoardState.value.apply {
+                            addingImageToCanvas = true
+                        }
+                    }
+                }
+                pixelBoard(pixelBoardState,1000, 1000)
             }
 
         }.apply {

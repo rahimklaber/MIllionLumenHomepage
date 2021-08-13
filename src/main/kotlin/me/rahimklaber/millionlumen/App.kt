@@ -1,16 +1,17 @@
 package me.rahimklaber.millionlumen
 
-import externals.stellar.Server
-import externals.stellar.ServerApi
 import io.kvision.Application
 import io.kvision.core.*
 import io.kvision.html.button
-import io.kvision.html.header
+import io.kvision.html.h1
 import io.kvision.module
+import io.kvision.panel.hPanel
 import io.kvision.panel.root
 import io.kvision.panel.vPanel
 import io.kvision.startApplication
 import io.kvision.state.ObservableValue
+import kotlinx.browser.window
+import org.w3c.dom.url.URLSearchParams
 
 class App : Application() {
     override fun start() {
@@ -18,14 +19,27 @@ class App : Application() {
             vPanel(alignItems = AlignItems.CENTER) {
                 appHeader()
                 val pixelBoardState = ObservableValue(PixelBoardState())
-                button("Add pic"){
-                    onClick {
+                hPanel {
+                    val search = window.location.search
+                    val params = URLSearchParams(search)
+                    var buy = false
+                    if (params.get("a") == "buy") {
+                        buy = true
+                        pixelBoardState.value = pixelBoardState.value.apply {
+                            settingImageLocation = false
+                        }
+                    }
+
+                    pixelBoard(pixelBoardState, 1000, 1000)
+                    if (buy) {
+                        // allow you to drag image on canvas.
                         pixelBoardState.value = pixelBoardState.value.apply {
                             addingImageToCanvas = true
                         }
+                        buyPixels(pixelBoardState)
                     }
+
                 }
-                pixelBoard(pixelBoardState,1000, 1000)
             }
 
         }.apply {

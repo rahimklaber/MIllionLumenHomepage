@@ -59,6 +59,7 @@ kotlin {
         implementation(npm("stellar-sdk","8.2.5"))
         implementation(npm("node-polyfill-webpack-plugin","1.1.4"))
         implementation(npm("@albedo-link/intent","^0.11.2"))
+        implementation(npm("ipfs-http-client","52.0.0",generateExternals = false))
     }
     sourceSets["test"].dependencies {
         implementation(kotlin("test-js"))

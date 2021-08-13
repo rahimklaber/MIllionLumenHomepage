@@ -9,8 +9,8 @@ import kotlinx.browser.window
 
 fun Container.appHeader() = header("<h1>Million Lumen Homepage</h1>",rich = true) {
     hPanel {
-        link("Home",window.location.href)
-        link("Buy pixels")
+        link("Home","/")
+        link("Buy pixels","?a=buy")
         style {
             background = Background(Color.name(Col.AZURE))
             display = Display.FLEX

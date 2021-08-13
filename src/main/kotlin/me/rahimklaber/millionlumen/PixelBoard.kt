@@ -11,6 +11,7 @@ import kotlinx.coroutines.await
 import kotlinx.coroutines.launch
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.Image
+import org.w3c.files.File
 import org.w3c.files.FileReader
 import org.w3c.files.get
 import kotlin.math.PI
@@ -30,49 +31,38 @@ class ImageInfo(
     val url: String,
     var x: Double,
     var y: Double,
-    val height: Double,
-    val width: Double,
+    var height: Double?,
+    var width: Double?,
     val hoverText: String = "",
     val onClickLink: String = "",
-    val draggable: Boolean = false
+    var draggable: Boolean = false
 )
 
+/**
+ * Draw an image on the canvas.
+ *
+ * @param imageInfo
+ * @param initialDraw Whether we should wait for the images to load.
+ */
 fun CanvasRenderingContext2D.drawImage(
-    url: String,
-    x: Double,
-    y: Double,
-    width: Double,
-    height: Double,
+    imageInfo: ImageInfo,
     initialDraw: Boolean = false
 ) {
-    val image = Image(width.toInt(), height.toInt())
+    val image = Image()
     //todo save these image objects so we don't have to keep recreating objects.
-    image.src = url
+    image.src = imageInfo.url
     if (initialDraw) {
         image.onload = {
-            this.drawImage(image, 0.0, 0.0, width, height, x, y, width, height)
+            if(imageInfo.width == null && imageInfo.height == null){
+                imageInfo.width = image.height.toDouble()
+                imageInfo.height = image.height.toDouble()
+            }
+            this.drawImage(image, 0.0, 0.0, imageInfo.width!!, imageInfo.height!!, imageInfo.x, imageInfo.y, imageInfo.width!!, imageInfo.height!!)
         }
     } else {
-        this.drawImage(image, 0.0, 0.0, width, height, x, y, width, height)
+        this.drawImage(image, 0.0, 0.0, imageInfo.width!!, imageInfo.height!!, imageInfo.x, imageInfo.y, imageInfo.width!!, imageInfo.height!!)
     }
 
-}
-
-/**
- * Draw image on canvas.
- *
- * @param imageInfo Object containing image url, coords and dimensions.
- * @param initialDraw If true, we wait until the image loads before drawing.
- */
-fun CanvasRenderingContext2D.drawImage(imageInfo: ImageInfo, initialDraw: Boolean = false) {
-    this.drawImage(
-        imageInfo.url,
-        imageInfo.x,
-        imageInfo.y,
-        imageInfo.width,
-        imageInfo.height,
-        initialDraw
-    )
 }
 
 
@@ -80,7 +70,9 @@ class PixelBoardState(
     var addingImageToCanvas: Boolean = false,
     var imageAddedToCanvas: Boolean = false,
     var settingImageLocation: Boolean = false,
-//    var imageUrl : String,
+    var imageInfo: ImageInfo? = null,
+    var imageFile: File? = null, // file for uploading to ipfs
+    var ipfsHash : String? = null,
     var saveImage: () -> Unit = {}
 )
 
@@ -154,7 +146,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
             var movingY = 0.0
             var currentlyMoving : ImageInfo? = null
             mousedown = {
-                if (state.value.imageAddedToCanvas) {
+                if (state.value.settingImageLocation) {
                     it.preventDefault()
                     it.stopPropagation()
 
@@ -162,7 +154,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                     movingY = it.offsetY
 
                     for (imageInfo in imageInfos) {
-                        if (imageInfo.draggable && movingX > imageInfo.x && movingX < imageInfo.x + imageInfo.width && movingY > imageInfo.y && movingY < imageInfo.y + imageInfo.height) {
+                        if (imageInfo.draggable && movingX > imageInfo.x && movingX < imageInfo.x + imageInfo.width!! && movingY > imageInfo.y && movingY < imageInfo.y + imageInfo.height!!) {
                             moving = true
                             currentlyMoving = imageInfo
 //                            imageInfo.x += dx
@@ -178,7 +170,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                 }
             }
             mouseup = {
-                if (state.value.imageAddedToCanvas) {
+                if (state.value.settingImageLocation) {
                     val ctx = this@Canvas.context2D
                     it.preventDefault()
                     it.stopPropagation()
@@ -198,12 +190,11 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                         }
                         draw(ctx,false)
                     }
-                    currentlyMoving = null
                     moving = false
                 }
             }
             mousemove = {
-                if (state.value.imageAddedToCanvas) {
+                if (state.value.settingImageLocation) {
 
                     it.preventDefault()
                     it.stopPropagation()
@@ -219,7 +210,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                             it.x += dx
                             it.y += dy
                             movingX = x
-                            movingY = y 
+                            movingY = y
                             draw(ctx,false)
                         }
                     }
@@ -252,8 +243,8 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                                         event.target.asDynamic().result as String,
                                         500.0,
                                         500.0,
-                                        128.0,
-                                        128.0,
+                                        null,
+                                        null,
                                         "",
                                         "",
                                         true
@@ -263,9 +254,11 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                                     addingImageToCanvas = false
                                     imageAddedToCanvas = true
                                     settingImageLocation = true
+                                    imageInfo = imageInfos.last()
+                                    this.imageFile = file
                                 }
                                 draw(this@Canvas.context2D,true)
-                                null
+                                null // why do I have to do this? wrong typedefs?
                             }
 
                         }

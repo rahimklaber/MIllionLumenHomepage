@@ -2,6 +2,8 @@
 @file:JsModule("stellar-sdk")
 package externals.stellar
 
+import Asset
+
 
 external class AccountCallBuilder : CallBuilder<ServerApi.CollectionPage<ServerApi.AccountRecord>> {
     fun accountId(id: String): CallBuilder<ServerApi.AccountRecord>

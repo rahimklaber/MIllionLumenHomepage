@@ -2,6 +2,9 @@
 @file:JsModule("stellar-sdk")
 package externals.stellar
 
+import FeeBumpTransaction
+import Transaction
+import TransactionI
 import kotlin.js.Promise
 
 open external class Server(serverURL: String, opts: Options = definedExternally) {
@@ -14,7 +17,7 @@ open external class Server(serverURL: String, opts: Options = definedExternally)
     open fun fetchBaseFee(): Promise<Number>
     open fun feeStats(): Promise<Horizon.FeeStatsResponse>
     fun submitTransaction(
-        transaction: Transaction,
+        transaction: TransactionI,
         opts: SubmitTransactionOptions = definedExternally
     ): Promise<Horizon.SubmitTransactionResponse>
 

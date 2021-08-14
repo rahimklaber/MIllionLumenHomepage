@@ -1,23 +1,31 @@
 @file:JsModule("@albedo-link/intent")
 @file:JsNonModule
-@file:Suppress("INTERFACE_WITH_SUPERCLASS", "OVERRIDING_FINAL_MEMBER", "RETURN_TYPE_MISMATCH_ON_OVERRIDE", "CONFLICTING_OVERLOADS")
-package externals.albedo
-import kotlin.js.*
-import tsstdlib.Record
+@file:Suppress(
+    "INTERFACE_WITH_SUPERCLASS",
+    "OVERRIDING_FINAL_MEMBER",
+    "RETURN_TYPE_MISMATCH_ON_OVERRIDE",
+    "CONFLICTING_OVERLOADS"
+)
 
-external interface AlbedoIntent {
-    var publicKey: (params: PublicKeyIntentParams) -> Promise<PublicKeyIntentResult>
-    var signMessage: (params: SignMessageIntentParams) -> Promise<SignMessageIntentResult>
-    var tx: (params: TxIntentParams) -> Promise<TxIntentResult>
-    var pay: (params: PayIntentParams) -> Promise<PayIntentResult>
-    var trust: (params: TrustIntentParams) -> Promise<TrustIntentResult>
-    var exchange: (params: ExchangeIntentParams) -> Promise<ExchangeIntentResult>
-    var implicitFlow: (params: ImplicitFlowIntentParams) -> Promise<ImplicitFlowIntentResult>
-    var manageAccount: (params: ManageAccountIntentParams) -> Promise<ManageAccountIntentResult>
-    var isImplicitSessionAllowed: (intent: String, pubkey: String) -> Boolean
-    var listImplicitSessions: () -> Array<AlbedoImplicitSessionDescriptor>
-    var forgetImplicitSession: (pubkey: String) -> Unit
-    var generateRandomToken: () -> String
+package externals.albedo
+
+import kotlin.js.Promise
+
+external interface Record<T, T1>
+
+external class AlbedoIntent {
+    fun publicKey(params: PublicKeyIntentParams): Promise<PublicKeyIntentResult>
+    fun signMessage(params: SignMessageIntentParams): Promise<SignMessageIntentResult>
+    fun tx(params: TxIntentParams): Promise<TxIntentResult>
+    fun pay(params: PayIntentParams): Promise<PayIntentResult>
+    fun trust(params: TrustIntentParams): Promise<TrustIntentResult>
+    fun exchange(params: ExchangeIntentParams): Promise<ExchangeIntentResult>
+    fun implicitFlow(params: ImplicitFlowIntentParams): Promise<ImplicitFlowIntentResult>
+    fun manageAccount(params: ManageAccountIntentParams): Promise<ManageAccountIntentResult>
+    fun isImplicitSessionAllowed(intent: String, pubkey: String): Boolean
+    fun listImplicitSessions(): Array<AlbedoImplicitSessionDescriptor>
+    fun forgetImplicitSession(pubkey: String): Unit
+    fun generateRandomToken(): String
 }
 
 external interface PublicKeyIntentParams {

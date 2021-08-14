@@ -1,4 +1,6 @@
 @file:Suppress("INTERFACE_WITH_SUPERCLASS", "OVERRIDING_FINAL_MEMBER", "RETURN_TYPE_MISMATCH_ON_OVERRIDE", "CONFLICTING_OVERLOADS")
+@file:JsNonModule
+@file:JsModule("stellar-base")
 package Signer
 
 import kotlin.js.*
@@ -14,7 +16,6 @@ import org.w3c.notifications.*
 import org.w3c.performance.*
 import org.w3c.workers.*
 import org.w3c.xhr.*
-import buffer.global.Buffer
 
 external interface Ed25519PublicKey {
     var ed25519PublicKey: String
@@ -22,11 +23,11 @@ external interface Ed25519PublicKey {
 }
 
 external interface Sha256Hash {
-    var sha256Hash: Buffer
+    var sha256Hash: ByteArray
     var weight: Number?
 }
 
 external interface PreAuthTx {
-    var preAuthTx: Buffer
+    var preAuthTx: ByteArray
     var weight: Number?
 }

@@ -1,23 +1,12 @@
 @file:JsQualifier("Operation")
+@file:JsNonModule
+@file:JsModule("stellar-base")
 @file:Suppress("INTERFACE_WITH_SUPERCLASS", "OVERRIDING_FINAL_MEMBER", "RETURN_TYPE_MISMATCH_ON_OVERRIDE", "CONFLICTING_OVERLOADS")
 package Operation
 
 import kotlin.js.*
-import org.khronos.webgl.*
-import org.w3c.dom.*
-import org.w3c.dom.events.*
-import org.w3c.dom.parsing.*
-import org.w3c.dom.svg.*
-import org.w3c.dom.url.*
-import org.w3c.fetch.*
-import org.w3c.files.*
-import org.w3c.notifications.*
-import org.w3c.performance.*
-import org.w3c.workers.*
-import org.w3c.xhr.*
-import xdrHidden.Operation2
+import xdrHidden.Operation
 import Asset
-import buffer.global.Buffer
 import Claimant
 import OperationOptions.BaseOptions
 import OperationOptions.`T$2`
@@ -33,7 +22,7 @@ external interface AccountMerge : BaseOperation<String /* "accountMerge" */> {
     var destination: String
 }
 
-external fun accountMerge(options: OperationOptions.AccountMerge): Operation2<AccountMerge>
+external fun accountMerge(options: OperationOptions.AccountMerge): Operation
 
 external interface AllowTrust : BaseOperation<String /* "allowTrust" */> {
     var trustor: String
@@ -43,21 +32,21 @@ external interface AllowTrust : BaseOperation<String /* "allowTrust" */> {
         set(value) = definedExternally
 }
 
-external fun allowTrust(options: OperationOptions.AllowTrust): Operation2<AllowTrust>
+external fun allowTrust(options: OperationOptions.AllowTrust): Operation
 
 external interface ChangeTrust : BaseOperation<String /* "changeTrust" */> {
     var line: Asset
     var limit: String
 }
 
-external fun changeTrust(options: OperationOptions.ChangeTrust): Operation2<ChangeTrust>
+external fun changeTrust(options: OperationOptions.ChangeTrust): Operation
 
 external interface CreateAccount : BaseOperation<String /* "createAccount" */> {
     var destination: String
     var startingBalance: String
 }
 
-external fun createAccount(options: OperationOptions.CreateAccount): Operation2<CreateAccount>
+external fun createAccount(options: OperationOptions.CreateAccount): Operation
 
 external interface CreatePassiveSellOffer : BaseOperation<String /* "createPassiveSellOffer" */> {
     var selling: Asset
@@ -66,20 +55,20 @@ external interface CreatePassiveSellOffer : BaseOperation<String /* "createPassi
     var price: String
 }
 
-external fun createPassiveSellOffer(options: OperationOptions.CreatePassiveSellOffer): Operation2<CreatePassiveSellOffer>
+external fun createPassiveSellOffer(options: OperationOptions.CreatePassiveSellOffer): Operation
 
 external interface Inflation : BaseOperation<String /* "inflation" */>
 
-external fun inflation(options: OperationOptions.Inflation): Operation2<Inflation>
+external fun inflation(options: OperationOptions.Inflation): Operation
 
 external interface ManageData : BaseOperation<String /* "manageData" */> {
     var name: String
-    var value: Buffer?
+    var value: ByteArray?
         get() = definedExternally
         set(value) = definedExternally
 }
 
-external fun manageData(options: OperationOptions.ManageData): Operation2<ManageData>
+external fun manageData(options: OperationOptions.ManageData): Operation
 
 external interface ManageSellOffer : BaseOperation<String /* "manageSellOffer" */> {
     var selling: Asset
@@ -89,7 +78,7 @@ external interface ManageSellOffer : BaseOperation<String /* "manageSellOffer" *
     var offerId: String
 }
 
-external fun manageSellOffer(options: OperationOptions.ManageSellOffer): Operation2<ManageSellOffer>
+external fun manageSellOffer(options: OperationOptions.ManageSellOffer): Operation
 
 external interface ManageBuyOffer : BaseOperation<String /* "manageBuyOffer" */> {
     var selling: Asset
@@ -99,7 +88,7 @@ external interface ManageBuyOffer : BaseOperation<String /* "manageBuyOffer" */>
     var offerId: String
 }
 
-external fun manageBuyOffer(options: OperationOptions.ManageBuyOffer): Operation2<ManageBuyOffer>
+external fun manageBuyOffer(options: OperationOptions.ManageBuyOffer): Operation
 
 external interface PathPaymentStrictReceive : BaseOperation<String /* "pathPaymentStrictReceive" */> {
     var sendAsset: Asset
@@ -110,7 +99,7 @@ external interface PathPaymentStrictReceive : BaseOperation<String /* "pathPayme
     var path: Array<Asset>
 }
 
-external fun pathPaymentStrictReceive(options: OperationOptions.PathPaymentStrictReceive): Operation2<PathPaymentStrictReceive>
+external fun pathPaymentStrictReceive(options: OperationOptions.PathPaymentStrictReceive): Operation
 
 external interface PathPaymentStrictSend : BaseOperation<String /* "pathPaymentStrictSend" */> {
     var sendAsset: Asset
@@ -121,7 +110,7 @@ external interface PathPaymentStrictSend : BaseOperation<String /* "pathPaymentS
     var path: Array<Asset>
 }
 
-external fun pathPaymentStrictSend(options: OperationOptions.PathPaymentStrictSend): Operation2<PathPaymentStrictSend>
+external fun pathPaymentStrictSend(options: OperationOptions.PathPaymentStrictSend): Operation
 
 external interface Payment : BaseOperation<String /* "payment" */> {
     var amount: String
@@ -129,7 +118,7 @@ external interface Payment : BaseOperation<String /* "payment" */> {
     var destination: String
 }
 
-external fun payment(options: OperationOptions.Payment): Operation2<Payment>
+external fun payment(options: OperationOptions.Payment): Operation
 
 external interface SetOptions<T> : BaseOperation<String /* "setOptions" */> {
     var inflationDest: String?
@@ -161,13 +150,13 @@ external interface SetOptions<T> : BaseOperation<String /* "setOptions" */> {
 
 external interface SetOptions__0 : SetOptions<dynamic /* SignerOptions.Ed25519PublicKey | SignerOptions.Sha256Hash | SignerOptions.PreAuthTx */>
 
-external fun <T> setOptions(options: OperationOptions.SetOptions<T>): Operation2<SetOptions<T>>
+external fun <T> setOptions(options: OperationOptions.SetOptions<T>): Operation
 
 external interface BumpSequence : BaseOperation<String /* "bumpSequence" */> {
     var bumpTo: String
 }
 
-external fun bumpSequence(options: OperationOptions.BumpSequence): Operation2<BumpSequence>
+external fun bumpSequence(options: OperationOptions.BumpSequence): Operation
 
 external interface CreateClaimableBalance : BaseOperation<String /* "createClaimableBalance" */> {
     var amount: String
@@ -175,56 +164,56 @@ external interface CreateClaimableBalance : BaseOperation<String /* "createClaim
     var claimants: Array<Claimant>
 }
 
-external fun createClaimableBalance(options: OperationOptions.CreateClaimableBalance): Operation2<CreateClaimableBalance>
+external fun createClaimableBalance(options: OperationOptions.CreateClaimableBalance): Operation
 
 external interface ClaimClaimableBalance : BaseOperation<String /* "claimClaimableBalance" */> {
     var balanceId: String
 }
 
-external fun claimClaimableBalance(options: OperationOptions.ClaimClaimableBalance): Operation2<ClaimClaimableBalance>
+external fun claimClaimableBalance(options: OperationOptions.ClaimClaimableBalance): Operation
 
 external interface BeginSponsoringFutureReserves : BaseOperation<String /* "beginSponsoringFutureReserves" */> {
     var sponsoredId: String
 }
 
-external fun beginSponsoringFutureReserves(options: OperationOptions.BeginSponsoringFutureReserves): Operation2<BeginSponsoringFutureReserves>
+external fun beginSponsoringFutureReserves(options: OperationOptions.BeginSponsoringFutureReserves): Operation
 
 external interface EndSponsoringFutureReserves : BaseOperation<String /* "endSponsoringFutureReserves" */>
 
-external fun endSponsoringFutureReserves(options: BaseOptions): Operation2<EndSponsoringFutureReserves>
+external fun endSponsoringFutureReserves(options: BaseOptions): Operation
 
 external interface RevokeAccountSponsorship : BaseOperation<String /* "revokeSponsorship" */> {
     var account: String
 }
 
-external fun revokeAccountSponsorship(options: OperationOptions.RevokeAccountSponsorship): Operation2<RevokeAccountSponsorship>
+external fun revokeAccountSponsorship(options: OperationOptions.RevokeAccountSponsorship): Operation
 
 external interface RevokeTrustlineSponsorship : BaseOperation<String /* "revokeSponsorship" */> {
     var account: String
     var asset: Asset
 }
 
-external fun revokeTrustlineSponsorship(options: OperationOptions.RevokeTrustlineSponsorship): Operation2<RevokeTrustlineSponsorship>
+external fun revokeTrustlineSponsorship(options: OperationOptions.RevokeTrustlineSponsorship): Operation
 
 external interface RevokeOfferSponsorship : BaseOperation<String /* "revokeSponsorship" */> {
     var seller: String
     var offerId: String
 }
 
-external fun revokeOfferSponsorship(options: OperationOptions.RevokeOfferSponsorship): Operation2<RevokeOfferSponsorship>
+external fun revokeOfferSponsorship(options: OperationOptions.RevokeOfferSponsorship): Operation
 
 external interface RevokeDataSponsorship : BaseOperation<String /* "revokeSponsorship" */> {
     var account: String
     var name: String
 }
 
-external fun revokeDataSponsorship(options: OperationOptions.RevokeDataSponsorship): Operation2<RevokeDataSponsorship>
+external fun revokeDataSponsorship(options: OperationOptions.RevokeDataSponsorship): Operation
 
 external interface RevokeClaimableBalanceSponsorship : BaseOperation<String /* "revokeSponsorship" */> {
     var balanceId: String
 }
 
-external fun revokeClaimableBalanceSponsorship(options: OperationOptions.RevokeClaimableBalanceSponsorship): Operation2<RevokeClaimableBalanceSponsorship>
+external fun revokeClaimableBalanceSponsorship(options: OperationOptions.RevokeClaimableBalanceSponsorship): Operation
 
 external interface RevokeSignerSponsorship : BaseOperation<String /* "revokeSponsorship" */> {
     var account: String
@@ -233,7 +222,7 @@ external interface RevokeSignerSponsorship : BaseOperation<String /* "revokeSpon
         set(value) = definedExternally
 }
 
-external fun revokeSignerSponsorship(options: OperationOptions.RevokeSignerSponsorship): Operation2<RevokeSignerSponsorship>
+external fun revokeSignerSponsorship(options: OperationOptions.RevokeSignerSponsorship): Operation
 
 external interface Clawback : BaseOperation<String /* "clawback" */> {
     var asset: Asset
@@ -241,13 +230,13 @@ external interface Clawback : BaseOperation<String /* "clawback" */> {
     var from: String
 }
 
-external fun clawback(options: OperationOptions.Clawback): Operation2<Clawback>
+external fun clawback(options: OperationOptions.Clawback): Operation
 
 external interface ClawbackClaimableBalance : BaseOperation<String /* "clawbackClaimableBalance" */> {
     var balanceId: String
 }
 
-external fun clawbackClaimableBalance(options: OperationOptions.ClawbackClaimableBalance): Operation2<ClawbackClaimableBalance>
+external fun clawbackClaimableBalance(options: OperationOptions.ClawbackClaimableBalance): Operation
 
 external interface SetTrustLineFlags : BaseOperation<String /* "setTrustLineFlags" */> {
     var trustor: String
@@ -255,6 +244,6 @@ external interface SetTrustLineFlags : BaseOperation<String /* "setTrustLineFlag
     var flags: `T$2`
 }
 
-external fun setTrustLineFlags(options: OperationOptions.SetTrustLineFlags): Operation2<SetTrustLineFlags>
+external fun setTrustLineFlags(options: OperationOptions.SetTrustLineFlags): Operation
 
-external fun <T> fromXDRObject(xdrOperation: Operation2<T>): T
+//external fun <T> fromXDRObject(xdrOperation: Operation2): T

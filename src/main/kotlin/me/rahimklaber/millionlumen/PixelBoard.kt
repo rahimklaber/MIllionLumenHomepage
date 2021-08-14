@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.await
 import kotlinx.coroutines.launch
+import me.rahimklaber.millionlumen.Config.server
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.Image
 import org.w3c.files.File
@@ -272,7 +273,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
         addAfterInsertHook {
             val ctx = this.context2D
             scope.launch {
-                val transactions = server.transactions().forAccount(address).call().await()
+                val transactions = server.transactions().forAccount(Config.address).call().await()
                 transactions.records.forEach { tx ->
                     if (tx.memo == "millionlumen") {
                         try {

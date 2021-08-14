@@ -1,20 +1,8 @@
 @file:Suppress("INTERFACE_WITH_SUPERCLASS", "OVERRIDING_FINAL_MEMBER", "RETURN_TYPE_MISMATCH_ON_OVERRIDE", "CONFLICTING_OVERLOADS")
-
+@file:JsNonModule
+@file:JsModule("stellar-base")
 import kotlin.js.*
-import org.khronos.webgl.*
-import org.w3c.dom.*
-import org.w3c.dom.events.*
-import org.w3c.dom.parsing.*
-import org.w3c.dom.svg.*
-import org.w3c.dom.url.*
-import org.w3c.fetch.*
-import org.w3c.files.*
-import org.w3c.notifications.*
-import org.w3c.performance.*
-import org.w3c.workers.*
-import org.w3c.xhr.*
 import xdr.ClaimPredicate
-import buffer.global.Buffer
 import xdr.DecoratedSignature
 import xdr.AccountId
 import xdr.PublicKey
@@ -24,9 +12,7 @@ import MemoType.ID
 import MemoType.Return
 import MemoType.Text
 import xdr.TransactionEnvelope
-import TransactionBuilder.TransactionBuilderOptions
-import xdrHidden.Operation2__0
-import TransactionBuilder.`T$4`
+import xdrHidden.Operation
 
 external open class Account(accountId: String, sequence: String) {
     open fun accountId(): String
@@ -105,19 +91,19 @@ external open class Keypair {
     open var type: String /* "ed25519" */
     open fun publicKey(): String
     open fun secret(): String
-    open fun rawPublicKey(): Buffer
-    open fun rawSecretKey(): Buffer
+    open fun rawPublicKey(): ByteArray
+    open fun rawSecretKey(): ByteArray
     open fun canSign(): Boolean
-    open fun sign(data: Buffer): Buffer
-    open fun signDecorated(data: Buffer): DecoratedSignature
-    open fun signatureHint(): Buffer
-    open fun verify(data: Buffer, signature: Buffer): Boolean
+    open fun sign(data: ByteArray): ByteArray
+    open fun signDecorated(data: ByteArray): DecoratedSignature
+    open fun signatureHint(): ByteArray
+    open fun verify(data: ByteArray, signature: ByteArray): Boolean
     open fun xdrAccountId(): AccountId
     open fun xdrPublicKey(): PublicKey
     open fun xdrMuxedAccount(id: String): xdr.MuxedAccount
 
     companion object {
-        fun fromRawEd25519Seed(secretSeed: Buffer): Keypair
+        fun fromRawEd25519Seed(secretSeed: ByteArray): Keypair
         fun fromSecret(secretKey: String): Keypair
         fun master(networkPassphrase: String): Keypair
         fun fromPublicKey(publicKey: String): Keypair
@@ -138,16 +124,16 @@ external var MemoReturn: Any
 external open class Memo<T> {
     constructor(type: None, value: Nothing? = definedExternally)
     constructor(type: None)
-    constructor(type: Hash, value: Buffer)
+    constructor(type: Hash, value: ByteArray)
     constructor(type: Hash, value: String)
     constructor(type: T, value: String?)
-    constructor(type: T, value: Buffer?)
+    constructor(type: T, value: ByteArray?)
     open var type: T
     open var value: Any
     open fun toXDRObject(): xdr.Memo
 
     companion object {
-        fun fromXDRObject(memo: xdr.Memo): Memo__0
+        fun fromXDRObject(memo: xdr.Memo): Memo<Any>
         fun hash(hash: String): Memo<Hash>
         fun id(id: String): Memo<ID>
         fun none(): Memo<None>
@@ -156,7 +142,6 @@ external open class Memo<T> {
     }
 }
 
-external open class Memo__0 : Memo<dynamic /* MemoType.None | MemoType.ID | MemoType.Text | MemoType.Hash | MemoType.Return */>
 
 external enum class Networks {
     PUBLIC /* = 'Public Global Stellar Network ; September 2015' */,
@@ -175,12 +160,12 @@ external open class TransactionI {
     open fun addSignature(publicKey: String, signature: String)
     open var fee: String
     open fun getKeypairSignature(keypair: Keypair): String
-    open fun hash(): Buffer
+    open fun hash(): ByteArray
     open var networkPassphrase: String
     open fun sign(vararg keypairs: Keypair)
-    open fun signatureBase(): Buffer
+    open fun signatureBase(): ByteArray
     open var signatures: Array<DecoratedSignature>
-    open fun signHashX(preimage: Buffer)
+    open fun signHashX(preimage: ByteArray)
     open fun signHashX(preimage: String)
     open fun toEnvelope(): TransactionEnvelope
     open fun toXDR(): String
@@ -200,7 +185,7 @@ external interface `T$3` {
     var maxTime: String
 }
 
-external open class Transaction<TMemo : Memo__0, TOps : Array<dynamic /* Operation.CreateAccount | Operation.Payment | Operation.PathPaymentStrictReceive | Operation.PathPaymentStrictSend | Operation.CreatePassiveSellOffer | Operation.ManageSellOffer | Operation.ManageBuyOffer | SetOptions__0 | Operation.ChangeTrust | Operation.AllowTrust | Operation.AccountMerge | Operation.Inflation | Operation.ManageData | Operation.BumpSequence | Operation.CreateClaimableBalance | Operation.ClaimClaimableBalance | Operation.BeginSponsoringFutureReserves | Operation.EndSponsoringFutureReserves | Operation.RevokeAccountSponsorship | Operation.RevokeTrustlineSponsorship | Operation.RevokeOfferSponsorship | Operation.RevokeDataSponsorship | Operation.RevokeClaimableBalanceSponsorship | Operation.RevokeSignerSponsorship | Operation.Clawback | Operation.ClawbackClaimableBalance | Operation.SetTrustLineFlags */>> : TransactionI {
+external open class Transaction<TMemo : Memo<Any>, TOps : Array<dynamic /* Operation.CreateAccount | Operation.Payment | Operation.PathPaymentStrictReceive | Operation.PathPaymentStrictSend | Operation.CreatePassiveSellOffer | Operation.ManageSellOffer | Operation.ManageBuyOffer | SetOptions__0 | Operation.ChangeTrust | Operation.AllowTrust | Operation.AccountMerge | Operation.Inflation | Operation.ManageData | Operation.BumpSequence | Operation.CreateClaimableBalance | Operation.ClaimClaimableBalance | Operation.BeginSponsoringFutureReserves | Operation.EndSponsoringFutureReserves | Operation.RevokeAccountSponsorship | Operation.RevokeTrustlineSponsorship | Operation.RevokeOfferSponsorship | Operation.RevokeDataSponsorship | Operation.RevokeClaimableBalanceSponsorship | Operation.RevokeSignerSponsorship | Operation.Clawback | Operation.ClawbackClaimableBalance | Operation.SetTrustLineFlags */>> : TransactionI {
     constructor(envelope: String, networkPassphrase: String, withMuxing: Boolean = definedExternally)
     constructor(envelope: String, networkPassphrase: String)
     constructor(envelope: TransactionEnvelope, networkPassphrase: String, withMuxing: Boolean = definedExternally)
@@ -212,15 +197,15 @@ external open class Transaction<TMemo : Memo__0, TOps : Array<dynamic /* Operati
     open var timeBounds: `T$3`
 }
 
-external open class Transaction__0 : Transaction<Memo__0, Array<dynamic /* Operation.CreateAccount | Operation.Payment | Operation.PathPaymentStrictReceive | Operation.PathPaymentStrictSend | Operation.CreatePassiveSellOffer | Operation.ManageSellOffer | Operation.ManageBuyOffer | SetOptions__0 | Operation.ChangeTrust | Operation.AllowTrust | Operation.AccountMerge | Operation.Inflation | Operation.ManageData | Operation.BumpSequence | Operation.CreateClaimableBalance | Operation.ClaimClaimableBalance | Operation.BeginSponsoringFutureReserves | Operation.EndSponsoringFutureReserves | Operation.RevokeAccountSponsorship | Operation.RevokeTrustlineSponsorship | Operation.RevokeOfferSponsorship | Operation.RevokeDataSponsorship | Operation.RevokeClaimableBalanceSponsorship | Operation.RevokeSignerSponsorship | Operation.Clawback | Operation.ClawbackClaimableBalance | Operation.SetTrustLineFlags */>>
+external open class Transaction__0 : Transaction<Memo<Any>, Array<dynamic /* Operation.CreateAccount | Operation.Payment | Operation.PathPaymentStrictReceive | Operation.PathPaymentStrictSend | Operation.CreatePassiveSellOffer | Operation.ManageSellOffer | Operation.ManageBuyOffer | SetOptions__0 | Operation.ChangeTrust | Operation.AllowTrust | Operation.AccountMerge | Operation.Inflation | Operation.ManageData | Operation.BumpSequence | Operation.CreateClaimableBalance | Operation.ClaimClaimableBalance | Operation.BeginSponsoringFutureReserves | Operation.EndSponsoringFutureReserves | Operation.RevokeAccountSponsorship | Operation.RevokeTrustlineSponsorship | Operation.RevokeOfferSponsorship | Operation.RevokeDataSponsorship | Operation.RevokeClaimableBalanceSponsorship | Operation.RevokeSignerSponsorship | Operation.Clawback | Operation.ClawbackClaimableBalance | Operation.SetTrustLineFlags */>>
 
 external var BASE_FEE: Any
 
 external var TimeoutInfinite: Any
 
 external open class TransactionBuilder(sourceAccount: Account, options: TransactionBuilderOptions = definedExternally) {
-    open fun addOperation(operation: Operation2__0): TransactionBuilder /* this */
-    open fun addMemo(memo: Memo__0): TransactionBuilder /* this */
+    open fun addOperation(operation: Operation): TransactionBuilder /* this */
+    open fun addMemo(memo: Memo<Any>): TransactionBuilder /* this */
     open fun setTimeout(timeoutInSeconds: Number): TransactionBuilder /* this */
     open fun build(): Transaction__0
     open fun setNetworkPassphrase(networkPassphrase: String): TransactionBuilder /* this */
@@ -238,7 +223,7 @@ external open class TransactionBuilder(sourceAccount: Account, options: Transact
         var timebounds: `T$4`?
             get() = definedExternally
             set(value) = definedExternally
-        var memo: Memo__0?
+        var memo: Memo<Any>?
             get() = definedExternally
             set(value) = definedExternally
         var networkPassphrase: String?
@@ -260,8 +245,8 @@ external open class TransactionBuilder(sourceAccount: Account, options: Transact
     }
 }
 
-external fun hash(data: Buffer): Buffer
+external fun hash(data: ByteArray): ByteArray
 
-external fun sign(data: Buffer, rawSecret: Buffer): Buffer
+external fun sign(data: ByteArray, rawSecret: ByteArray): ByteArray
 
-external fun verify(data: Buffer, signature: Buffer, rawPublicKey: Buffer): Boolean
+external fun verify(data: ByteArray, signature: ByteArray, rawPublicKey: ByteArray): Boolean

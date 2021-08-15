@@ -74,7 +74,7 @@ class PixelBoardState(
     var imageInfo: ImageInfo? = null,
     var imageFile: File? = null, // file for uploading to ipfs
     var ipfsHash : String? = null,
-    var saveImage: () -> Unit = {}
+    var txSucces : Boolean? = null,
 )
 
 /**
@@ -106,42 +106,9 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                 ctx.lineTo(width.toDouble(), 10.0 * i)
                 ctx.stroke()
             }
-            //draw "anchors"
-//            if(state.value.settingImageLocation) {
-//                for (y in 0 until 100) {
-//                    for (x in 0 until 100) {
-//                        ctx.beginPath()
-//                        ctx.arc(x * 10.0, y * 10.0, 2.0, 0.0, 2 * PI)
-//                        ctx.fillStyle = "blue"
-//                        ctx.fill()
-//                    }
-//                }
-//            }
             imageInfos.forEach { ctx.drawImage(it, init) }
         }
         onEvent {
-            //todo deal with hover text later
-
-//        mousemove = {
-//            it.preventDefault()
-//            it.stopPropagation()
-//
-//            val ctx = this@Canvas.context2D
-//            val x = it.offsetX
-//            val y = it.offsetY
-//            ctx.clearRect(0.0, 0.0, 1000.0, 1000.0)
-//            draw(ctx, false)
-//            for (imageInfo in imageInfos) {
-//                if (x > imageInfo.x && x < imageInfo.x + imageInfo.width && y > imageInfo.y && y < imageInfo.y + imageInfo.height) {
-//                    ctx.fillText(imageInfo.hoverText, 500.0, 500.0)
-//                    break
-//                }
-//            }
-//        }
-            /**
-             * Be able to drag and move image.
-             * //todo only allow this when trying to upload something.
-             */
             var moving = false
             var movingX = 0.0
             var movingY = 0.0
@@ -273,9 +240,9 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
         addAfterInsertHook {
             val ctx = this.context2D
             scope.launch {
-                val transactions = server.transactions().forAccount(Config.address).call().await()
+                val transactions = server.transactions().forAccount(Config.address).limit(200).call().await()
                 transactions.records.forEach { tx ->
-                    if (tx.memo == "millionlumen") {
+                        if (tx.memo == "millionlumen") {
                         try {
                             require(tx.operation_count == 2) { "operation count not 2" }
                             val ops = tx.operations().await()
@@ -293,7 +260,6 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                             val height = dimensions[1].toInt()
                             val x = data[1].toInt()
                             val y = data[2].toInt()
-                            println(window.atob(manageDataOp.value.toString()))
                             imageInfos.add(
                                 ImageInfo(
                                     "https://ipfs.io/ipfs/$ipfsHash",
@@ -306,20 +272,18 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                                 )
                             )
                         } catch (e: Exception) {
-                            println(tx.hash)
                             println(e)
                         }
                     }
                 }
                 launch(Dispatchers.Main) {
-                    println("Test")
                     draw(ctx, true)
                 }
             }
         }
     }.apply {
         this.style {
-            border = Border(CssSize(1, UNIT.px), BorderStyle.SOLID, Color.name(Col.RED))
+            border = Border(CssSize(1, UNIT.px), BorderStyle.SOLID, Color.name(Col.LIGHTGRAY))
         }
         this@pixelBoard.add(this)
     }

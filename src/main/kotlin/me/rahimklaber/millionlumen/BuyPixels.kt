@@ -37,10 +37,10 @@ val ipfsClient = create(opts)
 fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
     vPanel(pixelBoardState) {
         val scope = CoroutineScope(Dispatchers.Default)
-        h1("Buy pixel")
+        h1("Buy pixels")
         div("First, drag an image onto the canvas")
         if (pixelBoardState.value.imageAddedToCanvas) {
-            div("Drag the image to the location you would like.")
+            div("Next,rag the image to the location you would like.")
             button("Save image info") {
                 onClick {
                     pixelBoardState.value = pixelBoardState.value.apply {
@@ -64,37 +64,62 @@ fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
             }
         }
         if(pixelBoardState.value.ipfsHash !=null){
-            console.log(Operation)
            div("Next, submit the image data to the blockchain and send the payment for the pixels")
-            scope.launch {
-                val address = albedo.publicKey(js("{}")).await().pubkey
-                val account = server.loadAccount(address).await().let {
-                    Account(address,it.sequence)
+            button("Upload data to the blockchain") {
+                onClick {
+                    scope.launch {
+                        val address = albedo.publicKey(js("{}")).await().pubkey
+                        val account = server.loadAccount(address).await().let {
+                            Account(address,it.sequence)
+                        }
+                        val imageInfo = pixelBoardState.value.imageInfo
+                        val fee = server.fetchBaseFee().await().toString()
+                        val tx = TransactionBuilder(account, object :  TransactionBuilder.TransactionBuilderOptions {
+                            override var fee: String = fee
+                            override var networkPassphrase: String? = Networks.TESTNET
+                        })
+                            .addOperation(Operation.payment(createPaymentOpts("1",Asset.native(),Config.address)))
+                            .addOperation(Operation.manageData(createManageDataOpts(pixelBoardState.value.ipfsHash!!,"${imageInfo!!.width!!.toInt()}x${imageInfo!!.height!!.toInt()};${imageInfo.x.toInt()};${imageInfo.y.toInt()}")))
+                            .setTimeout(0)
+                            .addMemo(Memo.text("millionlumen"))
+                            .build()
+                        val albedoTx = albedo.tx(object : TxIntentParams{
+                            override var xdr: String = tx.toXDR()
+                            override var network: String? = "testnet"
+                        }).await()
+                        val albedoSignedTx = TransactionBuilder.fromXDR(albedoTx.signed_envelope_xdr, Networks.TESTNET)
+                        try{
+                            val res = server.submitTransaction(albedoSignedTx).await()
+                            if(res.asDynamic().successful == true){
+                                pixelBoardState.value = pixelBoardState.value.apply{
+                                    txSucces = true
+                                }
+                            }else{
+                                console.log(res)
+                                pixelBoardState.value = pixelBoardState.value.apply{
+                                    txSucces = false
+                                }
+                            }
+                        }catch (e: Exception){
+                            pixelBoardState.value = pixelBoardState.value.apply{
+                                txSucces = false
+                            }
+                        }
+
+                    }
                 }
-                val imageInfo = pixelBoardState.value.imageInfo
-                val fee = server.fetchBaseFee().await().toString()
-                val tx = TransactionBuilder(account, object :  TransactionBuilder.TransactionBuilderOptions {
-                    override var fee: String = fee
-                    override var networkPassphrase: String? = Networks.TESTNET
-                })
-                    .addOperation(Operation.payment(createPaymentOpts("1",Asset.native(),Config.address)))
-                    .addOperation(Operation.manageData(createManageDataOpts(pixelBoardState.value.ipfsHash!!,"${imageInfo!!.width!!.toInt()}x${imageInfo!!.height!!.toInt()};${imageInfo.x.toInt()};${imageInfo.y.toInt()}")))
-                    .setTimeout(0)
-                    .addMemo(Memo.text("millionlumen"))
-                    .build()
-                val albedoTx = albedo.tx(object : TxIntentParams{
-                    override var xdr: String = tx.toXDR()
-                    override var network: String? = "testnet"
-                }).await()
-                val albedoSignedTx = TransactionBuilder.fromXDR(albedoTx.signed_envelope_xdr, Networks.TESTNET)
-                val res = server.submitTransaction(albedoSignedTx).await()
-                console.log(res)
             }
         }
 
+        if(pixelBoardState.value.txSucces == true){
+            div("Succesfully added image!")
+        }
+
         style {
-            border = Border(CssSize(1, UNIT.px), BorderStyle.SOLID, Color.name(Col.RED))
+            border = Border(CssSize(1, UNIT.px), BorderStyle.SOLID, Color.name(Col.LIGHTGRAY))
             padding = CssSize(10, UNIT.px)
-            marginLeft = CssSize(30, UNIT.px)
+            width = CssSize(500,UNIT.px)
+//            marginLeft = CssSize(30, UNIT.px)
+            color = Color("white")
         }
     }

@@ -10,7 +10,7 @@ import Asset
 //
 //}
 fun createPaymentOpts( amount: String, asset: Asset, destination: String,source : String? = null) : OperationOptions.Payment{
-    val opts = js("{}") as OperationOptions.Payment
+    val opts = js("{}").unsafeCast<OperationOptions.Payment>()
     opts.source = source
     opts.amount = amount
     opts.asset = asset
@@ -19,7 +19,7 @@ fun createPaymentOpts( amount: String, asset: Asset, destination: String,source 
 }
 
 fun createManageDataOpts(name: String, value: String,source: String? = null) : OperationOptions.ManageData{
-    val opts = js("{}") as OperationOptions.ManageData
+    val opts = js("{}").unsafeCast<OperationOptions.ManageData>()
     opts.source = source
     opts.name = name
     opts.value = value

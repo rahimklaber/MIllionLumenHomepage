@@ -40,7 +40,7 @@ fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
         h1("Buy pixels")
         div("First, drag an image onto the canvas")
         if (pixelBoardState.value.imageAddedToCanvas) {
-            div("Next,rag the image to the location you would like.")
+            div("Next, drag the image to the location you would like.")
             button("Save image info") {
                 onClick {
                     pixelBoardState.value = pixelBoardState.value.apply {
@@ -79,7 +79,7 @@ fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
                             override var networkPassphrase: String? = Networks.TESTNET
                         })
                             .addOperation(Operation.payment(createPaymentOpts("1",Asset.native(),Config.address)))
-                            .addOperation(Operation.manageData(createManageDataOpts(pixelBoardState.value.ipfsHash!!,"${imageInfo!!.width!!.toInt()}x${imageInfo!!.height!!.toInt()};${imageInfo.x.toInt()};${imageInfo.y.toInt()}")))
+                            .addOperation(Operation.manageData(createManageDataOpts(pixelBoardState.value.ipfsHash!!,"${imageInfo!!.width!!.toInt()}x${imageInfo.height!!.toInt()};${imageInfo.x.toInt()};${imageInfo.y.toInt()}")))
                             .setTimeout(0)
                             .addMemo(Memo.text("millionlumen"))
                             .build()

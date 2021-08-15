@@ -44,13 +44,19 @@ class ImageInfo(
  *
  * @param imageInfo
  * @param initialDraw Whether we should wait for the images to load.
+ * @param onlyBoxes if true red boxes will be rendered instead of images.
  */
 fun CanvasRenderingContext2D.drawImage(
     imageInfo: ImageInfo,
-    initialDraw: Boolean = false
+    initialDraw: Boolean = false,
+    onlyBoxes : Boolean = false
 ) {
+    if(onlyBoxes && !imageInfo.draggable){
+        this.fillStyle = "red"
+        this.fillRect(imageInfo.x,imageInfo.y,imageInfo.width!!,imageInfo.height!!)
+        return
+    }
     val image = Image()
-    //todo save these image objects so we don't have to keep recreating objects.
     image.src = imageInfo.url
     if (initialDraw) {
         image.onload = {
@@ -89,7 +95,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
     Canvas(width, height) {
         val scope = CoroutineScope(Dispatchers.Default)
         val imageInfos = mutableListOf<ImageInfo>()
-        val draw = { ctx: CanvasRenderingContext2D, init: Boolean ->
+        val draw = { ctx: CanvasRenderingContext2D, init: Boolean, onlyBoxes : Boolean ->
             ctx.fillStyle = "#D3D3D3"
             ctx.fillRect(0.0, 0.0, width.toDouble(), height.toDouble())
             // draw lines
@@ -106,7 +112,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                 ctx.lineTo(width.toDouble(), 10.0 * i)
                 ctx.stroke()
             }
-            imageInfos.forEach { ctx.drawImage(it, init) }
+            imageInfos.forEach { ctx.drawImage(it, init,onlyBoxes) }
         }
         onEvent {
             var moving = false
@@ -125,12 +131,6 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                         if (imageInfo.draggable && movingX > imageInfo.x && movingX < imageInfo.x + imageInfo.width!! && movingY > imageInfo.y && movingY < imageInfo.y + imageInfo.height!!) {
                             moving = true
                             currentlyMoving = imageInfo
-//                            imageInfo.x += dx
-//                            imageInfo.y += dy
-//                            movingX = x
-//                            movingY = y
-//                            draw(ctx, false)
-//                            break
                         }
                     }
 
@@ -156,7 +156,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                         }else{
                             it.y = it.y - remainderY
                         }
-                        draw(ctx,false)
+                        draw(ctx,false,true)
                     }
                     moving = false
                 }
@@ -179,7 +179,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                             it.y += dy
                             movingX = x
                             movingY = y
-                            draw(ctx,false)
+                            draw(ctx,false,true)
                         }
                     }
                 }
@@ -225,7 +225,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                                     imageInfo = imageInfos.last()
                                     this.imageFile = file
                                 }
-                                draw(this@Canvas.context2D,true)
+                                draw(this@Canvas.context2D,true,true)
                                 null // why do I have to do this? wrong typedefs?
                             }
 
@@ -272,12 +272,12 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                                 )
                             )
                         } catch (e: Exception) {
-                            println(e)
+//                            println(e)
                         }
                     }
                 }
                 launch(Dispatchers.Main) {
-                    draw(ctx, true)
+                    draw(ctx, true,false)
                 }
             }
         }

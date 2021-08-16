@@ -21,38 +21,38 @@ class App : Application() {
     }
     override fun start() {
         root("kvapp") {
+            val pixelBoardState = ObservableValue(PixelBoardState())
                 vPanel {
                     appHeader()
-                    val pixelBoardState = ObservableValue(PixelBoardState())
-                    hPanel {
-                        val search = window.location.search
-                        val params = URLSearchParams(search)
-                        var buy = false
-                        if (params.get("a") == "buy") {
-                            buy = true
-                            pixelBoardState.value = pixelBoardState.value.apply {
-                                settingImageLocation = false
-                            }
-                        }
 
-                        pixelBoard(pixelBoardState, 1000, 1000)
-                        if (buy) {
-                            // allow you to drag image on canvas.
-                            pixelBoardState.value = pixelBoardState.value.apply {
-                                addingImageToCanvas = true
-                            }
-                            buyPixels(pixelBoardState)
-                        }
+                    pixelBoard(pixelBoardState, 1000, 1000)
+                }
+            val search = window.location.search
+            val params = URLSearchParams(search)
+            var buy = false
+            if (params.get("a") == "buy") {
+                buy = true
+            }
 
+
+            if (buy) {
+                // allow you to drag image on canvas.
+                pixelBoardState.value = pixelBoardState.value.apply {
+                    addingImageToCanvas = true
+                }
+                buyPixels(pixelBoardState).apply {
+                    style{
+                        marginLeft = CssSize(50,UNIT.px)
+                        marginTop = CssSize(200,UNIT.px)
                     }
                 }
+            }
 
         }.apply {
             style {
                 justifyContent = JustifyContent.CENTER
                 display = Display.FLEX
                 background = Background(image="stars.jpg")
-//                background = Background(image="stars.jpg")
             }
         }
     }

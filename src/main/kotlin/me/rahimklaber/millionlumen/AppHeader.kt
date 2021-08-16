@@ -36,6 +36,17 @@ fun Container.appHeader() = div(className = "appheader") {
                     color = Color.name(Col.WHITE)
                 }
             }
+            div("|"){
+                style {
+                    marginRight = CssSize(5,UNIT.px)
+                    marginLeft = CssSize(5,UNIT.px)
+                }
+            }
+            link("About", "?a=about") {
+                style {
+                    color = Color.name(Col.WHITE)
+                }
+            }
         }
     }
     style {

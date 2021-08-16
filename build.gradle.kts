@@ -52,6 +52,7 @@ kotlin {
     }
     sourceSets["main"].dependencies {
         implementation("io.kvision:kvision:$kvisionVersion")
+        implementation("io.kvision:kvision-toast:$kvisionVersion")
         implementation("io.kvision:kvision-bootstrap:$kvisionVersion")
         implementation("io.kvision:kvision-bootstrap-css:$kvisionVersion")
         implementation("io.kvision:kvision-routing-navigo-ng:$kvisionVersion")

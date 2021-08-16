@@ -4,6 +4,7 @@ import externals.stellar.ServerApi
 import io.kvision.core.*
 import io.kvision.html.Canvas
 import io.kvision.state.ObservableValue
+import io.kvision.toast.Toast
 import kotlinx.browser.window
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +16,6 @@ import org.w3c.dom.Image
 import org.w3c.files.File
 import org.w3c.files.FileReader
 import org.w3c.files.get
-import kotlin.math.PI
 
 /**
  * Class to hold info about images which need to be rendered.
@@ -25,8 +25,6 @@ import kotlin.math.PI
  * @property y The y position of the image.
  * @property height The height of the image.
  * @property width The width of the image.
- * @property hoverText Text that should show when hovering on image.
- * @property onClickLink Where to redirect to when the image was clicked on.
  */
 class ImageInfo(
     val url: String,
@@ -34,8 +32,6 @@ class ImageInfo(
     var y: Double,
     var height: Double?,
     var width: Double?,
-    val hoverText: String = "",
-    val onClickLink: String = "",
     var draggable: Boolean = false
 )
 
@@ -74,6 +70,7 @@ fun CanvasRenderingContext2D.drawImage(
 
 
 class PixelBoardState(
+    var imageInfos: MutableList<ImageInfo> = mutableListOf(),
     var addingImageToCanvas: Boolean = false,
     var imageAddedToCanvas: Boolean = false,
     var settingImageLocation: Boolean = false,
@@ -88,28 +85,28 @@ class PixelBoardState(
  *
  *
  *
- * @param width width of the image.
- * @param height height of the image.
+ * @param canvaswidth canvaswidth of the image.
+ * @param canvasheight canvasheight of the image.
  */
-fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, height: Int) =
-    Canvas(width, height) {
+fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, canvaswidth: Int, canvasheight: Int) =
+    Canvas(canvaswidth, canvasheight) {
         val scope = CoroutineScope(Dispatchers.Default)
-        val imageInfos = mutableListOf<ImageInfo>()
+        val imageInfos = state.value.imageInfos
         val draw = { ctx: CanvasRenderingContext2D, init: Boolean, onlyBoxes : Boolean ->
             ctx.fillStyle = "#D3D3D3"
-            ctx.fillRect(0.0, 0.0, width.toDouble(), height.toDouble())
+            ctx.fillRect(0.0, 0.0, canvaswidth.toDouble(), canvasheight.toDouble())
             // draw lines
             ctx.strokeStyle = "grey"
             for (i in 0 until 100) {
                 ctx.beginPath()
                 ctx.moveTo(10.0 * i, 0.0)
-                ctx.lineTo(10.0 * i, height.toDouble())
+                ctx.lineTo(10.0 * i, canvasheight.toDouble())
                 ctx.stroke()
             }
             for (i in 0 until 100) {
                 ctx.beginPath()
                 ctx.moveTo(0.0, 10.0 * i)
-                ctx.lineTo(width.toDouble(), 10.0 * i)
+                ctx.lineTo(canvaswidth.toDouble(), 10.0 * i)
                 ctx.stroke()
             }
             imageInfos.forEach { ctx.drawImage(it, init,onlyBoxes) }
@@ -137,11 +134,11 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
 
                 }
             }
-            mouseup = {
+            mouseup = { mouseEvent ->
                 if (state.value.settingImageLocation) {
                     val ctx = this@Canvas.context2D
-                    it.preventDefault()
-                    it.stopPropagation()
+                    mouseEvent.preventDefault()
+                    mouseEvent.stopPropagation()
 
                     currentlyMoving?.also {
                         val remainderX = it.x % 10
@@ -213,8 +210,6 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                                         500.0,
                                         null,
                                         null,
-                                        "",
-                                        "",
                                         true
                                     )
                                 )
@@ -267,12 +262,10 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, width: Int, he
                                     y.toDouble(),
                                     height.toDouble(),
                                     width.toDouble(),
-                                    "yeetss",
-                                    ""
                                 )
                             )
                         } catch (e: Exception) {
-//                            println(e)
+                            // for invalid transactions
                         }
                     }
                 }

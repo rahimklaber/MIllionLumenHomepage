@@ -11,3 +11,9 @@
 a:hover{
    color: white;
 }
+a{
+   color: white;
+}
+#kvapp{
+   min-height: 100vh;
+}

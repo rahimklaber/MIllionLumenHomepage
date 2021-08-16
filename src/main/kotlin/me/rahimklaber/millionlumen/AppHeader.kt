@@ -20,7 +20,7 @@ fun Container.appHeader() = div(className = "appheader") {
         }
 
         hPanel {
-            link("Home", "/") {
+            link("Home", "?testnet=${Config.testnet}") {
                 style {
                     color = Color.name(Col.WHITE)
                 }
@@ -31,7 +31,7 @@ fun Container.appHeader() = div(className = "appheader") {
                     marginLeft = CssSize(5,UNIT.px)
                 }
             }
-            link("Buy pixels", "?a=buy") {
+            link("Buy pixels", "?a=buy&testnet=${Config.testnet}") {
                 style {
                     color = Color.name(Col.WHITE)
                 }
@@ -42,7 +42,23 @@ fun Container.appHeader() = div(className = "appheader") {
                     marginLeft = CssSize(5,UNIT.px)
                 }
             }
-            link("About", "?a=about") {
+            link("About", "?a=about&?testnet=${Config.testnet}") {
+                style {
+                    color = Color.name(Col.WHITE)
+                }
+            }
+            div("|"){
+                style {
+                    marginRight = CssSize(5,UNIT.px)
+                    marginLeft = CssSize(5,UNIT.px)
+                }
+            }
+            val networkText =if(Config.testnet){
+                "switch to pub-net"
+            }else{
+                "switch to test-net"
+            }
+            link(networkText, "?testnet=${!Config.testnet}") {
                 style {
                     color = Color.name(Col.WHITE)
                 }

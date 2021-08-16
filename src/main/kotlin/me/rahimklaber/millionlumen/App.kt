@@ -15,25 +15,39 @@ import kotlinx.browser.window
 import org.w3c.dom.url.URLSearchParams
 
 class App : Application() {
+    var buy : Boolean = false
+    var about : Boolean = false
 
     init {
         require("style.css")
+        val search = window.location.search
+        val params = URLSearchParams(search)
+        if (params.get("a") == "buy") {
+            buy = true
+        }
+        else if (params.get("a")=="about"){
+            about = true
+        }
+        if(params.get("testnet")?.lowercase() == "true"){
+            Config(true)
+        }else{
+            Config(false)
+        }
     }
     override fun start() {
         root("kvapp") {
             val pixelBoardState = ObservableValue(PixelBoardState())
                 vPanel {
                     appHeader()
-
-                    pixelBoard(pixelBoardState, 1000, 1000)
+                    if(!about){
+                        if(buy){
+                            pixelBoardState.value.addingImageToCanvas = true
+                        }
+                        pixelBoard(pixelBoardState, 1000, 1000)
+                    }else{
+                        about()
+                    }
                 }
-            val search = window.location.search
-            val params = URLSearchParams(search)
-            var buy = false
-            if (params.get("a") == "buy") {
-                buy = true
-            }
-
 
             if (buy) {
                 // allow you to drag image on canvas.
@@ -47,6 +61,7 @@ class App : Application() {
                     }
                 }
             }
+
 
         }.apply {
             style {

@@ -1,5 +1,6 @@
 package me.rahimklaber.millionlumen
 
+import Operation.payment
 import externals.stellar.ServerApi
 import io.kvision.core.*
 import io.kvision.html.Canvas
@@ -10,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.await
 import kotlinx.coroutines.launch
+import me.rahimklaber.millionlumen.Config.PRICEPERPIXEL
 import me.rahimklaber.millionlumen.Config.server
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.Image
@@ -239,7 +241,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, canvaswidth: I
                 transactions.records.forEach { tx ->
                         if (tx.memo == "millionlumen") {
                         try {
-                            require(tx.operation_count == 2) { "operation count not 2" }
+                            require(tx.operation_count == 3) { "operation count not 3" }
                             val ops = tx.operations().await()
                             val paymentOp = ops.records[0]
                             val manageDataOp = ops.records[1]
@@ -248,13 +250,16 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, canvaswidth: I
                             manageDataOp as ServerApi.ManageDataOperationRecord
                             paymentOp as ServerApi.PaymentOperationRecord
                             val amountPaid = paymentOp.amount
-                            val ipfsHash = manageDataOp.name
                             val data = window.atob(manageDataOp.value.toString()).split(";")
                             val dimensions = data[0].split("x")
                             val width = dimensions[0].toInt()
                             val height = dimensions[1].toInt()
                             val x = data[1].toInt()
                             val y = data[2].toInt()
+                            require(amountPaid.toDouble() >= width * height * PRICEPERPIXEL){
+                                "Insufficient payment"
+                            }
+                            val ipfsHash = manageDataOp.name
                             imageInfos.add(
                                 ImageInfo(
                                     "https://ipfs.io/ipfs/$ipfsHash",
@@ -270,7 +275,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, canvaswidth: I
                     }
                 }
                 launch(Dispatchers.Main) {
-                    draw(ctx, true,false)
+                    draw(ctx, true,state.value.addingImageToCanvas)
                 }
             }
         }

@@ -12,9 +12,7 @@ import externals.stellar.Networks
 import externals.stellar_base.createManageDataOpts
 import externals.stellar_base.createPaymentOpts
 import io.kvision.core.*
-import io.kvision.html.button
-import io.kvision.html.div
-import io.kvision.html.h1
+import io.kvision.html.*
 import io.kvision.panel.vPanel
 import io.kvision.state.ObservableValue
 import io.kvision.toast.Toast
@@ -23,6 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.await
 import kotlinx.coroutines.launch
+import me.rahimklaber.millionlumen.Config.PRICEPERPIXEL
 import me.rahimklaber.millionlumen.Config.server
 import xdrHidden.Operation
 
@@ -41,6 +40,16 @@ fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
     vPanel(pixelBoardState, className = "buypixels") {
         val scope = CoroutineScope(Dispatchers.Default)
         h1("Buy pixels")
+        div{
+            h3("Info")
+            div("Price per pixel : 0.1 XLM")
+            p("Pixels are sold in blocks of 10 by 10. Make sure the image dimensions are divisible by 10.")
+            style {
+                border = Border(CssSize(1, UNIT.px), BorderStyle.SOLID, Color.name(Col.LIGHTGRAY))
+                padding = CssSize(10, UNIT.px)
+            }
+        }
+
         div("First, drag an image onto the canvas.")
         if (pixelBoardState.value.imageAddedToCanvas) {
             div("Next, drag the image to the location you would like.")
@@ -48,16 +57,19 @@ fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
                 onClick {
                     // check if there is another picture
                     val imageInfo = pixelBoardState.value.imageInfo
+                    val validDimen = imageInfo!!.height!! % 10 == 0.0 && imageInfo.width!! % 10 == 0.0
                     val conflict = pixelBoardState.value.imageInfos.any {
-                        it !== imageInfo && imageInfo!!.x >= it.x && imageInfo.x <= it.x + it.width!! && imageInfo.y >= it.y && imageInfo.y <= it.y + it.height!!
+                        it !== imageInfo && imageInfo!!.x > it.x && imageInfo.x < it.x + it.width!! && imageInfo.y > it.y && imageInfo.y < it.y + it.height!!
                     }
-                    if (!conflict) {
+                    if (!conflict && validDimen) {
                         pixelBoardState.value = pixelBoardState.value.apply {
                             settingImageLocation = false
                             imageInfo?.draggable = false
                         }
-                    } else {
+                    } else if(conflict) {
                         Toast.error("The image is in the area of another image.")
+                    }else if(!validDimen){
+                        Toast.error("Make sure the image has dimensions which are divisible by 10.")
                     }
 
                 }
@@ -89,6 +101,7 @@ fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
                                 Account(address, it.sequence)
                             }
                             val imageInfo = pixelBoardState.value.imageInfo
+                            console.log( (imageInfo!!.width!!.toInt()*imageInfo.height!!.toInt()* PRICEPERPIXEL).toString())
                             val fee = server.fetchBaseFee().await().toString()
                             val tx = TransactionBuilder(
                                 account,
@@ -99,7 +112,7 @@ fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
                                 .addOperation(
                                     Operation.payment(
                                         createPaymentOpts(
-                                            "1",
+                                            (imageInfo!!.width!!.toInt()*imageInfo.height!!.toInt()* PRICEPERPIXEL).toString(),
                                             Asset.native(),
                                             Config.address
                                         )
@@ -110,6 +123,14 @@ fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
                                         createManageDataOpts(
                                             pixelBoardState.value.ipfsHash!!,
                                             "${imageInfo!!.width!!.toInt()}x${imageInfo.height!!.toInt()};${imageInfo.x.toInt()};${imageInfo.y.toInt()}"
+                                        )
+                                    )
+                                )
+                                .addOperation(
+                                    Operation.manageData(
+                                        createManageDataOpts(
+                                            pixelBoardState.value.ipfsHash!!,
+                                            null
                                         )
                                     )
                                 )
@@ -143,7 +164,7 @@ fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
         if (pixelBoardState.value.txSucces == true) {
             div("Successfully added image!")
             Toast.success("Successfully added image!")
-            window.setInterval({ window.location.href = "/" }, 1000)
+            window.setInterval({ window.location.href = "?testnet=${Config.testnet}" }, 1000)
         }
 
         style {

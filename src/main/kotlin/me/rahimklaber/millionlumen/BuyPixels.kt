@@ -40,7 +40,8 @@ fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
         h1("Buy pixels")
         div {
             h3("Info")
-            div("Price per pixel : 0.1 XLM")
+            div("<a href=\"https://albedo.link/\"><b>Albedo</b></a> is used to sign transactions.",rich=true)
+            div("Price per pixel : 0.1 XLM.")
             p("Pixels are sold in blocks of 10 by 10. Make sure the image dimensions are divisible by 10.")
             style {
                 border = Border(CssSize(1, UNIT.px), BorderStyle.SOLID, Color.name(Col.LIGHTGRAY))

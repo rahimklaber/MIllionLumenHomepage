@@ -13,7 +13,7 @@ const val aboutTest = """
     <h2>How it works</h2>
     <p>
         First, the image is uploaded to IPFS. Afterwards, a transaction is created with "millionlumen" the memo. The first operation
-        of the transaction is a payment to project address. The second operation is a manageata operation with the IPFS hash as the name and
+        of the transaction is a payment to the project address. The second operation is a managedata operation with the IPFS hash as the name and
         the dimensions and coordinates of the image as the value.
     </p>
     <p>

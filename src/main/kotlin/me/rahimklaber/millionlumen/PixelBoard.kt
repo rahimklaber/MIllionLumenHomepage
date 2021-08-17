@@ -80,6 +80,8 @@ class PixelBoardState(
     var imageFile: File? = null, // file for uploading to ipfs
     var ipfsHash : String? = null,
     var txSucces : Boolean? = null,
+    var tryDraw: (Boolean,Boolean) -> Unit = {_,_ -> }
+
 )
 
 /**
@@ -236,6 +238,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, canvaswidth: I
         }
         addAfterInsertHook {
             val ctx = this.context2D
+            state.value.tryDraw = {init,onlyBoxes -> draw(ctx,init,onlyBoxes)}
             scope.launch {
                 val transactions = server.transactions().forAccount(Config.address).limit(200).call().await()
                 transactions.records.forEach { tx ->

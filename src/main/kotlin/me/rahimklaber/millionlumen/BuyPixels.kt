@@ -8,19 +8,16 @@ import externals.albedo.TxIntentParams
 import externals.albedo.albedo
 import externals.ipfs.Options
 import externals.ipfs.create
-import externals.stellar.Networks
 import externals.stellar_base.createManageDataOpts
 import externals.stellar_base.createPaymentOpts
 import io.kvision.core.*
 import io.kvision.html.*
+import io.kvision.panel.hPanel
 import io.kvision.panel.vPanel
 import io.kvision.state.ObservableValue
 import io.kvision.toast.Toast
 import kotlinx.browser.window
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.await
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import me.rahimklaber.millionlumen.Config.PRICEPERPIXEL
 import me.rahimklaber.millionlumen.Config.server
 import xdrHidden.Operation
@@ -36,11 +33,12 @@ val ipfsClient = create(opts)
  * Container which controls the buying of pixels.
  *
  */
+@OptIn(InternalCoroutinesApi::class)
 fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
     vPanel(pixelBoardState, className = "buypixels") {
         val scope = CoroutineScope(Dispatchers.Default)
         h1("Buy pixels")
-        div{
+        div {
             h3("Info")
             div("Price per pixel : 0.1 XLM")
             p("Pixels are sold in blocks of 10 by 10. Make sure the image dimensions are divisible by 10.")
@@ -53,25 +51,45 @@ fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
         div("First, drag an image onto the canvas.")
         if (pixelBoardState.value.imageAddedToCanvas) {
             div("Next, drag the image to the location you would like.")
-            button("Save image.") {
-                onClick {
-                    // check if there is another picture
-                    val imageInfo = pixelBoardState.value.imageInfo
-                    val validDimen = imageInfo!!.height!! % 10 == 0.0 && imageInfo.width!! % 10 == 0.0
-                    val conflict = pixelBoardState.value.imageInfos.any {
-                        it !== imageInfo && imageInfo!!.x > it.x && imageInfo.x < it.x + it.width!! && imageInfo.y > it.y && imageInfo.y < it.y + it.height!!
-                    }
-                    if (!conflict && validDimen) {
-                        pixelBoardState.value = pixelBoardState.value.apply {
-                            settingImageLocation = false
-                            imageInfo?.draggable = false
+            hPanel {
+                button("Save image") {
+                    onClick {
+                        // check if there is another picture
+                        val imageInfo = pixelBoardState.value.imageInfo
+                        val validDimen =
+                            imageInfo!!.height!! % 10 == 0.0 && imageInfo.width!! % 10 == 0.0
+                        val conflict = pixelBoardState.value.imageInfos.any {
+                            it !== imageInfo && imageInfo.x > it.x && imageInfo.x < it.x + it.width!! && imageInfo.y > it.y && imageInfo.y < it.y + it.height!!
                         }
-                    } else if(conflict) {
-                        Toast.error("The image is in the area of another image.")
-                    }else if(!validDimen){
-                        Toast.error("Make sure the image has dimensions which are divisible by 10.")
-                    }
+                        if (!conflict && validDimen) {
+                            pixelBoardState.value = pixelBoardState.value.apply {
+                                settingImageLocation = false
+                                imageInfo.draggable = false
+                            }
+                        } else if (conflict) {
+                            Toast.error("The image is in the area of another image.")
+                        } else if (!validDimen) {
+                            Toast.error("Make sure the image has dimensions which are divisible by 10.")
+                        }
 
+                    }
+                }
+                if (pixelBoardState.value.imageAddedToCanvas) {
+                    button("Clear", type = ButtonType.RESET) {
+                        style {
+                            marginLeft = CssSize(10, UNIT.px)
+                        }
+                        onClick {
+                            pixelBoardState.value.imageInfos.removeLast()
+                            pixelBoardState.value = pixelBoardState.value.apply {
+                                addingImageToCanvas = true
+                                imageAddedToCanvas = false
+                                settingImageLocation = false
+                                ipfsHash = null
+                            }
+                            pixelBoardState.value.tryDraw(false, true)
+                        }
+                    }
                 }
             }
         }
@@ -101,18 +119,18 @@ fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
                                 Account(address, it.sequence)
                             }
                             val imageInfo = pixelBoardState.value.imageInfo
-                            console.log( (imageInfo!!.width!!.toInt()*imageInfo.height!!.toInt()* PRICEPERPIXEL).toString())
                             val fee = server.fetchBaseFee().await().toString()
                             val tx = TransactionBuilder(
                                 account,
                                 object : TransactionBuilder.TransactionBuilderOptions {
                                     override var fee: String = fee
-                                    override var networkPassphrase: String? = Networks.TESTNET
+                                    override var networkPassphrase: String? =
+                                        Config.networkPassPhrase
                                 })
                                 .addOperation(
                                     Operation.payment(
                                         createPaymentOpts(
-                                            (imageInfo!!.width!!.toInt()*imageInfo.height!!.toInt()* PRICEPERPIXEL).toString(),
+                                            (imageInfo!!.width!!.toInt() * imageInfo.height!!.toInt() * PRICEPERPIXEL).toString(),
                                             Asset.native(),
                                             Config.address
                                         )
@@ -122,7 +140,7 @@ fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
                                     Operation.manageData(
                                         createManageDataOpts(
                                             pixelBoardState.value.ipfsHash!!,
-                                            "${imageInfo!!.width!!.toInt()}x${imageInfo.height!!.toInt()};${imageInfo.x.toInt()};${imageInfo.y.toInt()}"
+                                            "${imageInfo.width!!.toInt()}x${imageInfo.height!!.toInt()};${imageInfo.x.toInt()};${imageInfo.y.toInt()}"
                                         )
                                     )
                                 )
@@ -139,23 +157,33 @@ fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
                                 .build()
                             val albedoTx = albedo.tx(object : TxIntentParams {
                                 override var xdr: String = tx.toXDR()
-                                override var network: String? = "testnet"
+                                override var network: String? =
+                                    if (Config.testnet) "testnet" else "public"
                             }).await()
                             val albedoSignedTx = TransactionBuilder.fromXDR(
                                 albedoTx.signed_envelope_xdr,
-                                Networks.TESTNET
+                                Config.networkPassPhrase
                             )
 
-                            val res = server.submitTransaction(albedoSignedTx).await()
-                            if (res.asDynamic().successful == true) {
+                            val res = server.submitTransaction(albedoSignedTx)
+                                .catch {
+                                    val obj = js("{}")
+                                    obj.successful = false
+                                    obj
+                                }.await()
+                            if (res.successful == true) {
                                 pixelBoardState.value = pixelBoardState.value.apply {
                                     txSucces = true
                                 }
+                            } else {
+                                Toast.error("Something went wrong.")
                             }
-                        } catch (e: Exception) {
+                        } catch (e: Throwable) {
                             Toast.error("Something went wrong.")
                         }
 
+                    }.invokeOnCompletion(onCancelling = true){
+                        Toast.error("Something went wrong.")
                     }
                 }
             }

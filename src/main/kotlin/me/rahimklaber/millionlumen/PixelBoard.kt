@@ -187,7 +187,6 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, canvaswidth: I
             }
             // Suppor for adding image by draging it.
             dragenter = {
-                console.log(state.value.addingImageToCanvas)
                     it.stopPropagation()
                     it.preventDefault()
             }
@@ -200,7 +199,6 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, canvaswidth: I
                 it.stopPropagation()
                 it.preventDefault()
                 if (state.value.addingImageToCanvas) {
-                    console.log("dropped")
                     val imageFile = it.dataTransfer?.files?.get(0)
                     imageFile?.let { file ->
                         scope.launch {

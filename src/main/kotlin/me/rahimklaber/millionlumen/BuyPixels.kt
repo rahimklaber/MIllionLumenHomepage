@@ -181,8 +181,8 @@ fun Container.buyPixels(pixelBoardState: ObservableValue<PixelBoardState>) =
                         } catch (e: Throwable) {
                             Toast.error("Something went wrong.")
                         }
-                    }.invokeOnCompletion(onCancelling = true){
-                        if(it!=null){
+                    }.invokeOnCompletion(onCancelling = true) {
+                        if (it != null) {
                             Toast.error("Something went wrong.")
                         }
                     }

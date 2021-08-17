@@ -1,15 +1,20 @@
 @file:JsQualifier("Operation")
 @file:JsNonModule
 @file:JsModule("stellar-base")
-@file:Suppress("INTERFACE_WITH_SUPERCLASS", "OVERRIDING_FINAL_MEMBER", "RETURN_TYPE_MISMATCH_ON_OVERRIDE", "CONFLICTING_OVERLOADS")
+@file:Suppress(
+    "INTERFACE_WITH_SUPERCLASS",
+    "OVERRIDING_FINAL_MEMBER",
+    "RETURN_TYPE_MISMATCH_ON_OVERRIDE",
+    "CONFLICTING_OVERLOADS"
+)
+
 package Operation
 
-import kotlin.js.*
-import xdrHidden.Operation
 import Asset
 import Claimant
 import OperationOptions.BaseOptions
 import OperationOptions.`T$2`
+import xdrHidden.Operation
 
 external interface BaseOperation<T : String> {
     var type: T
@@ -90,7 +95,8 @@ external interface ManageBuyOffer : BaseOperation<String /* "manageBuyOffer" */>
 
 external fun manageBuyOffer(options: OperationOptions.ManageBuyOffer): Operation
 
-external interface PathPaymentStrictReceive : BaseOperation<String /* "pathPaymentStrictReceive" */> {
+external interface PathPaymentStrictReceive :
+    BaseOperation<String /* "pathPaymentStrictReceive" */> {
     var sendAsset: Asset
     var sendMax: String
     var destination: String
@@ -148,7 +154,8 @@ external interface SetOptions<T> : BaseOperation<String /* "setOptions" */> {
     var signer: Any
 }
 
-external interface SetOptions__0 : SetOptions<dynamic /* SignerOptions.Ed25519PublicKey | SignerOptions.Sha256Hash | SignerOptions.PreAuthTx */>
+external interface SetOptions__0 :
+    SetOptions<dynamic /* SignerOptions.Ed25519PublicKey | SignerOptions.Sha256Hash | SignerOptions.PreAuthTx */>
 
 external fun <T> setOptions(options: OperationOptions.SetOptions<T>): Operation
 
@@ -172,13 +179,15 @@ external interface ClaimClaimableBalance : BaseOperation<String /* "claimClaimab
 
 external fun claimClaimableBalance(options: OperationOptions.ClaimClaimableBalance): Operation
 
-external interface BeginSponsoringFutureReserves : BaseOperation<String /* "beginSponsoringFutureReserves" */> {
+external interface BeginSponsoringFutureReserves :
+    BaseOperation<String /* "beginSponsoringFutureReserves" */> {
     var sponsoredId: String
 }
 
 external fun beginSponsoringFutureReserves(options: OperationOptions.BeginSponsoringFutureReserves): Operation
 
-external interface EndSponsoringFutureReserves : BaseOperation<String /* "endSponsoringFutureReserves" */>
+external interface EndSponsoringFutureReserves :
+    BaseOperation<String /* "endSponsoringFutureReserves" */>
 
 external fun endSponsoringFutureReserves(options: BaseOptions): Operation
 
@@ -209,7 +218,8 @@ external interface RevokeDataSponsorship : BaseOperation<String /* "revokeSponso
 
 external fun revokeDataSponsorship(options: OperationOptions.RevokeDataSponsorship): Operation
 
-external interface RevokeClaimableBalanceSponsorship : BaseOperation<String /* "revokeSponsorship" */> {
+external interface RevokeClaimableBalanceSponsorship :
+    BaseOperation<String /* "revokeSponsorship" */> {
     var balanceId: String
 }
 
@@ -232,7 +242,8 @@ external interface Clawback : BaseOperation<String /* "clawback" */> {
 
 external fun clawback(options: OperationOptions.Clawback): Operation
 
-external interface ClawbackClaimableBalance : BaseOperation<String /* "clawbackClaimableBalance" */> {
+external interface ClawbackClaimableBalance :
+    BaseOperation<String /* "clawbackClaimableBalance" */> {
     var balanceId: String
 }
 

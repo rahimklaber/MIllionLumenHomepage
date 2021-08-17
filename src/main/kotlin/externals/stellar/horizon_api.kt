@@ -1,5 +1,6 @@
 @file:JsNonModule
 @file:JsModule("stellar-sdk")
+
 package externals.stellar
 
 
@@ -25,9 +26,9 @@ external interface Horizon {
         var amount: String
     }
 
-    interface ManageDataOperationResponse: BaseOperationResponse{
-        var name : String
-        var value : ByteArray
+    interface ManageDataOperationResponse : BaseOperationResponse {
+        var name: String
+        var value: ByteArray
     }
 
     interface BalanceLine {
@@ -72,21 +73,22 @@ external interface Horizon {
         var result_meta_xdr: String
     }
 
-    interface TransactionResponse : SubmitTransactionResponse{
-        var created_at: String;
-        var fee_meta_xdr: String;
-        var fee_charged:  String;
-        var max_fee: String;
-        var id: String;
-//        var memo_type: MemoType;
-        var memo: String?;
-        var memo_bytes: String?;
-        var operation_count: Int;
-        var paging_token: String;
-        var signatures: Array<String>;
-        var source_account: String;
-        var source_account_sequence: String;
-        var fee_account: String;
+    interface TransactionResponse : SubmitTransactionResponse {
+        var created_at: String
+        var fee_meta_xdr: String
+        var fee_charged: String
+        var max_fee: String
+        var id: String
+
+        //        var memo_type: MemoType;
+        var memo: String?
+        var memo_bytes: String?
+        var operation_count: Int
+        var paging_token: String
+        var signatures: Array<String>
+        var source_account: String
+        var source_account_sequence: String
+        var fee_account: String
 //        var inner_transaction?: InnerTransactionResponse;
 //        var fee_bump_transaction?: FeeBumpTransactionResponse;
     }

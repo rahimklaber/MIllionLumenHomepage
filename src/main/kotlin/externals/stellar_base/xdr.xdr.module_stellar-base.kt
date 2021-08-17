@@ -1,10 +1,15 @@
 @file:JsQualifier("xdr")
 @file:JsNonModule
 @file:JsModule("stellar-base")
-@file:Suppress("INTERFACE_WITH_SUPERCLASS", "OVERRIDING_FINAL_MEMBER", "RETURN_TYPE_MISMATCH_ON_OVERRIDE", "CONFLICTING_OVERLOADS")
+@file:Suppress(
+    "INTERFACE_WITH_SUPERCLASS",
+    "OVERRIDING_FINAL_MEMBER",
+    "RETURN_TYPE_MISMATCH_ON_OVERRIDE",
+    "CONFLICTING_OVERLOADS"
+)
+
 package xdr
 
-import kotlin.js.*
 import xdrHidden.Operation
 
 external interface SignedInt {
@@ -37,7 +42,7 @@ external interface UnsignedInt {
     fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
 }
 
-external open class Hyper(low: Number, high: Number) {
+open external class Hyper(low: Number, high: Number) {
     open var low: Number
     open var high: Number
     open var unsigned: Boolean
@@ -60,7 +65,7 @@ external open class Hyper(low: Number, high: Number) {
     }
 }
 
-external open class UnsignedHyper(low: Number, high: Number) {
+open external class UnsignedHyper(low: Number, high: Number) {
     open var low: Number
     open var high: Number
     open var unsigned: Boolean
@@ -83,7 +88,7 @@ external open class UnsignedHyper(low: Number, high: Number) {
     }
 }
 
-external open class XDRString(maxLength: Number /* 4294967295 */) {
+open external class XDRString(maxLength: Number /* 4294967295 */) {
     open fun read(io: ByteArray): ByteArray
     open fun readString(io: ByteArray): String
     open fun write(value: String, io: ByteArray)
@@ -101,7 +106,7 @@ external open class XDRString(maxLength: Number /* 4294967295 */) {
     open fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
 }
 
-external open class XDRArray<T> {
+open external class XDRArray<T> {
     open fun read(io: ByteArray): ByteArray
     open fun write(value: Array<T>, io: ByteArray)
     open fun isValid(value: Array<T>): Boolean
@@ -114,7 +119,7 @@ external open class XDRArray<T> {
     open fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
 }
 
-external open class Opaque(length: Number) {
+open external class Opaque(length: Number) {
     open fun read(io: ByteArray): ByteArray
     open fun write(value: ByteArray, io: ByteArray)
     open fun isValid(value: ByteArray): Boolean
@@ -127,7 +132,7 @@ external open class Opaque(length: Number) {
     open fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
 }
 
-external open class VarOpaque(length: Number) : Opaque
+open external class VarOpaque(length: Number) : Opaque
 
 external interface `T$82` {
     fun read(io: Any): Any
@@ -135,7 +140,7 @@ external interface `T$82` {
     fun isValid(value: Any): Boolean
 }
 
-external open class Option(childType: `T$82`) {
+open external class Option(childType: `T$82`) {
     open fun read(io: ByteArray): Any
     open fun write(value: Any, io: ByteArray)
     open fun isValid(value: Any): Boolean
@@ -148,7 +153,7 @@ external open class Option(childType: `T$82`) {
     open fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
 }
 
-external open class AssetType {
+open external class AssetType {
     open var name: String /* "assetTypeNative" | "assetTypeCreditAlphanum4" | "assetTypeCreditAlphanum12" */
     open var value: Number /* 0 | 1 | 2 */
 
@@ -159,7 +164,7 @@ external open class AssetType {
     }
 }
 
-external open class ThresholdIndices {
+open external class ThresholdIndices {
     open var name: String /* "thresholdMasterWeight" | "thresholdLow" | "thresholdMed" | "thresholdHigh" */
     open var value: Number /* 0 | 1 | 2 | 3 */
 
@@ -171,7 +176,7 @@ external open class ThresholdIndices {
     }
 }
 
-external open class LedgerEntryType {
+open external class LedgerEntryType {
     open var name: String /* "account" | "trustline" | "offer" | "data" | "claimableBalance" */
     open var value: Number /* 0 | 1 | 2 | 3 | 4 */
 
@@ -184,7 +189,7 @@ external open class LedgerEntryType {
     }
 }
 
-external open class AccountFlags {
+open external class AccountFlags {
     open var name: String /* "authRequiredFlag" | "authRevocableFlag" | "authImmutableFlag" | "authClawbackEnabledFlag" */
     open var value: Number /* 1 | 2 | 4 | 8 */
 
@@ -196,7 +201,7 @@ external open class AccountFlags {
     }
 }
 
-external open class TrustLineFlags {
+open external class TrustLineFlags {
     open var name: String /* "authorizedFlag" | "authorizedToMaintainLiabilitiesFlag" | "trustlineClawbackEnabledFlag" */
     open var value: Number /* 1 | 2 | 4 */
 
@@ -207,7 +212,7 @@ external open class TrustLineFlags {
     }
 }
 
-external open class OfferEntryFlags {
+open external class OfferEntryFlags {
     open var name: String /* "passiveFlag" */
     open var value: Number /* 1 */
 
@@ -216,7 +221,7 @@ external open class OfferEntryFlags {
     }
 }
 
-external open class ClaimPredicateType {
+open external class ClaimPredicateType {
     open var name: String /* "claimPredicateUnconditional" | "claimPredicateAnd" | "claimPredicateOr" | "claimPredicateNot" | "claimPredicateBeforeAbsoluteTime" | "claimPredicateBeforeRelativeTime" */
     open var value: Number /* 0 | 1 | 2 | 3 | 4 | 5 */
 
@@ -230,7 +235,7 @@ external open class ClaimPredicateType {
     }
 }
 
-external open class ClaimantType {
+open external class ClaimantType {
     open var name: String /* "claimantTypeV0" */
     open var value: Number /* 0 */
 
@@ -239,7 +244,7 @@ external open class ClaimantType {
     }
 }
 
-external open class ClaimableBalanceIdType {
+open external class ClaimableBalanceIdType {
     open var name: String /* "claimableBalanceIdTypeV0" */
     open var value: Number /* 0 */
 
@@ -248,7 +253,7 @@ external open class ClaimableBalanceIdType {
     }
 }
 
-external open class ClaimableBalanceFlags {
+open external class ClaimableBalanceFlags {
     open var name: String /* "claimableBalanceClawbackEnabledFlag" */
     open var value: Number /* 1 */
 
@@ -257,7 +262,7 @@ external open class ClaimableBalanceFlags {
     }
 }
 
-external open class EnvelopeType {
+open external class EnvelopeType {
     open var name: String /* "envelopeTypeTxV0" | "envelopeTypeScp" | "envelopeTypeTx" | "envelopeTypeAuth" | "envelopeTypeScpvalue" | "envelopeTypeTxFeeBump" | "envelopeTypeOpId" */
     open var value: Number /* 0 | 1 | 2 | 3 | 4 | 5 | 6 */
 
@@ -272,7 +277,7 @@ external open class EnvelopeType {
     }
 }
 
-external open class StellarValueType {
+open external class StellarValueType {
     open var name: String /* "stellarValueBasic" | "stellarValueSigned" */
     open var value: Number /* 0 | 1 */
 
@@ -282,7 +287,7 @@ external open class StellarValueType {
     }
 }
 
-external open class LedgerUpgradeType {
+open external class LedgerUpgradeType {
     open var name: String /* "ledgerUpgradeVersion" | "ledgerUpgradeBaseFee" | "ledgerUpgradeMaxTxSetSize" | "ledgerUpgradeBaseReserve" */
     open var value: Number /* 1 | 2 | 3 | 4 */
 
@@ -294,7 +299,7 @@ external open class LedgerUpgradeType {
     }
 }
 
-external open class BucketEntryType {
+open external class BucketEntryType {
     open var name: String /* "metaentry" | "liveentry" | "deadentry" | "initentry" */
     open var value: dynamic /* "-1" | 0 | 1 | 2 */
 
@@ -306,7 +311,7 @@ external open class BucketEntryType {
     }
 }
 
-external open class LedgerEntryChangeType {
+open external class LedgerEntryChangeType {
     open var name: String /* "ledgerEntryCreated" | "ledgerEntryUpdated" | "ledgerEntryRemoved" | "ledgerEntryState" */
     open var value: Number /* 0 | 1 | 2 | 3 */
 
@@ -318,7 +323,7 @@ external open class LedgerEntryChangeType {
     }
 }
 
-external open class ErrorCode {
+open external class ErrorCode {
     open var name: String /* "errMisc" | "errData" | "errConf" | "errAuth" | "errLoad" */
     open var value: Number /* 0 | 1 | 2 | 3 | 4 */
 
@@ -331,7 +336,7 @@ external open class ErrorCode {
     }
 }
 
-external open class IpAddrType {
+open external class IpAddrType {
     open var name: String /* "iPv4" | "iPv6" */
     open var value: Number /* 0 | 1 */
 
@@ -341,7 +346,7 @@ external open class IpAddrType {
     }
 }
 
-external open class MessageType {
+open external class MessageType {
     open var name: String /* "errorMsg" | "auth" | "dontHave" | "getPeers" | "peers" | "getTxSet" | "txSet" | "transaction" | "getScpQuorumset" | "scpQuorumset" | "scpMessage" | "getScpState" | "hello" | "surveyRequest" | "surveyResponse" */
     open var value: Number /* 0 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 */
 
@@ -364,7 +369,7 @@ external open class MessageType {
     }
 }
 
-external open class SurveyMessageCommandType {
+open external class SurveyMessageCommandType {
     open var name: String /* "surveyTopology" */
     open var value: Number /* 0 */
 
@@ -373,7 +378,7 @@ external open class SurveyMessageCommandType {
     }
 }
 
-external open class ScpStatementType {
+open external class ScpStatementType {
     open var name: String /* "scpStPrepare" | "scpStConfirm" | "scpStExternalize" | "scpStNominate" */
     open var value: Number /* 0 | 1 | 2 | 3 */
 
@@ -385,7 +390,7 @@ external open class ScpStatementType {
     }
 }
 
-external open class OperationType {
+open external class OperationType {
     open var name: String /* "createAccount" | "payment" | "pathPaymentStrictReceive" | "manageSellOffer" | "createPassiveSellOffer" | "setOptions" | "changeTrust" | "allowTrust" | "accountMerge" | "inflation" | "manageData" | "bumpSequence" | "manageBuyOffer" | "pathPaymentStrictSend" | "createClaimableBalance" | "claimClaimableBalance" | "beginSponsoringFutureReserves" | "endSponsoringFutureReserves" | "revokeSponsorship" | "clawback" | "clawbackClaimableBalance" | "setTrustLineFlags" */
     open var value: Number /* 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 */
 
@@ -415,7 +420,7 @@ external open class OperationType {
     }
 }
 
-external open class RevokeSponsorshipType {
+open external class RevokeSponsorshipType {
     open var name: String /* "revokeSponsorshipLedgerEntry" | "revokeSponsorshipSigner" */
     open var value: Number /* 0 | 1 */
 
@@ -425,7 +430,7 @@ external open class RevokeSponsorshipType {
     }
 }
 
-external open class MemoType {
+open external class MemoType {
     open var name: String /* "memoNone" | "memoText" | "memoId" | "memoHash" | "memoReturn" */
     open var value: Number /* 0 | 1 | 2 | 3 | 4 */
 
@@ -438,7 +443,7 @@ external open class MemoType {
     }
 }
 
-external open class CreateAccountResultCode {
+open external class CreateAccountResultCode {
     open var name: String /* "createAccountSuccess" | "createAccountMalformed" | "createAccountUnderfunded" | "createAccountLowReserve" | "createAccountAlreadyExist" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" */
 
@@ -451,7 +456,7 @@ external open class CreateAccountResultCode {
     }
 }
 
-external open class PaymentResultCode {
+open external class PaymentResultCode {
     open var name: String /* "paymentSuccess" | "paymentMalformed" | "paymentUnderfunded" | "paymentSrcNoTrust" | "paymentSrcNotAuthorized" | "paymentNoDestination" | "paymentNoTrust" | "paymentNotAuthorized" | "paymentLineFull" | "paymentNoIssuer" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" | "-5" | "-6" | "-7" | "-8" | "-9" */
 
@@ -469,7 +474,7 @@ external open class PaymentResultCode {
     }
 }
 
-external open class PathPaymentStrictReceiveResultCode {
+open external class PathPaymentStrictReceiveResultCode {
     open var name: String /* "pathPaymentStrictReceiveSuccess" | "pathPaymentStrictReceiveMalformed" | "pathPaymentStrictReceiveUnderfunded" | "pathPaymentStrictReceiveSrcNoTrust" | "pathPaymentStrictReceiveSrcNotAuthorized" | "pathPaymentStrictReceiveNoDestination" | "pathPaymentStrictReceiveNoTrust" | "pathPaymentStrictReceiveNotAuthorized" | "pathPaymentStrictReceiveLineFull" | "pathPaymentStrictReceiveNoIssuer" | "pathPaymentStrictReceiveTooFewOffers" | "pathPaymentStrictReceiveOfferCrossSelf" | "pathPaymentStrictReceiveOverSendmax" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" | "-5" | "-6" | "-7" | "-8" | "-9" | "-10" | "-11" | "-12" */
 
@@ -490,7 +495,7 @@ external open class PathPaymentStrictReceiveResultCode {
     }
 }
 
-external open class PathPaymentStrictSendResultCode {
+open external class PathPaymentStrictSendResultCode {
     open var name: String /* "pathPaymentStrictSendSuccess" | "pathPaymentStrictSendMalformed" | "pathPaymentStrictSendUnderfunded" | "pathPaymentStrictSendSrcNoTrust" | "pathPaymentStrictSendSrcNotAuthorized" | "pathPaymentStrictSendNoDestination" | "pathPaymentStrictSendNoTrust" | "pathPaymentStrictSendNotAuthorized" | "pathPaymentStrictSendLineFull" | "pathPaymentStrictSendNoIssuer" | "pathPaymentStrictSendTooFewOffers" | "pathPaymentStrictSendOfferCrossSelf" | "pathPaymentStrictSendUnderDestmin" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" | "-5" | "-6" | "-7" | "-8" | "-9" | "-10" | "-11" | "-12" */
 
@@ -511,7 +516,7 @@ external open class PathPaymentStrictSendResultCode {
     }
 }
 
-external open class ManageSellOfferResultCode {
+open external class ManageSellOfferResultCode {
     open var name: String /* "manageSellOfferSuccess" | "manageSellOfferMalformed" | "manageSellOfferSellNoTrust" | "manageSellOfferBuyNoTrust" | "manageSellOfferSellNotAuthorized" | "manageSellOfferBuyNotAuthorized" | "manageSellOfferLineFull" | "manageSellOfferUnderfunded" | "manageSellOfferCrossSelf" | "manageSellOfferSellNoIssuer" | "manageSellOfferBuyNoIssuer" | "manageSellOfferNotFound" | "manageSellOfferLowReserve" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" | "-5" | "-6" | "-7" | "-8" | "-9" | "-10" | "-11" | "-12" */
 
@@ -532,7 +537,7 @@ external open class ManageSellOfferResultCode {
     }
 }
 
-external open class ManageOfferEffect {
+open external class ManageOfferEffect {
     open var name: String /* "manageOfferCreated" | "manageOfferUpdated" | "manageOfferDeleted" */
     open var value: Number /* 0 | 1 | 2 */
 
@@ -543,7 +548,7 @@ external open class ManageOfferEffect {
     }
 }
 
-external open class ManageBuyOfferResultCode {
+open external class ManageBuyOfferResultCode {
     open var name: String /* "manageBuyOfferSuccess" | "manageBuyOfferMalformed" | "manageBuyOfferSellNoTrust" | "manageBuyOfferBuyNoTrust" | "manageBuyOfferSellNotAuthorized" | "manageBuyOfferBuyNotAuthorized" | "manageBuyOfferLineFull" | "manageBuyOfferUnderfunded" | "manageBuyOfferCrossSelf" | "manageBuyOfferSellNoIssuer" | "manageBuyOfferBuyNoIssuer" | "manageBuyOfferNotFound" | "manageBuyOfferLowReserve" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" | "-5" | "-6" | "-7" | "-8" | "-9" | "-10" | "-11" | "-12" */
 
@@ -564,7 +569,7 @@ external open class ManageBuyOfferResultCode {
     }
 }
 
-external open class SetOptionsResultCode {
+open external class SetOptionsResultCode {
     open var name: String /* "setOptionsSuccess" | "setOptionsLowReserve" | "setOptionsTooManySigners" | "setOptionsBadFlags" | "setOptionsInvalidInflation" | "setOptionsCantChange" | "setOptionsUnknownFlag" | "setOptionsThresholdOutOfRange" | "setOptionsBadSigner" | "setOptionsInvalidHomeDomain" | "setOptionsAuthRevocableRequired" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" | "-5" | "-6" | "-7" | "-8" | "-9" | "-10" */
 
@@ -583,7 +588,7 @@ external open class SetOptionsResultCode {
     }
 }
 
-external open class ChangeTrustResultCode {
+open external class ChangeTrustResultCode {
     open var name: String /* "changeTrustSuccess" | "changeTrustMalformed" | "changeTrustNoIssuer" | "changeTrustInvalidLimit" | "changeTrustLowReserve" | "changeTrustSelfNotAllowed" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" | "-5" */
 
@@ -597,7 +602,7 @@ external open class ChangeTrustResultCode {
     }
 }
 
-external open class AllowTrustResultCode {
+open external class AllowTrustResultCode {
     open var name: String /* "allowTrustSuccess" | "allowTrustMalformed" | "allowTrustNoTrustLine" | "allowTrustTrustNotRequired" | "allowTrustCantRevoke" | "allowTrustSelfNotAllowed" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" | "-5" */
 
@@ -611,7 +616,7 @@ external open class AllowTrustResultCode {
     }
 }
 
-external open class AccountMergeResultCode {
+open external class AccountMergeResultCode {
     open var name: String /* "accountMergeSuccess" | "accountMergeMalformed" | "accountMergeNoAccount" | "accountMergeImmutableSet" | "accountMergeHasSubEntries" | "accountMergeSeqnumTooFar" | "accountMergeDestFull" | "accountMergeIsSponsor" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" | "-5" | "-6" | "-7" */
 
@@ -627,7 +632,7 @@ external open class AccountMergeResultCode {
     }
 }
 
-external open class InflationResultCode {
+open external class InflationResultCode {
     open var name: String /* "inflationSuccess" | "inflationNotTime" */
     open var value: dynamic /* 0 | "-1" */
 
@@ -637,7 +642,7 @@ external open class InflationResultCode {
     }
 }
 
-external open class ManageDataResultCode {
+open external class ManageDataResultCode {
     open var name: String /* "manageDataSuccess" | "manageDataNotSupportedYet" | "manageDataNameNotFound" | "manageDataLowReserve" | "manageDataInvalidName" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" */
 
@@ -650,7 +655,7 @@ external open class ManageDataResultCode {
     }
 }
 
-external open class BumpSequenceResultCode {
+open external class BumpSequenceResultCode {
     open var name: String /* "bumpSequenceSuccess" | "bumpSequenceBadSeq" */
     open var value: dynamic /* 0 | "-1" */
 
@@ -660,7 +665,7 @@ external open class BumpSequenceResultCode {
     }
 }
 
-external open class CreateClaimableBalanceResultCode {
+open external class CreateClaimableBalanceResultCode {
     open var name: String /* "createClaimableBalanceSuccess" | "createClaimableBalanceMalformed" | "createClaimableBalanceLowReserve" | "createClaimableBalanceNoTrust" | "createClaimableBalanceNotAuthorized" | "createClaimableBalanceUnderfunded" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" | "-5" */
 
@@ -674,7 +679,7 @@ external open class CreateClaimableBalanceResultCode {
     }
 }
 
-external open class ClaimClaimableBalanceResultCode {
+open external class ClaimClaimableBalanceResultCode {
     open var name: String /* "claimClaimableBalanceSuccess" | "claimClaimableBalanceDoesNotExist" | "claimClaimableBalanceCannotClaim" | "claimClaimableBalanceLineFull" | "claimClaimableBalanceNoTrust" | "claimClaimableBalanceNotAuthorized" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" | "-5" */
 
@@ -688,7 +693,7 @@ external open class ClaimClaimableBalanceResultCode {
     }
 }
 
-external open class BeginSponsoringFutureReservesResultCode {
+open external class BeginSponsoringFutureReservesResultCode {
     open var name: String /* "beginSponsoringFutureReservesSuccess" | "beginSponsoringFutureReservesMalformed" | "beginSponsoringFutureReservesAlreadySponsored" | "beginSponsoringFutureReservesRecursive" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" */
 
@@ -700,7 +705,7 @@ external open class BeginSponsoringFutureReservesResultCode {
     }
 }
 
-external open class EndSponsoringFutureReservesResultCode {
+open external class EndSponsoringFutureReservesResultCode {
     open var name: String /* "endSponsoringFutureReservesSuccess" | "endSponsoringFutureReservesNotSponsored" */
     open var value: dynamic /* 0 | "-1" */
 
@@ -710,7 +715,7 @@ external open class EndSponsoringFutureReservesResultCode {
     }
 }
 
-external open class RevokeSponsorshipResultCode {
+open external class RevokeSponsorshipResultCode {
     open var name: String /* "revokeSponsorshipSuccess" | "revokeSponsorshipDoesNotExist" | "revokeSponsorshipNotSponsor" | "revokeSponsorshipLowReserve" | "revokeSponsorshipOnlyTransferable" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" */
 
@@ -723,7 +728,7 @@ external open class RevokeSponsorshipResultCode {
     }
 }
 
-external open class ClawbackResultCode {
+open external class ClawbackResultCode {
     open var name: String /* "clawbackSuccess" | "clawbackMalformed" | "clawbackNotClawbackEnabled" | "clawbackNoTrust" | "clawbackUnderfunded" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" */
 
@@ -736,7 +741,7 @@ external open class ClawbackResultCode {
     }
 }
 
-external open class ClawbackClaimableBalanceResultCode {
+open external class ClawbackClaimableBalanceResultCode {
     open var name: String /* "clawbackClaimableBalanceSuccess" | "clawbackClaimableBalanceDoesNotExist" | "clawbackClaimableBalanceNotIssuer" | "clawbackClaimableBalanceNotClawbackEnabled" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" */
 
@@ -748,7 +753,7 @@ external open class ClawbackClaimableBalanceResultCode {
     }
 }
 
-external open class SetTrustLineFlagsResultCode {
+open external class SetTrustLineFlagsResultCode {
     open var name: String /* "setTrustLineFlagsSuccess" | "setTrustLineFlagsMalformed" | "setTrustLineFlagsNoTrustLine" | "setTrustLineFlagsCantRevoke" | "setTrustLineFlagsInvalidState" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" */
 
@@ -761,7 +766,7 @@ external open class SetTrustLineFlagsResultCode {
     }
 }
 
-external open class OperationResultCode {
+open external class OperationResultCode {
     open var name: String /* "opInner" | "opBadAuth" | "opNoAccount" | "opNotSupported" | "opTooManySubentries" | "opExceededWorkLimit" | "opTooManySponsoring" */
     open var value: dynamic /* 0 | "-1" | "-2" | "-3" | "-4" | "-5" | "-6" */
 
@@ -776,7 +781,7 @@ external open class OperationResultCode {
     }
 }
 
-external open class TransactionResultCode {
+open external class TransactionResultCode {
     open var name: String /* "txFeeBumpInnerSuccess" | "txSuccess" | "txFailed" | "txTooEarly" | "txTooLate" | "txMissingOperation" | "txBadSeq" | "txBadAuth" | "txInsufficientBalance" | "txNoAccount" | "txInsufficientFee" | "txBadAuthExtra" | "txInternalError" | "txNotSupported" | "txFeeBumpInnerFailed" | "txBadSponsorship" */
     open var value: dynamic /* 1 | 0 | "-1" | "-2" | "-3" | "-4" | "-5" | "-6" | "-7" | "-8" | "-9" | "-10" | "-11" | "-12" | "-13" | "-14" */
 
@@ -800,7 +805,7 @@ external open class TransactionResultCode {
     }
 }
 
-external open class CryptoKeyType {
+open external class CryptoKeyType {
     open var name: String /* "keyTypeEd25519" | "keyTypePreAuthTx" | "keyTypeHashX" | "keyTypeMuxedEd25519" */
     open var value: Number /* 0 | 1 | 2 | 256 */
 
@@ -812,7 +817,7 @@ external open class CryptoKeyType {
     }
 }
 
-external open class PublicKeyType {
+open external class PublicKeyType {
     open var name: String /* "publicKeyTypeEd25519" */
     open var value: Number /* 0 */
 
@@ -821,7 +826,7 @@ external open class PublicKeyType {
     }
 }
 
-external open class SignerKeyType {
+open external class SignerKeyType {
     open var name: String /* "signerKeyTypeEd25519" | "signerKeyTypePreAuthTx" | "signerKeyTypeHashX" */
     open var value: Number /* 0 | 1 | 2 */
 
@@ -862,9 +867,9 @@ external var Uint32: UnsignedInt
 
 external var Int32: SignedInt
 
-external open class Uint64(low: Number, high: Number) : UnsignedHyper
+open external class Uint64(low: Number, high: Number) : UnsignedHyper
 
-external open class Int64(low: Number, high: Number) : Hyper
+open external class Int64(low: Number, high: Number) : Hyper
 
 external var Signature: VarOpaque
 
@@ -875,7 +880,7 @@ external interface `T$83` {
     var issuer: AccountId
 }
 
-external open class AssetAlphaNum4(attributes: `T$83`) {
+open external class AssetAlphaNum4(attributes: `T$83`) {
     open fun assetCode(value: ByteArray = definedExternally): ByteArray
     open fun issuer(value: AccountId = definedExternally): AccountId
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -886,14 +891,18 @@ external open class AssetAlphaNum4(attributes: `T$83`) {
         fun write(value: AssetAlphaNum4, io: ByteArray)
         fun isValid(value: AssetAlphaNum4): Boolean
         fun toXDR(value: AssetAlphaNum4): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): AssetAlphaNum4
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): AssetAlphaNum4
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): AssetAlphaNum4
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class AssetAlphaNum12(attributes: `T$83`) {
+open external class AssetAlphaNum12(attributes: `T$83`) {
     open fun assetCode(value: ByteArray = definedExternally): ByteArray
     open fun issuer(value: AccountId = definedExternally): AccountId
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -904,7 +913,11 @@ external open class AssetAlphaNum12(attributes: `T$83`) {
         fun write(value: AssetAlphaNum12, io: ByteArray)
         fun isValid(value: AssetAlphaNum12): Boolean
         fun toXDR(value: AssetAlphaNum12): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): AssetAlphaNum12
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): AssetAlphaNum12
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): AssetAlphaNum12
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -916,7 +929,7 @@ external interface `T$84` {
     var d: Number
 }
 
-external open class Price(attributes: `T$84`) {
+open external class Price(attributes: `T$84`) {
     open fun n(value: Number = definedExternally): Number
     open fun d(value: Number = definedExternally): Number
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -939,7 +952,7 @@ external interface `T$85` {
     var selling: Int64
 }
 
-external open class Liabilities(attributes: `T$85`) {
+open external class Liabilities(attributes: `T$85`) {
     open fun buying(value: Int64 = definedExternally): Int64
     open fun selling(value: Int64 = definedExternally): Int64
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -962,7 +975,7 @@ external interface `T$86` {
     var weight: Number
 }
 
-external open class Signer(attributes: `T$86`) {
+open external class Signer(attributes: `T$86`) {
     open fun key(value: SignerKey = definedExternally): SignerKey
     open fun weight(value: Number = definedExternally): Number
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -987,7 +1000,7 @@ external interface `T$87` {
     var ext: AccountEntryExtensionV2Ext
 }
 
-external open class AccountEntryExtensionV2(attributes: `T$87`) {
+open external class AccountEntryExtensionV2(attributes: `T$87`) {
     open fun numSponsored(value: Number = definedExternally): Number
     open fun numSponsoring(value: Number = definedExternally): Number
     open fun signerSponsoringIDs(value: Array<AccountId?> = definedExternally): Array<AccountId?>
@@ -1000,7 +1013,11 @@ external open class AccountEntryExtensionV2(attributes: `T$87`) {
         fun write(value: AccountEntryExtensionV2, io: ByteArray)
         fun isValid(value: AccountEntryExtensionV2): Boolean
         fun toXDR(value: AccountEntryExtensionV2): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): AccountEntryExtensionV2
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): AccountEntryExtensionV2
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): AccountEntryExtensionV2
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1012,7 +1029,7 @@ external interface `T$88` {
     var ext: AccountEntryExtensionV1Ext
 }
 
-external open class AccountEntryExtensionV1(attributes: `T$88`) {
+open external class AccountEntryExtensionV1(attributes: `T$88`) {
     open fun liabilities(value: Liabilities = definedExternally): Liabilities
     open fun ext(value: AccountEntryExtensionV1Ext = definedExternally): AccountEntryExtensionV1Ext
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -1023,7 +1040,11 @@ external open class AccountEntryExtensionV1(attributes: `T$88`) {
         fun write(value: AccountEntryExtensionV1, io: ByteArray)
         fun isValid(value: AccountEntryExtensionV1): Boolean
         fun toXDR(value: AccountEntryExtensionV1): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): AccountEntryExtensionV1
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): AccountEntryExtensionV1
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): AccountEntryExtensionV1
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1045,7 +1066,7 @@ external interface `T$89` {
     var ext: AccountEntryExt
 }
 
-external open class AccountEntry(attributes: `T$89`) {
+open external class AccountEntry(attributes: `T$89`) {
     open fun accountId(value: AccountId = definedExternally): AccountId
     open fun balance(value: Int64 = definedExternally): Int64
     open fun seqNum(value: SequenceNumber = definedExternally): SequenceNumber
@@ -1078,7 +1099,7 @@ external interface `T$90` {
     var ext: TrustLineEntryV1Ext
 }
 
-external open class TrustLineEntryV1(attributes: `T$90`) {
+open external class TrustLineEntryV1(attributes: `T$90`) {
     open fun liabilities(value: Liabilities = definedExternally): Liabilities
     open fun ext(value: TrustLineEntryV1Ext = definedExternally): TrustLineEntryV1Ext
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -1089,7 +1110,11 @@ external open class TrustLineEntryV1(attributes: `T$90`) {
         fun write(value: TrustLineEntryV1, io: ByteArray)
         fun isValid(value: TrustLineEntryV1): Boolean
         fun toXDR(value: TrustLineEntryV1): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TrustLineEntryV1
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TrustLineEntryV1
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TrustLineEntryV1
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1105,7 +1130,7 @@ external interface `T$91` {
     var ext: TrustLineEntryExt
 }
 
-external open class TrustLineEntry(attributes: `T$91`) {
+open external class TrustLineEntry(attributes: `T$91`) {
     open fun accountId(value: AccountId = definedExternally): AccountId
     open fun asset(value: Asset = definedExternally): Asset
     open fun balance(value: Int64 = definedExternally): Int64
@@ -1120,7 +1145,11 @@ external open class TrustLineEntry(attributes: `T$91`) {
         fun write(value: TrustLineEntry, io: ByteArray)
         fun isValid(value: TrustLineEntry): Boolean
         fun toXDR(value: TrustLineEntry): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TrustLineEntry
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TrustLineEntry
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TrustLineEntry
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1138,7 +1167,7 @@ external interface `T$92` {
     var ext: OfferEntryExt
 }
 
-external open class OfferEntry(attributes: `T$92`) {
+open external class OfferEntry(attributes: `T$92`) {
     open fun sellerId(value: AccountId = definedExternally): AccountId
     open fun offerId(value: Int64 = definedExternally): Int64
     open fun selling(value: Asset = definedExternally): Asset
@@ -1171,7 +1200,7 @@ external interface `T$93` {
     var ext: DataEntryExt
 }
 
-external open class DataEntry(attributes: `T$93`) {
+open external class DataEntry(attributes: `T$93`) {
     open fun accountId(value: AccountId = definedExternally): AccountId
     open fun dataName(value: String = definedExternally): dynamic /* String | ByteArray */
     open fun dataName(): dynamic /* String | ByteArray */
@@ -1198,7 +1227,7 @@ external interface `T$94` {
     var predicate: ClaimPredicate
 }
 
-external open class ClaimantV0(attributes: `T$94`) {
+open external class ClaimantV0(attributes: `T$94`) {
     open fun destination(value: AccountId = definedExternally): AccountId
     open fun predicate(value: ClaimPredicate = definedExternally): ClaimPredicate
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -1221,7 +1250,7 @@ external interface `T$95` {
     var flags: Number
 }
 
-external open class ClaimableBalanceEntryExtensionV1(attributes: `T$95`) {
+open external class ClaimableBalanceEntryExtensionV1(attributes: `T$95`) {
     open fun ext(value: ClaimableBalanceEntryExtensionV1Ext = definedExternally): ClaimableBalanceEntryExtensionV1Ext
     open fun flags(value: Number = definedExternally): Number
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -1232,8 +1261,16 @@ external open class ClaimableBalanceEntryExtensionV1(attributes: `T$95`) {
         fun write(value: ClaimableBalanceEntryExtensionV1, io: ByteArray)
         fun isValid(value: ClaimableBalanceEntryExtensionV1): Boolean
         fun toXDR(value: ClaimableBalanceEntryExtensionV1): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ClaimableBalanceEntryExtensionV1
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): ClaimableBalanceEntryExtensionV1
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ClaimableBalanceEntryExtensionV1
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): ClaimableBalanceEntryExtensionV1
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
@@ -1247,7 +1284,7 @@ external interface `T$96` {
     var ext: ClaimableBalanceEntryExt
 }
 
-external open class ClaimableBalanceEntry(attributes: `T$96`) {
+open external class ClaimableBalanceEntry(attributes: `T$96`) {
     open fun balanceId(value: ClaimableBalanceId = definedExternally): ClaimableBalanceId
     open fun claimants(value: Array<Claimant> = definedExternally): Array<Claimant>
     open fun asset(value: Asset = definedExternally): Asset
@@ -1261,7 +1298,11 @@ external open class ClaimableBalanceEntry(attributes: `T$96`) {
         fun write(value: ClaimableBalanceEntry, io: ByteArray)
         fun isValid(value: ClaimableBalanceEntry): Boolean
         fun toXDR(value: ClaimableBalanceEntry): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ClaimableBalanceEntry
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ClaimableBalanceEntry
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ClaimableBalanceEntry
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1273,7 +1314,7 @@ external interface `T$97` {
     var ext: LedgerEntryExtensionV1Ext
 }
 
-external open class LedgerEntryExtensionV1(attributes: `T$97`) {
+open external class LedgerEntryExtensionV1(attributes: `T$97`) {
     open fun sponsoringId(value: AccountId? = definedExternally): AccountId?
     open fun ext(value: LedgerEntryExtensionV1Ext = definedExternally): LedgerEntryExtensionV1Ext
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -1284,7 +1325,11 @@ external open class LedgerEntryExtensionV1(attributes: `T$97`) {
         fun write(value: LedgerEntryExtensionV1, io: ByteArray)
         fun isValid(value: LedgerEntryExtensionV1): Boolean
         fun toXDR(value: LedgerEntryExtensionV1): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerEntryExtensionV1
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerEntryExtensionV1
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerEntryExtensionV1
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1297,7 +1342,7 @@ external interface `T$98` {
     var ext: LedgerEntryExt
 }
 
-external open class LedgerEntry(attributes: `T$98`) {
+open external class LedgerEntry(attributes: `T$98`) {
     open fun lastModifiedLedgerSeq(value: Number = definedExternally): Number
     open fun data(value: LedgerEntryData = definedExternally): LedgerEntryData
     open fun ext(value: LedgerEntryExt = definedExternally): LedgerEntryExt
@@ -1320,7 +1365,7 @@ external interface `T$99` {
     var accountId: AccountId
 }
 
-external open class LedgerKeyAccount(attributes: `T$99`) {
+open external class LedgerKeyAccount(attributes: `T$99`) {
     open fun accountId(value: AccountId = definedExternally): AccountId
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
     open fun toXDR(): ByteArray
@@ -1330,7 +1375,11 @@ external open class LedgerKeyAccount(attributes: `T$99`) {
         fun write(value: LedgerKeyAccount, io: ByteArray)
         fun isValid(value: LedgerKeyAccount): Boolean
         fun toXDR(value: LedgerKeyAccount): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerKeyAccount
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerKeyAccount
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerKeyAccount
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1342,7 +1391,7 @@ external interface `T$100` {
     var asset: Asset
 }
 
-external open class LedgerKeyTrustLine(attributes: `T$100`) {
+open external class LedgerKeyTrustLine(attributes: `T$100`) {
     open fun accountId(value: AccountId = definedExternally): AccountId
     open fun asset(value: Asset = definedExternally): Asset
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -1353,7 +1402,11 @@ external open class LedgerKeyTrustLine(attributes: `T$100`) {
         fun write(value: LedgerKeyTrustLine, io: ByteArray)
         fun isValid(value: LedgerKeyTrustLine): Boolean
         fun toXDR(value: LedgerKeyTrustLine): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerKeyTrustLine
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerKeyTrustLine
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerKeyTrustLine
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1365,7 +1418,7 @@ external interface `T$101` {
     var offerId: Int64
 }
 
-external open class LedgerKeyOffer(attributes: `T$101`) {
+open external class LedgerKeyOffer(attributes: `T$101`) {
     open fun sellerId(value: AccountId = definedExternally): AccountId
     open fun offerId(value: Int64 = definedExternally): Int64
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -1376,7 +1429,11 @@ external open class LedgerKeyOffer(attributes: `T$101`) {
         fun write(value: LedgerKeyOffer, io: ByteArray)
         fun isValid(value: LedgerKeyOffer): Boolean
         fun toXDR(value: LedgerKeyOffer): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerKeyOffer
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerKeyOffer
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerKeyOffer
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1390,7 +1447,7 @@ external interface `T$102` {
         set(value) = definedExternally
 }
 
-external open class LedgerKeyData(attributes: `T$102`) {
+open external class LedgerKeyData(attributes: `T$102`) {
     open fun accountId(value: AccountId = definedExternally): AccountId
     open fun dataName(value: String = definedExternally): dynamic /* String | ByteArray */
     open fun dataName(): dynamic /* String | ByteArray */
@@ -1414,7 +1471,7 @@ external interface `T$103` {
     var balanceId: ClaimableBalanceId
 }
 
-external open class LedgerKeyClaimableBalance(attributes: `T$103`) {
+open external class LedgerKeyClaimableBalance(attributes: `T$103`) {
     open fun balanceId(value: ClaimableBalanceId = definedExternally): ClaimableBalanceId
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
     open fun toXDR(): ByteArray
@@ -1424,7 +1481,11 @@ external open class LedgerKeyClaimableBalance(attributes: `T$103`) {
         fun write(value: LedgerKeyClaimableBalance, io: ByteArray)
         fun isValid(value: LedgerKeyClaimableBalance): Boolean
         fun toXDR(value: LedgerKeyClaimableBalance): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerKeyClaimableBalance
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerKeyClaimableBalance
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerKeyClaimableBalance
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1436,7 +1497,7 @@ external interface `T$104` {
     var signature: ByteArray
 }
 
-external open class LedgerCloseValueSignature(attributes: `T$104`) {
+open external class LedgerCloseValueSignature(attributes: `T$104`) {
     open fun nodeId(value: NodeId = definedExternally): NodeId
     open fun signature(value: ByteArray = definedExternally): ByteArray
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -1447,7 +1508,11 @@ external open class LedgerCloseValueSignature(attributes: `T$104`) {
         fun write(value: LedgerCloseValueSignature, io: ByteArray)
         fun isValid(value: LedgerCloseValueSignature): Boolean
         fun toXDR(value: LedgerCloseValueSignature): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerCloseValueSignature
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerCloseValueSignature
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerCloseValueSignature
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1461,7 +1526,7 @@ external interface `T$105` {
     var ext: StellarValueExt
 }
 
-external open class StellarValue(attributes: `T$105`) {
+open external class StellarValue(attributes: `T$105`) {
     open fun txSetHash(value: ByteArray = definedExternally): ByteArray
     open fun closeTime(value: TimePoint = definedExternally): TimePoint
     open fun upgrades(value: Array<ByteArray> = definedExternally): Array<ByteArray>
@@ -1499,7 +1564,7 @@ external interface `T$106` {
     var ext: LedgerHeaderExt
 }
 
-external open class LedgerHeader(attributes: `T$106`) {
+open external class LedgerHeader(attributes: `T$106`) {
     open fun ledgerVersion(value: Number = definedExternally): Number
     open fun previousLedgerHash(value: ByteArray = definedExternally): ByteArray
     open fun scpValue(value: StellarValue = definedExternally): StellarValue
@@ -1535,7 +1600,7 @@ external interface `T$107` {
     var ext: BucketMetadataExt
 }
 
-external open class BucketMetadata(attributes: `T$107`) {
+open external class BucketMetadata(attributes: `T$107`) {
     open fun ledgerVersion(value: Number = definedExternally): Number
     open fun ext(value: BucketMetadataExt = definedExternally): BucketMetadataExt
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -1546,7 +1611,11 @@ external open class BucketMetadata(attributes: `T$107`) {
         fun write(value: BucketMetadata, io: ByteArray)
         fun isValid(value: BucketMetadata): Boolean
         fun toXDR(value: BucketMetadata): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): BucketMetadata
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): BucketMetadata
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): BucketMetadata
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1558,7 +1627,7 @@ external interface `T$108` {
     var txes: Array<TransactionEnvelope>
 }
 
-external open class TransactionSet(attributes: `T$108`) {
+open external class TransactionSet(attributes: `T$108`) {
     open fun previousLedgerHash(value: ByteArray = definedExternally): ByteArray
     open fun txes(value: Array<TransactionEnvelope> = definedExternally): Array<TransactionEnvelope>
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -1569,7 +1638,11 @@ external open class TransactionSet(attributes: `T$108`) {
         fun write(value: TransactionSet, io: ByteArray)
         fun isValid(value: TransactionSet): Boolean
         fun toXDR(value: TransactionSet): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionSet
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionSet
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionSet
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1581,7 +1654,7 @@ external interface `T$109` {
     var result: TransactionResult
 }
 
-external open class TransactionResultPair(attributes: `T$109`) {
+open external class TransactionResultPair(attributes: `T$109`) {
     open fun transactionHash(value: ByteArray = definedExternally): ByteArray
     open fun result(value: TransactionResult = definedExternally): TransactionResult
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -1592,7 +1665,11 @@ external open class TransactionResultPair(attributes: `T$109`) {
         fun write(value: TransactionResultPair, io: ByteArray)
         fun isValid(value: TransactionResultPair): Boolean
         fun toXDR(value: TransactionResultPair): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionResultPair
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionResultPair
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionResultPair
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1603,7 +1680,7 @@ external interface `T$110` {
     var results: Array<TransactionResultPair>
 }
 
-external open class TransactionResultSet(attributes: `T$110`) {
+open external class TransactionResultSet(attributes: `T$110`) {
     open fun results(value: Array<TransactionResultPair> = definedExternally): Array<TransactionResultPair>
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
     open fun toXDR(): ByteArray
@@ -1613,7 +1690,11 @@ external open class TransactionResultSet(attributes: `T$110`) {
         fun write(value: TransactionResultSet, io: ByteArray)
         fun isValid(value: TransactionResultSet): Boolean
         fun toXDR(value: TransactionResultSet): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionResultSet
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionResultSet
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionResultSet
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1626,7 +1707,7 @@ external interface `T$111` {
     var ext: TransactionHistoryEntryExt
 }
 
-external open class TransactionHistoryEntry(attributes: `T$111`) {
+open external class TransactionHistoryEntry(attributes: `T$111`) {
     open fun ledgerSeq(value: Number = definedExternally): Number
     open fun txSet(value: TransactionSet = definedExternally): TransactionSet
     open fun ext(value: TransactionHistoryEntryExt = definedExternally): TransactionHistoryEntryExt
@@ -1638,7 +1719,11 @@ external open class TransactionHistoryEntry(attributes: `T$111`) {
         fun write(value: TransactionHistoryEntry, io: ByteArray)
         fun isValid(value: TransactionHistoryEntry): Boolean
         fun toXDR(value: TransactionHistoryEntry): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionHistoryEntry
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionHistoryEntry
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionHistoryEntry
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1651,7 +1736,7 @@ external interface `T$112` {
     var ext: TransactionHistoryResultEntryExt
 }
 
-external open class TransactionHistoryResultEntry(attributes: `T$112`) {
+open external class TransactionHistoryResultEntry(attributes: `T$112`) {
     open fun ledgerSeq(value: Number = definedExternally): Number
     open fun txResultSet(value: TransactionResultSet = definedExternally): TransactionResultSet
     open fun ext(value: TransactionHistoryResultEntryExt = definedExternally): TransactionHistoryResultEntryExt
@@ -1663,8 +1748,16 @@ external open class TransactionHistoryResultEntry(attributes: `T$112`) {
         fun write(value: TransactionHistoryResultEntry, io: ByteArray)
         fun isValid(value: TransactionHistoryResultEntry): Boolean
         fun toXDR(value: TransactionHistoryResultEntry): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionHistoryResultEntry
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionHistoryResultEntry
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionHistoryResultEntry
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): TransactionHistoryResultEntry
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
@@ -1676,7 +1769,7 @@ external interface `T$113` {
     var ext: LedgerHeaderHistoryEntryExt
 }
 
-external open class LedgerHeaderHistoryEntry(attributes: `T$113`) {
+open external class LedgerHeaderHistoryEntry(attributes: `T$113`) {
     open fun hash(value: ByteArray = definedExternally): ByteArray
     open fun header(value: LedgerHeader = definedExternally): LedgerHeader
     open fun ext(value: LedgerHeaderHistoryEntryExt = definedExternally): LedgerHeaderHistoryEntryExt
@@ -1688,7 +1781,11 @@ external open class LedgerHeaderHistoryEntry(attributes: `T$113`) {
         fun write(value: LedgerHeaderHistoryEntry, io: ByteArray)
         fun isValid(value: LedgerHeaderHistoryEntry): Boolean
         fun toXDR(value: LedgerHeaderHistoryEntry): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerHeaderHistoryEntry
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerHeaderHistoryEntry
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerHeaderHistoryEntry
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1700,7 +1797,7 @@ external interface `T$114` {
     var messages: Array<ScpEnvelope>
 }
 
-external open class LedgerScpMessages(attributes: `T$114`) {
+open external class LedgerScpMessages(attributes: `T$114`) {
     open fun ledgerSeq(value: Number = definedExternally): Number
     open fun messages(value: Array<ScpEnvelope> = definedExternally): Array<ScpEnvelope>
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -1711,7 +1808,11 @@ external open class LedgerScpMessages(attributes: `T$114`) {
         fun write(value: LedgerScpMessages, io: ByteArray)
         fun isValid(value: LedgerScpMessages): Boolean
         fun toXDR(value: LedgerScpMessages): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerScpMessages
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerScpMessages
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerScpMessages
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1723,7 +1824,7 @@ external interface `T$115` {
     var ledgerMessages: LedgerScpMessages
 }
 
-external open class ScpHistoryEntryV0(attributes: `T$115`) {
+open external class ScpHistoryEntryV0(attributes: `T$115`) {
     open fun quorumSets(value: Array<ScpQuorumSet> = definedExternally): Array<ScpQuorumSet>
     open fun ledgerMessages(value: LedgerScpMessages = definedExternally): LedgerScpMessages
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -1734,7 +1835,11 @@ external open class ScpHistoryEntryV0(attributes: `T$115`) {
         fun write(value: ScpHistoryEntryV0, io: ByteArray)
         fun isValid(value: ScpHistoryEntryV0): Boolean
         fun toXDR(value: ScpHistoryEntryV0): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ScpHistoryEntryV0
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ScpHistoryEntryV0
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ScpHistoryEntryV0
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1745,7 +1850,7 @@ external interface `T$116` {
     var changes: Array<LedgerEntryChange>
 }
 
-external open class OperationMeta(attributes: `T$116`) {
+open external class OperationMeta(attributes: `T$116`) {
     open fun changes(value: Array<LedgerEntryChange> = definedExternally): Array<LedgerEntryChange>
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
     open fun toXDR(): ByteArray
@@ -1767,7 +1872,7 @@ external interface `T$117` {
     var operations: Array<OperationMeta>
 }
 
-external open class TransactionMetaV1(attributes: `T$117`) {
+open external class TransactionMetaV1(attributes: `T$117`) {
     open fun txChanges(value: Array<LedgerEntryChange> = definedExternally): Array<LedgerEntryChange>
     open fun operations(value: Array<OperationMeta> = definedExternally): Array<OperationMeta>
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -1778,7 +1883,11 @@ external open class TransactionMetaV1(attributes: `T$117`) {
         fun write(value: TransactionMetaV1, io: ByteArray)
         fun isValid(value: TransactionMetaV1): Boolean
         fun toXDR(value: TransactionMetaV1): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionMetaV1
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionMetaV1
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionMetaV1
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1791,7 +1900,7 @@ external interface `T$118` {
     var txChangesAfter: Array<LedgerEntryChange>
 }
 
-external open class TransactionMetaV2(attributes: `T$118`) {
+open external class TransactionMetaV2(attributes: `T$118`) {
     open fun txChangesBefore(value: Array<LedgerEntryChange> = definedExternally): Array<LedgerEntryChange>
     open fun operations(value: Array<OperationMeta> = definedExternally): Array<OperationMeta>
     open fun txChangesAfter(value: Array<LedgerEntryChange> = definedExternally): Array<LedgerEntryChange>
@@ -1803,7 +1912,11 @@ external open class TransactionMetaV2(attributes: `T$118`) {
         fun write(value: TransactionMetaV2, io: ByteArray)
         fun isValid(value: TransactionMetaV2): Boolean
         fun toXDR(value: TransactionMetaV2): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionMetaV2
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionMetaV2
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionMetaV2
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1816,7 +1929,7 @@ external interface `T$119` {
     var txApplyProcessing: TransactionMeta
 }
 
-external open class TransactionResultMeta(attributes: `T$119`) {
+open external class TransactionResultMeta(attributes: `T$119`) {
     open fun result(value: TransactionResultPair = definedExternally): TransactionResultPair
     open fun feeProcessing(value: Array<LedgerEntryChange> = definedExternally): Array<LedgerEntryChange>
     open fun txApplyProcessing(value: TransactionMeta = definedExternally): TransactionMeta
@@ -1828,7 +1941,11 @@ external open class TransactionResultMeta(attributes: `T$119`) {
         fun write(value: TransactionResultMeta, io: ByteArray)
         fun isValid(value: TransactionResultMeta): Boolean
         fun toXDR(value: TransactionResultMeta): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionResultMeta
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionResultMeta
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionResultMeta
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1840,7 +1957,7 @@ external interface `T$120` {
     var changes: Array<LedgerEntryChange>
 }
 
-external open class UpgradeEntryMeta(attributes: `T$120`) {
+open external class UpgradeEntryMeta(attributes: `T$120`) {
     open fun upgrade(value: LedgerUpgrade = definedExternally): LedgerUpgrade
     open fun changes(value: Array<LedgerEntryChange> = definedExternally): Array<LedgerEntryChange>
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -1851,7 +1968,11 @@ external open class UpgradeEntryMeta(attributes: `T$120`) {
         fun write(value: UpgradeEntryMeta, io: ByteArray)
         fun isValid(value: UpgradeEntryMeta): Boolean
         fun toXDR(value: UpgradeEntryMeta): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): UpgradeEntryMeta
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): UpgradeEntryMeta
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): UpgradeEntryMeta
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1866,7 +1987,7 @@ external interface `T$121` {
     var scpInfo: Array<ScpHistoryEntry>
 }
 
-external open class LedgerCloseMetaV0(attributes: `T$121`) {
+open external class LedgerCloseMetaV0(attributes: `T$121`) {
     open fun ledgerHeader(value: LedgerHeaderHistoryEntry = definedExternally): LedgerHeaderHistoryEntry
     open fun txSet(value: TransactionSet = definedExternally): TransactionSet
     open fun txProcessing(value: Array<TransactionResultMeta> = definedExternally): Array<TransactionResultMeta>
@@ -1880,7 +2001,11 @@ external open class LedgerCloseMetaV0(attributes: `T$121`) {
         fun write(value: LedgerCloseMetaV0, io: ByteArray)
         fun isValid(value: LedgerCloseMetaV0): Boolean
         fun toXDR(value: LedgerCloseMetaV0): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerCloseMetaV0
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerCloseMetaV0
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerCloseMetaV0
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -1894,7 +2019,7 @@ external interface `T$122` {
         set(value) = definedExternally
 }
 
-external open class Error(attributes: `T$122`) {
+open external class Error(attributes: `T$122`) {
     open fun code(value: ErrorCode = definedExternally): ErrorCode
     open fun msg(value: String = definedExternally): dynamic /* String | ByteArray */
     open fun msg(): dynamic /* String | ByteArray */
@@ -1920,7 +2045,7 @@ external interface `T$123` {
     var sig: ByteArray
 }
 
-external open class AuthCert(attributes: `T$123`) {
+open external class AuthCert(attributes: `T$123`) {
     open fun pubkey(value: Curve25519Public = definedExternally): Curve25519Public
     open fun expiration(value: Uint64 = definedExternally): Uint64
     open fun sig(value: ByteArray = definedExternally): ByteArray
@@ -1953,7 +2078,7 @@ external interface `T$124` {
     var nonce: ByteArray
 }
 
-external open class Hello(attributes: `T$124`) {
+open external class Hello(attributes: `T$124`) {
     open fun ledgerVersion(value: Number = definedExternally): Number
     open fun overlayVersion(value: Number = definedExternally): Number
     open fun overlayMinVersion(value: Number = definedExternally): Number
@@ -1984,7 +2109,7 @@ external interface `T$125` {
     var unused: Number
 }
 
-external open class Auth(attributes: `T$125`) {
+open external class Auth(attributes: `T$125`) {
     open fun unused(value: Number = definedExternally): Number
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
     open fun toXDR(): ByteArray
@@ -2007,7 +2132,7 @@ external interface `T$126` {
     var numFailures: Number
 }
 
-external open class PeerAddress(attributes: `T$126`) {
+open external class PeerAddress(attributes: `T$126`) {
     open fun ip(value: PeerAddressIp = definedExternally): PeerAddressIp
     open fun port(value: Number = definedExternally): Number
     open fun numFailures(value: Number = definedExternally): Number
@@ -2031,7 +2156,7 @@ external interface `T$127` {
     var reqHash: ByteArray
 }
 
-external open class DontHave(attributes: `T$127`) {
+open external class DontHave(attributes: `T$127`) {
     open fun type(value: MessageType = definedExternally): MessageType
     open fun reqHash(value: ByteArray = definedExternally): ByteArray
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -2057,7 +2182,7 @@ external interface `T$128` {
     var commandType: SurveyMessageCommandType
 }
 
-external open class SurveyRequestMessage(attributes: `T$128`) {
+open external class SurveyRequestMessage(attributes: `T$128`) {
     open fun surveyorPeerId(value: NodeId = definedExternally): NodeId
     open fun surveyedPeerId(value: NodeId = definedExternally): NodeId
     open fun ledgerNum(value: Number = definedExternally): Number
@@ -2071,7 +2196,11 @@ external open class SurveyRequestMessage(attributes: `T$128`) {
         fun write(value: SurveyRequestMessage, io: ByteArray)
         fun isValid(value: SurveyRequestMessage): Boolean
         fun toXDR(value: SurveyRequestMessage): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): SurveyRequestMessage
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): SurveyRequestMessage
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): SurveyRequestMessage
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2083,7 +2212,7 @@ external interface `T$129` {
     var request: SurveyRequestMessage
 }
 
-external open class SignedSurveyRequestMessage(attributes: `T$129`) {
+open external class SignedSurveyRequestMessage(attributes: `T$129`) {
     open fun requestSignature(value: ByteArray = definedExternally): ByteArray
     open fun request(value: SurveyRequestMessage = definedExternally): SurveyRequestMessage
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -2094,8 +2223,16 @@ external open class SignedSurveyRequestMessage(attributes: `T$129`) {
         fun write(value: SignedSurveyRequestMessage, io: ByteArray)
         fun isValid(value: SignedSurveyRequestMessage): Boolean
         fun toXDR(value: SignedSurveyRequestMessage): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): SignedSurveyRequestMessage
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): SignedSurveyRequestMessage
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): SignedSurveyRequestMessage
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): SignedSurveyRequestMessage
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
@@ -2109,7 +2246,7 @@ external interface `T$130` {
     var encryptedBody: ByteArray
 }
 
-external open class SurveyResponseMessage(attributes: `T$130`) {
+open external class SurveyResponseMessage(attributes: `T$130`) {
     open fun surveyorPeerId(value: NodeId = definedExternally): NodeId
     open fun surveyedPeerId(value: NodeId = definedExternally): NodeId
     open fun ledgerNum(value: Number = definedExternally): Number
@@ -2123,7 +2260,11 @@ external open class SurveyResponseMessage(attributes: `T$130`) {
         fun write(value: SurveyResponseMessage, io: ByteArray)
         fun isValid(value: SurveyResponseMessage): Boolean
         fun toXDR(value: SurveyResponseMessage): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): SurveyResponseMessage
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): SurveyResponseMessage
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): SurveyResponseMessage
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2135,7 +2276,7 @@ external interface `T$131` {
     var response: SurveyResponseMessage
 }
 
-external open class SignedSurveyResponseMessage(attributes: `T$131`) {
+open external class SignedSurveyResponseMessage(attributes: `T$131`) {
     open fun responseSignature(value: ByteArray = definedExternally): ByteArray
     open fun response(value: SurveyResponseMessage = definedExternally): SurveyResponseMessage
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -2146,8 +2287,16 @@ external open class SignedSurveyResponseMessage(attributes: `T$131`) {
         fun write(value: SignedSurveyResponseMessage, io: ByteArray)
         fun isValid(value: SignedSurveyResponseMessage): Boolean
         fun toXDR(value: SignedSurveyResponseMessage): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): SignedSurveyResponseMessage
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): SignedSurveyResponseMessage
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): SignedSurveyResponseMessage
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): SignedSurveyResponseMessage
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
@@ -2173,7 +2322,7 @@ external interface `T$132` {
     var duplicateFetchMessageRecv: Uint64
 }
 
-external open class PeerStats(attributes: `T$132`) {
+open external class PeerStats(attributes: `T$132`) {
     open fun id(value: NodeId = definedExternally): NodeId
     open fun versionStr(value: String = definedExternally): dynamic /* String | ByteArray */
     open fun versionStr(): dynamic /* String | ByteArray */
@@ -2213,7 +2362,7 @@ external interface `T$133` {
     var totalOutboundPeerCount: Number
 }
 
-external open class TopologyResponseBody(attributes: `T$133`) {
+open external class TopologyResponseBody(attributes: `T$133`) {
     open fun inboundPeers(value: Array<PeerStats> = definedExternally): Array<PeerStats>
     open fun outboundPeers(value: Array<PeerStats> = definedExternally): Array<PeerStats>
     open fun totalInboundPeerCount(value: Number = definedExternally): Number
@@ -2226,7 +2375,11 @@ external open class TopologyResponseBody(attributes: `T$133`) {
         fun write(value: TopologyResponseBody, io: ByteArray)
         fun isValid(value: TopologyResponseBody): Boolean
         fun toXDR(value: TopologyResponseBody): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TopologyResponseBody
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TopologyResponseBody
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TopologyResponseBody
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2239,7 +2392,7 @@ external interface `T$134` {
     var mac: HmacSha256Mac
 }
 
-external open class AuthenticatedMessageV0(attributes: `T$134`) {
+open external class AuthenticatedMessageV0(attributes: `T$134`) {
     open fun sequence(value: Uint64 = definedExternally): Uint64
     open fun message(value: StellarMessage = definedExternally): StellarMessage
     open fun mac(value: HmacSha256Mac = definedExternally): HmacSha256Mac
@@ -2251,7 +2404,11 @@ external open class AuthenticatedMessageV0(attributes: `T$134`) {
         fun write(value: AuthenticatedMessageV0, io: ByteArray)
         fun isValid(value: AuthenticatedMessageV0): Boolean
         fun toXDR(value: AuthenticatedMessageV0): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): AuthenticatedMessageV0
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): AuthenticatedMessageV0
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): AuthenticatedMessageV0
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2263,7 +2420,7 @@ external interface `T$135` {
     var value: ByteArray
 }
 
-external open class ScpBallot(attributes: `T$135`) {
+open external class ScpBallot(attributes: `T$135`) {
     open fun counter(value: Number = definedExternally): Number
     open fun value(value: ByteArray = definedExternally): ByteArray
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -2287,7 +2444,7 @@ external interface `T$136` {
     var accepted: Array<ByteArray>
 }
 
-external open class ScpNomination(attributes: `T$136`) {
+open external class ScpNomination(attributes: `T$136`) {
     open fun quorumSetHash(value: ByteArray = definedExternally): ByteArray
     open fun votes(value: Array<ByteArray> = definedExternally): Array<ByteArray>
     open fun accepted(value: Array<ByteArray> = definedExternally): Array<ByteArray>
@@ -2315,7 +2472,7 @@ external interface `T$137` {
     var nH: Number
 }
 
-external open class ScpStatementPrepare(attributes: `T$137`) {
+open external class ScpStatementPrepare(attributes: `T$137`) {
     open fun quorumSetHash(value: ByteArray = definedExternally): ByteArray
     open fun ballot(value: ScpBallot = definedExternally): ScpBallot
     open fun prepared(value: ScpBallot? = definedExternally): ScpBallot?
@@ -2330,7 +2487,11 @@ external open class ScpStatementPrepare(attributes: `T$137`) {
         fun write(value: ScpStatementPrepare, io: ByteArray)
         fun isValid(value: ScpStatementPrepare): Boolean
         fun toXDR(value: ScpStatementPrepare): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ScpStatementPrepare
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ScpStatementPrepare
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ScpStatementPrepare
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2345,7 +2506,7 @@ external interface `T$138` {
     var quorumSetHash: ByteArray
 }
 
-external open class ScpStatementConfirm(attributes: `T$138`) {
+open external class ScpStatementConfirm(attributes: `T$138`) {
     open fun ballot(value: ScpBallot = definedExternally): ScpBallot
     open fun nPrepared(value: Number = definedExternally): Number
     open fun nCommit(value: Number = definedExternally): Number
@@ -2359,7 +2520,11 @@ external open class ScpStatementConfirm(attributes: `T$138`) {
         fun write(value: ScpStatementConfirm, io: ByteArray)
         fun isValid(value: ScpStatementConfirm): Boolean
         fun toXDR(value: ScpStatementConfirm): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ScpStatementConfirm
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ScpStatementConfirm
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ScpStatementConfirm
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2372,7 +2537,7 @@ external interface `T$139` {
     var commitQuorumSetHash: ByteArray
 }
 
-external open class ScpStatementExternalize(attributes: `T$139`) {
+open external class ScpStatementExternalize(attributes: `T$139`) {
     open fun commit(value: ScpBallot = definedExternally): ScpBallot
     open fun nH(value: Number = definedExternally): Number
     open fun commitQuorumSetHash(value: ByteArray = definedExternally): ByteArray
@@ -2384,7 +2549,11 @@ external open class ScpStatementExternalize(attributes: `T$139`) {
         fun write(value: ScpStatementExternalize, io: ByteArray)
         fun isValid(value: ScpStatementExternalize): Boolean
         fun toXDR(value: ScpStatementExternalize): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ScpStatementExternalize
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ScpStatementExternalize
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ScpStatementExternalize
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2397,7 +2566,7 @@ external interface `T$140` {
     var pledges: ScpStatementPledges
 }
 
-external open class ScpStatement(attributes: `T$140`) {
+open external class ScpStatement(attributes: `T$140`) {
     open fun nodeId(value: NodeId = definedExternally): NodeId
     open fun slotIndex(value: Uint64 = definedExternally): Uint64
     open fun pledges(value: ScpStatementPledges = definedExternally): ScpStatementPledges
@@ -2421,7 +2590,7 @@ external interface `T$141` {
     var signature: ByteArray
 }
 
-external open class ScpEnvelope(attributes: `T$141`) {
+open external class ScpEnvelope(attributes: `T$141`) {
     open fun statement(value: ScpStatement = definedExternally): ScpStatement
     open fun signature(value: ByteArray = definedExternally): ByteArray
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -2445,7 +2614,7 @@ external interface `T$142` {
     var innerSets: Array<ScpQuorumSet>
 }
 
-external open class ScpQuorumSet(attributes: `T$142`) {
+open external class ScpQuorumSet(attributes: `T$142`) {
     open fun threshold(value: Number = definedExternally): Number
     open fun validators(value: Array<PublicKey> = definedExternally): Array<PublicKey>
     open fun innerSets(value: Array<ScpQuorumSet> = definedExternally): Array<ScpQuorumSet>
@@ -2469,7 +2638,7 @@ external interface `T$143` {
     var ed25519: ByteArray
 }
 
-external open class MuxedAccountMed25519(attributes: `T$143`) {
+open external class MuxedAccountMed25519(attributes: `T$143`) {
     open fun id(value: Uint64 = definedExternally): Uint64
     open fun ed25519(value: ByteArray = definedExternally): ByteArray
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -2480,7 +2649,11 @@ external open class MuxedAccountMed25519(attributes: `T$143`) {
         fun write(value: MuxedAccountMed25519, io: ByteArray)
         fun isValid(value: MuxedAccountMed25519): Boolean
         fun toXDR(value: MuxedAccountMed25519): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): MuxedAccountMed25519
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): MuxedAccountMed25519
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): MuxedAccountMed25519
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2492,7 +2665,7 @@ external interface `T$144` {
     var signature: ByteArray
 }
 
-external open class DecoratedSignature(attributes: `T$144`) {
+open external class DecoratedSignature(attributes: `T$144`) {
     open fun hint(value: ByteArray = definedExternally): ByteArray
     open fun signature(value: ByteArray = definedExternally): ByteArray
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -2503,7 +2676,11 @@ external open class DecoratedSignature(attributes: `T$144`) {
         fun write(value: DecoratedSignature, io: ByteArray)
         fun isValid(value: DecoratedSignature): Boolean
         fun toXDR(value: DecoratedSignature): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): DecoratedSignature
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): DecoratedSignature
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): DecoratedSignature
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2515,7 +2692,7 @@ external interface `T$145` {
     var startingBalance: Int64
 }
 
-external open class CreateAccountOp(attributes: `T$145`) {
+open external class CreateAccountOp(attributes: `T$145`) {
     open fun destination(value: AccountId = definedExternally): AccountId
     open fun startingBalance(value: Int64 = definedExternally): Int64
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -2526,7 +2703,11 @@ external open class CreateAccountOp(attributes: `T$145`) {
         fun write(value: CreateAccountOp, io: ByteArray)
         fun isValid(value: CreateAccountOp): Boolean
         fun toXDR(value: CreateAccountOp): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): CreateAccountOp
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): CreateAccountOp
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): CreateAccountOp
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2539,7 +2720,7 @@ external interface `T$146` {
     var amount: Int64
 }
 
-external open class PaymentOp(attributes: `T$146`) {
+open external class PaymentOp(attributes: `T$146`) {
     open fun destination(value: MuxedAccount = definedExternally): MuxedAccount
     open fun asset(value: Asset = definedExternally): Asset
     open fun amount(value: Int64 = definedExternally): Int64
@@ -2567,7 +2748,7 @@ external interface `T$147` {
     var path: Array<Asset>
 }
 
-external open class PathPaymentStrictReceiveOp(attributes: `T$147`) {
+open external class PathPaymentStrictReceiveOp(attributes: `T$147`) {
     open fun sendAsset(value: Asset = definedExternally): Asset
     open fun sendMax(value: Int64 = definedExternally): Int64
     open fun destination(value: MuxedAccount = definedExternally): MuxedAccount
@@ -2582,8 +2763,16 @@ external open class PathPaymentStrictReceiveOp(attributes: `T$147`) {
         fun write(value: PathPaymentStrictReceiveOp, io: ByteArray)
         fun isValid(value: PathPaymentStrictReceiveOp): Boolean
         fun toXDR(value: PathPaymentStrictReceiveOp): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): PathPaymentStrictReceiveOp
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): PathPaymentStrictReceiveOp
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): PathPaymentStrictReceiveOp
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): PathPaymentStrictReceiveOp
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
@@ -2598,7 +2787,7 @@ external interface `T$148` {
     var path: Array<Asset>
 }
 
-external open class PathPaymentStrictSendOp(attributes: `T$148`) {
+open external class PathPaymentStrictSendOp(attributes: `T$148`) {
     open fun sendAsset(value: Asset = definedExternally): Asset
     open fun sendAmount(value: Int64 = definedExternally): Int64
     open fun destination(value: MuxedAccount = definedExternally): MuxedAccount
@@ -2613,7 +2802,11 @@ external open class PathPaymentStrictSendOp(attributes: `T$148`) {
         fun write(value: PathPaymentStrictSendOp, io: ByteArray)
         fun isValid(value: PathPaymentStrictSendOp): Boolean
         fun toXDR(value: PathPaymentStrictSendOp): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): PathPaymentStrictSendOp
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): PathPaymentStrictSendOp
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): PathPaymentStrictSendOp
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2628,7 +2821,7 @@ external interface `T$149` {
     var offerId: Int64
 }
 
-external open class ManageSellOfferOp(attributes: `T$149`) {
+open external class ManageSellOfferOp(attributes: `T$149`) {
     open fun selling(value: Asset = definedExternally): Asset
     open fun buying(value: Asset = definedExternally): Asset
     open fun amount(value: Int64 = definedExternally): Int64
@@ -2642,7 +2835,11 @@ external open class ManageSellOfferOp(attributes: `T$149`) {
         fun write(value: ManageSellOfferOp, io: ByteArray)
         fun isValid(value: ManageSellOfferOp): Boolean
         fun toXDR(value: ManageSellOfferOp): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ManageSellOfferOp
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ManageSellOfferOp
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ManageSellOfferOp
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2657,7 +2854,7 @@ external interface `T$150` {
     var offerId: Int64
 }
 
-external open class ManageBuyOfferOp(attributes: `T$150`) {
+open external class ManageBuyOfferOp(attributes: `T$150`) {
     open fun selling(value: Asset = definedExternally): Asset
     open fun buying(value: Asset = definedExternally): Asset
     open fun buyAmount(value: Int64 = definedExternally): Int64
@@ -2671,7 +2868,11 @@ external open class ManageBuyOfferOp(attributes: `T$150`) {
         fun write(value: ManageBuyOfferOp, io: ByteArray)
         fun isValid(value: ManageBuyOfferOp): Boolean
         fun toXDR(value: ManageBuyOfferOp): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ManageBuyOfferOp
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ManageBuyOfferOp
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ManageBuyOfferOp
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2685,7 +2886,7 @@ external interface `T$151` {
     var price: Price
 }
 
-external open class CreatePassiveSellOfferOp(attributes: `T$151`) {
+open external class CreatePassiveSellOfferOp(attributes: `T$151`) {
     open fun selling(value: Asset = definedExternally): Asset
     open fun buying(value: Asset = definedExternally): Asset
     open fun amount(value: Int64 = definedExternally): Int64
@@ -2698,7 +2899,11 @@ external open class CreatePassiveSellOfferOp(attributes: `T$151`) {
         fun write(value: CreatePassiveSellOfferOp, io: ByteArray)
         fun isValid(value: CreatePassiveSellOfferOp): Boolean
         fun toXDR(value: CreatePassiveSellOfferOp): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): CreatePassiveSellOfferOp
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): CreatePassiveSellOfferOp
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): CreatePassiveSellOfferOp
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2719,7 +2924,7 @@ external interface `T$152` {
     var signer: Signer?
 }
 
-external open class SetOptionsOp(attributes: `T$152`) {
+open external class SetOptionsOp(attributes: `T$152`) {
     open fun inflationDest(value: AccountId? = definedExternally): AccountId?
     open fun clearFlags(value: Number? = definedExternally): Number?
     open fun setFlags(value: Number? = definedExternally): Number?
@@ -2751,7 +2956,7 @@ external interface `T$153` {
     var limit: Int64
 }
 
-external open class ChangeTrustOp(attributes: `T$153`) {
+open external class ChangeTrustOp(attributes: `T$153`) {
     open fun line(value: Asset = definedExternally): Asset
     open fun limit(value: Int64 = definedExternally): Int64
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -2775,7 +2980,7 @@ external interface `T$154` {
     var authorize: Number
 }
 
-external open class AllowTrustOp(attributes: `T$154`) {
+open external class AllowTrustOp(attributes: `T$154`) {
     open fun trustor(value: AccountId = definedExternally): AccountId
     open fun asset(value: AssetCode = definedExternally): AssetCode
     open fun authorize(value: Number = definedExternally): Number
@@ -2801,7 +3006,7 @@ external interface `T$155` {
     var dataValue: ByteArray?
 }
 
-external open class ManageDataOp(attributes: `T$155`) {
+open external class ManageDataOp(attributes: `T$155`) {
     open fun dataName(value: String = definedExternally): dynamic /* String | ByteArray */
     open fun dataName(): dynamic /* String | ByteArray */
     open fun dataName(value: ByteArray = definedExternally): dynamic /* String | ByteArray */
@@ -2825,7 +3030,7 @@ external interface `T$156` {
     var bumpTo: SequenceNumber
 }
 
-external open class BumpSequenceOp(attributes: `T$156`) {
+open external class BumpSequenceOp(attributes: `T$156`) {
     open fun bumpTo(value: SequenceNumber = definedExternally): SequenceNumber
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
     open fun toXDR(): ByteArray
@@ -2835,7 +3040,11 @@ external open class BumpSequenceOp(attributes: `T$156`) {
         fun write(value: BumpSequenceOp, io: ByteArray)
         fun isValid(value: BumpSequenceOp): Boolean
         fun toXDR(value: BumpSequenceOp): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): BumpSequenceOp
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): BumpSequenceOp
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): BumpSequenceOp
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2848,7 +3057,7 @@ external interface `T$157` {
     var claimants: Array<Claimant>
 }
 
-external open class CreateClaimableBalanceOp(attributes: `T$157`) {
+open external class CreateClaimableBalanceOp(attributes: `T$157`) {
     open fun asset(value: Asset = definedExternally): Asset
     open fun amount(value: Int64 = definedExternally): Int64
     open fun claimants(value: Array<Claimant> = definedExternally): Array<Claimant>
@@ -2860,14 +3069,18 @@ external open class CreateClaimableBalanceOp(attributes: `T$157`) {
         fun write(value: CreateClaimableBalanceOp, io: ByteArray)
         fun isValid(value: CreateClaimableBalanceOp): Boolean
         fun toXDR(value: CreateClaimableBalanceOp): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): CreateClaimableBalanceOp
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): CreateClaimableBalanceOp
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): CreateClaimableBalanceOp
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class ClaimClaimableBalanceOp(attributes: `T$103`) {
+open external class ClaimClaimableBalanceOp(attributes: `T$103`) {
     open fun balanceId(value: ClaimableBalanceId = definedExternally): ClaimableBalanceId
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
     open fun toXDR(): ByteArray
@@ -2877,7 +3090,11 @@ external open class ClaimClaimableBalanceOp(attributes: `T$103`) {
         fun write(value: ClaimClaimableBalanceOp, io: ByteArray)
         fun isValid(value: ClaimClaimableBalanceOp): Boolean
         fun toXDR(value: ClaimClaimableBalanceOp): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ClaimClaimableBalanceOp
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ClaimClaimableBalanceOp
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ClaimClaimableBalanceOp
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2888,7 +3105,7 @@ external interface `T$158` {
     var sponsoredId: AccountId
 }
 
-external open class BeginSponsoringFutureReservesOp(attributes: `T$158`) {
+open external class BeginSponsoringFutureReservesOp(attributes: `T$158`) {
     open fun sponsoredId(value: AccountId = definedExternally): AccountId
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
     open fun toXDR(): ByteArray
@@ -2898,8 +3115,16 @@ external open class BeginSponsoringFutureReservesOp(attributes: `T$158`) {
         fun write(value: BeginSponsoringFutureReservesOp, io: ByteArray)
         fun isValid(value: BeginSponsoringFutureReservesOp): Boolean
         fun toXDR(value: BeginSponsoringFutureReservesOp): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): BeginSponsoringFutureReservesOp
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): BeginSponsoringFutureReservesOp
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): BeginSponsoringFutureReservesOp
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): BeginSponsoringFutureReservesOp
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
@@ -2910,7 +3135,7 @@ external interface `T$159` {
     var signerKey: SignerKey
 }
 
-external open class RevokeSponsorshipOpSigner(attributes: `T$159`) {
+open external class RevokeSponsorshipOpSigner(attributes: `T$159`) {
     open fun accountId(value: AccountId = definedExternally): AccountId
     open fun signerKey(value: SignerKey = definedExternally): SignerKey
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -2921,7 +3146,11 @@ external open class RevokeSponsorshipOpSigner(attributes: `T$159`) {
         fun write(value: RevokeSponsorshipOpSigner, io: ByteArray)
         fun isValid(value: RevokeSponsorshipOpSigner): Boolean
         fun toXDR(value: RevokeSponsorshipOpSigner): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): RevokeSponsorshipOpSigner
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): RevokeSponsorshipOpSigner
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): RevokeSponsorshipOpSigner
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -2934,7 +3163,7 @@ external interface `T$160` {
     var amount: Int64
 }
 
-external open class ClawbackOp(attributes: `T$160`) {
+open external class ClawbackOp(attributes: `T$160`) {
     open fun asset(value: Asset = definedExternally): Asset
     open fun from(value: MuxedAccount = definedExternally): MuxedAccount
     open fun amount(value: Int64 = definedExternally): Int64
@@ -2953,7 +3182,7 @@ external open class ClawbackOp(attributes: `T$160`) {
     }
 }
 
-external open class ClawbackClaimableBalanceOp(attributes: `T$103`) {
+open external class ClawbackClaimableBalanceOp(attributes: `T$103`) {
     open fun balanceId(value: ClaimableBalanceId = definedExternally): ClaimableBalanceId
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
     open fun toXDR(): ByteArray
@@ -2963,8 +3192,16 @@ external open class ClawbackClaimableBalanceOp(attributes: `T$103`) {
         fun write(value: ClawbackClaimableBalanceOp, io: ByteArray)
         fun isValid(value: ClawbackClaimableBalanceOp): Boolean
         fun toXDR(value: ClawbackClaimableBalanceOp): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ClawbackClaimableBalanceOp
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): ClawbackClaimableBalanceOp
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ClawbackClaimableBalanceOp
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): ClawbackClaimableBalanceOp
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
@@ -2977,7 +3214,7 @@ external interface `T$161` {
     var setFlags: Number
 }
 
-external open class SetTrustLineFlagsOp(attributes: `T$161`) {
+open external class SetTrustLineFlagsOp(attributes: `T$161`) {
     open fun trustor(value: AccountId = definedExternally): AccountId
     open fun asset(value: Asset = definedExternally): Asset
     open fun clearFlags(value: Number = definedExternally): Number
@@ -2990,7 +3227,11 @@ external open class SetTrustLineFlagsOp(attributes: `T$161`) {
         fun write(value: SetTrustLineFlagsOp, io: ByteArray)
         fun isValid(value: SetTrustLineFlagsOp): Boolean
         fun toXDR(value: SetTrustLineFlagsOp): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): SetTrustLineFlagsOp
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): SetTrustLineFlagsOp
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): SetTrustLineFlagsOp
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -3003,7 +3244,7 @@ external interface `T$162` {
     var opNum: Number
 }
 
-external open class OperationIdId(attributes: `T$162`) {
+open external class OperationIdId(attributes: `T$162`) {
     open fun sourceAccount(value: MuxedAccount = definedExternally): MuxedAccount
     open fun seqNum(value: SequenceNumber = definedExternally): SequenceNumber
     open fun opNum(value: Number = definedExternally): Number
@@ -3027,7 +3268,7 @@ external interface `T$163` {
     var maxTime: TimePoint
 }
 
-external open class TimeBounds(attributes: `T$163`) {
+open external class TimeBounds(attributes: `T$163`) {
     open fun minTime(value: TimePoint = definedExternally): TimePoint
     open fun maxTime(value: TimePoint = definedExternally): TimePoint
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3055,7 +3296,7 @@ external interface `T$164` {
     var ext: TransactionV0Ext
 }
 
-external open class TransactionV0(attributes: `T$164`) {
+open external class TransactionV0(attributes: `T$164`) {
     open fun sourceAccountEd25519(value: ByteArray = definedExternally): ByteArray
     open fun fee(value: Number = definedExternally): Number
     open fun seqNum(value: SequenceNumber = definedExternally): SequenceNumber
@@ -3083,7 +3324,7 @@ external interface `T$165` {
     var signatures: Array<DecoratedSignature>
 }
 
-external open class TransactionV0Envelope(attributes: `T$165`) {
+open external class TransactionV0Envelope(attributes: `T$165`) {
     open fun tx(value: TransactionV0 = definedExternally): TransactionV0
     open fun signatures(value: Array<DecoratedSignature> = definedExternally): Array<DecoratedSignature>
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3094,7 +3335,11 @@ external open class TransactionV0Envelope(attributes: `T$165`) {
         fun write(value: TransactionV0Envelope, io: ByteArray)
         fun isValid(value: TransactionV0Envelope): Boolean
         fun toXDR(value: TransactionV0Envelope): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionV0Envelope
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionV0Envelope
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionV0Envelope
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -3111,7 +3356,7 @@ external interface `T$166` {
     var ext: TransactionExt
 }
 
-external open class Transaction(attributes: `T$166`) {
+open external class Transaction(attributes: `T$166`) {
     open fun sourceAccount(value: MuxedAccount = definedExternally): MuxedAccount
     open fun fee(value: Number = definedExternally): Number
     open fun seqNum(value: SequenceNumber = definedExternally): SequenceNumber
@@ -3139,7 +3384,7 @@ external interface `T$167` {
     var signatures: Array<DecoratedSignature>
 }
 
-external open class TransactionV1Envelope(attributes: `T$167`) {
+open external class TransactionV1Envelope(attributes: `T$167`) {
     open fun tx(value: Transaction = definedExternally): Transaction
     open fun signatures(value: Array<DecoratedSignature> = definedExternally): Array<DecoratedSignature>
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3150,7 +3395,11 @@ external open class TransactionV1Envelope(attributes: `T$167`) {
         fun write(value: TransactionV1Envelope, io: ByteArray)
         fun isValid(value: TransactionV1Envelope): Boolean
         fun toXDR(value: TransactionV1Envelope): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionV1Envelope
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionV1Envelope
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionV1Envelope
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -3164,7 +3413,7 @@ external interface `T$168` {
     var ext: FeeBumpTransactionExt
 }
 
-external open class FeeBumpTransaction(attributes: `T$168`) {
+open external class FeeBumpTransaction(attributes: `T$168`) {
     open fun feeSource(value: MuxedAccount = definedExternally): MuxedAccount
     open fun fee(value: Int64 = definedExternally): Int64
     open fun innerTx(value: FeeBumpTransactionInnerTx = definedExternally): FeeBumpTransactionInnerTx
@@ -3177,7 +3426,11 @@ external open class FeeBumpTransaction(attributes: `T$168`) {
         fun write(value: FeeBumpTransaction, io: ByteArray)
         fun isValid(value: FeeBumpTransaction): Boolean
         fun toXDR(value: FeeBumpTransaction): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): FeeBumpTransaction
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): FeeBumpTransaction
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): FeeBumpTransaction
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -3189,7 +3442,7 @@ external interface `T$169` {
     var signatures: Array<DecoratedSignature>
 }
 
-external open class FeeBumpTransactionEnvelope(attributes: `T$169`) {
+open external class FeeBumpTransactionEnvelope(attributes: `T$169`) {
     open fun tx(value: FeeBumpTransaction = definedExternally): FeeBumpTransaction
     open fun signatures(value: Array<DecoratedSignature> = definedExternally): Array<DecoratedSignature>
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3200,8 +3453,16 @@ external open class FeeBumpTransactionEnvelope(attributes: `T$169`) {
         fun write(value: FeeBumpTransactionEnvelope, io: ByteArray)
         fun isValid(value: FeeBumpTransactionEnvelope): Boolean
         fun toXDR(value: FeeBumpTransactionEnvelope): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): FeeBumpTransactionEnvelope
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): FeeBumpTransactionEnvelope
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): FeeBumpTransactionEnvelope
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): FeeBumpTransactionEnvelope
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
@@ -3212,7 +3473,7 @@ external interface `T$170` {
     var taggedTransaction: TransactionSignaturePayloadTaggedTransaction
 }
 
-external open class TransactionSignaturePayload(attributes: `T$170`) {
+open external class TransactionSignaturePayload(attributes: `T$170`) {
     open fun networkId(value: ByteArray = definedExternally): ByteArray
     open fun taggedTransaction(value: TransactionSignaturePayloadTaggedTransaction = definedExternally): TransactionSignaturePayloadTaggedTransaction
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3223,8 +3484,16 @@ external open class TransactionSignaturePayload(attributes: `T$170`) {
         fun write(value: TransactionSignaturePayload, io: ByteArray)
         fun isValid(value: TransactionSignaturePayload): Boolean
         fun toXDR(value: TransactionSignaturePayload): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionSignaturePayload
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionSignaturePayload
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionSignaturePayload
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): TransactionSignaturePayload
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
@@ -3239,7 +3508,7 @@ external interface `T$171` {
     var amountBought: Int64
 }
 
-external open class ClaimOfferAtom(attributes: `T$171`) {
+open external class ClaimOfferAtom(attributes: `T$171`) {
     open fun sellerId(value: AccountId = definedExternally): AccountId
     open fun offerId(value: Int64 = definedExternally): Int64
     open fun assetSold(value: Asset = definedExternally): Asset
@@ -3254,7 +3523,11 @@ external open class ClaimOfferAtom(attributes: `T$171`) {
         fun write(value: ClaimOfferAtom, io: ByteArray)
         fun isValid(value: ClaimOfferAtom): Boolean
         fun toXDR(value: ClaimOfferAtom): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ClaimOfferAtom
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ClaimOfferAtom
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ClaimOfferAtom
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -3267,7 +3540,7 @@ external interface `T$172` {
     var amount: Int64
 }
 
-external open class SimplePaymentResult(attributes: `T$172`) {
+open external class SimplePaymentResult(attributes: `T$172`) {
     open fun destination(value: AccountId = definedExternally): AccountId
     open fun asset(value: Asset = definedExternally): Asset
     open fun amount(value: Int64 = definedExternally): Int64
@@ -3279,7 +3552,11 @@ external open class SimplePaymentResult(attributes: `T$172`) {
         fun write(value: SimplePaymentResult, io: ByteArray)
         fun isValid(value: SimplePaymentResult): Boolean
         fun toXDR(value: SimplePaymentResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): SimplePaymentResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): SimplePaymentResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): SimplePaymentResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -3291,7 +3568,7 @@ external interface `T$173` {
     var last: SimplePaymentResult
 }
 
-external open class PathPaymentStrictReceiveResultSuccess(attributes: `T$173`) {
+open external class PathPaymentStrictReceiveResultSuccess(attributes: `T$173`) {
     open fun offers(value: Array<ClaimOfferAtom> = definedExternally): Array<ClaimOfferAtom>
     open fun last(value: SimplePaymentResult = definedExternally): SimplePaymentResult
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3302,8 +3579,16 @@ external open class PathPaymentStrictReceiveResultSuccess(attributes: `T$173`) {
         fun write(value: PathPaymentStrictReceiveResultSuccess, io: ByteArray)
         fun isValid(value: PathPaymentStrictReceiveResultSuccess): Boolean
         fun toXDR(value: PathPaymentStrictReceiveResultSuccess): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): PathPaymentStrictReceiveResultSuccess
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): PathPaymentStrictReceiveResultSuccess
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): PathPaymentStrictReceiveResultSuccess
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): PathPaymentStrictReceiveResultSuccess
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
@@ -3314,7 +3599,7 @@ external interface `T$174` {
     var last: SimplePaymentResult
 }
 
-external open class PathPaymentStrictSendResultSuccess(attributes: `T$174`) {
+open external class PathPaymentStrictSendResultSuccess(attributes: `T$174`) {
     open fun offers(value: Array<ClaimOfferAtom> = definedExternally): Array<ClaimOfferAtom>
     open fun last(value: SimplePaymentResult = definedExternally): SimplePaymentResult
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3325,8 +3610,16 @@ external open class PathPaymentStrictSendResultSuccess(attributes: `T$174`) {
         fun write(value: PathPaymentStrictSendResultSuccess, io: ByteArray)
         fun isValid(value: PathPaymentStrictSendResultSuccess): Boolean
         fun toXDR(value: PathPaymentStrictSendResultSuccess): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): PathPaymentStrictSendResultSuccess
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): PathPaymentStrictSendResultSuccess
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): PathPaymentStrictSendResultSuccess
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): PathPaymentStrictSendResultSuccess
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
@@ -3337,7 +3630,7 @@ external interface `T$175` {
     var offer: ManageOfferSuccessResultOffer
 }
 
-external open class ManageOfferSuccessResult(attributes: `T$175`) {
+open external class ManageOfferSuccessResult(attributes: `T$175`) {
     open fun offersClaimed(value: Array<ClaimOfferAtom> = definedExternally): Array<ClaimOfferAtom>
     open fun offer(value: ManageOfferSuccessResultOffer = definedExternally): ManageOfferSuccessResultOffer
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3348,7 +3641,11 @@ external open class ManageOfferSuccessResult(attributes: `T$175`) {
         fun write(value: ManageOfferSuccessResult, io: ByteArray)
         fun isValid(value: ManageOfferSuccessResult): Boolean
         fun toXDR(value: ManageOfferSuccessResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ManageOfferSuccessResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ManageOfferSuccessResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ManageOfferSuccessResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -3360,7 +3657,7 @@ external interface `T$176` {
     var amount: Int64
 }
 
-external open class InflationPayout(attributes: `T$176`) {
+open external class InflationPayout(attributes: `T$176`) {
     open fun destination(value: AccountId = definedExternally): AccountId
     open fun amount(value: Int64 = definedExternally): Int64
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3371,7 +3668,11 @@ external open class InflationPayout(attributes: `T$176`) {
         fun write(value: InflationPayout, io: ByteArray)
         fun isValid(value: InflationPayout): Boolean
         fun toXDR(value: InflationPayout): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): InflationPayout
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): InflationPayout
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): InflationPayout
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -3384,7 +3685,7 @@ external interface `T$177` {
     var ext: InnerTransactionResultExt
 }
 
-external open class InnerTransactionResult(attributes: `T$177`) {
+open external class InnerTransactionResult(attributes: `T$177`) {
     open fun feeCharged(value: Int64 = definedExternally): Int64
     open fun result(value: InnerTransactionResultResult = definedExternally): InnerTransactionResultResult
     open fun ext(value: InnerTransactionResultExt = definedExternally): InnerTransactionResultExt
@@ -3396,7 +3697,11 @@ external open class InnerTransactionResult(attributes: `T$177`) {
         fun write(value: InnerTransactionResult, io: ByteArray)
         fun isValid(value: InnerTransactionResult): Boolean
         fun toXDR(value: InnerTransactionResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): InnerTransactionResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): InnerTransactionResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): InnerTransactionResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -3408,7 +3713,7 @@ external interface `T$178` {
     var result: InnerTransactionResult
 }
 
-external open class InnerTransactionResultPair(attributes: `T$178`) {
+open external class InnerTransactionResultPair(attributes: `T$178`) {
     open fun transactionHash(value: ByteArray = definedExternally): ByteArray
     open fun result(value: InnerTransactionResult = definedExternally): InnerTransactionResult
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3419,8 +3724,16 @@ external open class InnerTransactionResultPair(attributes: `T$178`) {
         fun write(value: InnerTransactionResultPair, io: ByteArray)
         fun isValid(value: InnerTransactionResultPair): Boolean
         fun toXDR(value: InnerTransactionResultPair): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): InnerTransactionResultPair
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): InnerTransactionResultPair
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): InnerTransactionResultPair
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): InnerTransactionResultPair
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
@@ -3432,7 +3745,7 @@ external interface `T$179` {
     var ext: TransactionResultExt
 }
 
-external open class TransactionResult(attributes: `T$179`) {
+open external class TransactionResult(attributes: `T$179`) {
     open fun feeCharged(value: Int64 = definedExternally): Int64
     open fun result(value: TransactionResultResult = definedExternally): TransactionResultResult
     open fun ext(value: TransactionResultExt = definedExternally): TransactionResultExt
@@ -3444,7 +3757,11 @@ external open class TransactionResult(attributes: `T$179`) {
         fun write(value: TransactionResult, io: ByteArray)
         fun isValid(value: TransactionResult): Boolean
         fun toXDR(value: TransactionResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
@@ -3455,7 +3772,7 @@ external interface `T$180` {
     var key: ByteArray
 }
 
-external open class Curve25519Secret(attributes: `T$180`) {
+open external class Curve25519Secret(attributes: `T$180`) {
     open fun key(value: ByteArray = definedExternally): ByteArray
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
     open fun toXDR(): ByteArray
@@ -3465,14 +3782,18 @@ external open class Curve25519Secret(attributes: `T$180`) {
         fun write(value: Curve25519Secret, io: ByteArray)
         fun isValid(value: Curve25519Secret): Boolean
         fun toXDR(value: Curve25519Secret): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Curve25519Secret
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): Curve25519Secret
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): Curve25519Secret
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class Curve25519Public(attributes: `T$180`) {
+open external class Curve25519Public(attributes: `T$180`) {
     open fun key(value: ByteArray = definedExternally): ByteArray
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
     open fun toXDR(): ByteArray
@@ -3482,14 +3803,18 @@ external open class Curve25519Public(attributes: `T$180`) {
         fun write(value: Curve25519Public, io: ByteArray)
         fun isValid(value: Curve25519Public): Boolean
         fun toXDR(value: Curve25519Public): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Curve25519Public
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): Curve25519Public
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): Curve25519Public
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class HmacSha256Key(attributes: `T$180`) {
+open external class HmacSha256Key(attributes: `T$180`) {
     open fun key(value: ByteArray = definedExternally): ByteArray
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
     open fun toXDR(): ByteArray
@@ -3510,7 +3835,7 @@ external interface `T$181` {
     var mac: ByteArray
 }
 
-external open class HmacSha256Mac(attributes: `T$181`) {
+open external class HmacSha256Mac(attributes: `T$181`) {
     open fun mac(value: ByteArray = definedExternally): ByteArray
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
     open fun toXDR(): ByteArray
@@ -3527,7 +3852,7 @@ external open class HmacSha256Mac(attributes: `T$181`) {
     }
 }
 
-external open class AssetCode {
+open external class AssetCode {
     open fun switch(): AssetType
     open fun assetCode4(value: ByteArray = definedExternally): ByteArray
     open fun assetCode12(value: ByteArray = definedExternally): ByteArray
@@ -3549,7 +3874,7 @@ external open class AssetCode {
     }
 }
 
-external open class Asset {
+open external class Asset {
     open fun switch(): AssetType
     open fun alphaNum4(value: AssetAlphaNum4 = definedExternally): AssetAlphaNum4
     open fun alphaNum12(value: AssetAlphaNum12 = definedExternally): AssetAlphaNum12
@@ -3572,7 +3897,7 @@ external open class Asset {
     }
 }
 
-external open class AccountEntryExtensionV2Ext {
+open external class AccountEntryExtensionV2Ext {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3583,14 +3908,22 @@ external open class AccountEntryExtensionV2Ext {
         fun write(value: AccountEntryExtensionV2Ext, io: ByteArray)
         fun isValid(value: AccountEntryExtensionV2Ext): Boolean
         fun toXDR(value: AccountEntryExtensionV2Ext): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): AccountEntryExtensionV2Ext
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): AccountEntryExtensionV2Ext
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): AccountEntryExtensionV2Ext
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): AccountEntryExtensionV2Ext
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class AccountEntryExtensionV1Ext {
+open external class AccountEntryExtensionV1Ext {
     open fun switch(): Number
     open fun v2(value: AccountEntryExtensionV2 = definedExternally): AccountEntryExtensionV2
     open fun value(): dynamic /* AccountEntryExtensionV2 | Unit */
@@ -3602,14 +3935,22 @@ external open class AccountEntryExtensionV1Ext {
         fun write(value: AccountEntryExtensionV1Ext, io: ByteArray)
         fun isValid(value: AccountEntryExtensionV1Ext): Boolean
         fun toXDR(value: AccountEntryExtensionV1Ext): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): AccountEntryExtensionV1Ext
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): AccountEntryExtensionV1Ext
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): AccountEntryExtensionV1Ext
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): AccountEntryExtensionV1Ext
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class AccountEntryExt {
+open external class AccountEntryExt {
     open fun switch(): Number
     open fun v1(value: AccountEntryExtensionV1 = definedExternally): AccountEntryExtensionV1
     open fun value(): dynamic /* AccountEntryExtensionV1 | Unit */
@@ -3621,14 +3962,18 @@ external open class AccountEntryExt {
         fun write(value: AccountEntryExt, io: ByteArray)
         fun isValid(value: AccountEntryExt): Boolean
         fun toXDR(value: AccountEntryExt): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): AccountEntryExt
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): AccountEntryExt
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): AccountEntryExt
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class TrustLineEntryV1Ext {
+open external class TrustLineEntryV1Ext {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3639,14 +3984,18 @@ external open class TrustLineEntryV1Ext {
         fun write(value: TrustLineEntryV1Ext, io: ByteArray)
         fun isValid(value: TrustLineEntryV1Ext): Boolean
         fun toXDR(value: TrustLineEntryV1Ext): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TrustLineEntryV1Ext
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TrustLineEntryV1Ext
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TrustLineEntryV1Ext
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class TrustLineEntryExt {
+open external class TrustLineEntryExt {
     open fun switch(): Number
     open fun v1(value: TrustLineEntryV1 = definedExternally): TrustLineEntryV1
     open fun value(): dynamic /* TrustLineEntryV1 | Unit */
@@ -3658,14 +4007,18 @@ external open class TrustLineEntryExt {
         fun write(value: TrustLineEntryExt, io: ByteArray)
         fun isValid(value: TrustLineEntryExt): Boolean
         fun toXDR(value: TrustLineEntryExt): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TrustLineEntryExt
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TrustLineEntryExt
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TrustLineEntryExt
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class OfferEntryExt {
+open external class OfferEntryExt {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3683,7 +4036,7 @@ external open class OfferEntryExt {
     }
 }
 
-external open class DataEntryExt {
+open external class DataEntryExt {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3701,7 +4054,7 @@ external open class DataEntryExt {
     }
 }
 
-external open class ClaimPredicate {
+open external class ClaimPredicate {
     open fun switch(): ClaimPredicateType
     open fun andPredicates(value: Array<ClaimPredicate> = definedExternally): Array<ClaimPredicate>
     open fun orPredicates(value: Array<ClaimPredicate> = definedExternally): Array<ClaimPredicate>
@@ -3723,14 +4076,18 @@ external open class ClaimPredicate {
         fun write(value: ClaimPredicate, io: ByteArray)
         fun isValid(value: ClaimPredicate): Boolean
         fun toXDR(value: ClaimPredicate): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ClaimPredicate
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ClaimPredicate
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ClaimPredicate
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class Claimant {
+open external class Claimant {
     open fun switch(): ClaimantType
     open fun v0(value: ClaimantV0 = definedExternally): ClaimantV0
     open fun value(): ClaimantV0
@@ -3750,7 +4107,7 @@ external open class Claimant {
     }
 }
 
-external open class ClaimableBalanceId {
+open external class ClaimableBalanceId {
     open fun switch(): ClaimableBalanceIdType
     open fun v0(value: ByteArray = definedExternally): ByteArray
     open fun value(): ByteArray
@@ -3763,14 +4120,18 @@ external open class ClaimableBalanceId {
         fun write(value: ClaimableBalanceId, io: ByteArray)
         fun isValid(value: ClaimableBalanceId): Boolean
         fun toXDR(value: ClaimableBalanceId): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ClaimableBalanceId
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ClaimableBalanceId
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ClaimableBalanceId
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class ClaimableBalanceEntryExtensionV1Ext {
+open external class ClaimableBalanceEntryExtensionV1Ext {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3781,14 +4142,22 @@ external open class ClaimableBalanceEntryExtensionV1Ext {
         fun write(value: ClaimableBalanceEntryExtensionV1Ext, io: ByteArray)
         fun isValid(value: ClaimableBalanceEntryExtensionV1Ext): Boolean
         fun toXDR(value: ClaimableBalanceEntryExtensionV1Ext): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ClaimableBalanceEntryExtensionV1Ext
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): ClaimableBalanceEntryExtensionV1Ext
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ClaimableBalanceEntryExtensionV1Ext
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): ClaimableBalanceEntryExtensionV1Ext
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class ClaimableBalanceEntryExt {
+open external class ClaimableBalanceEntryExt {
     open fun switch(): Number
     open fun v1(value: ClaimableBalanceEntryExtensionV1 = definedExternally): ClaimableBalanceEntryExtensionV1
     open fun value(): dynamic /* ClaimableBalanceEntryExtensionV1 | Unit */
@@ -3800,14 +4169,18 @@ external open class ClaimableBalanceEntryExt {
         fun write(value: ClaimableBalanceEntryExt, io: ByteArray)
         fun isValid(value: ClaimableBalanceEntryExt): Boolean
         fun toXDR(value: ClaimableBalanceEntryExt): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ClaimableBalanceEntryExt
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ClaimableBalanceEntryExt
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ClaimableBalanceEntryExt
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class LedgerEntryExtensionV1Ext {
+open external class LedgerEntryExtensionV1Ext {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3818,14 +4191,18 @@ external open class LedgerEntryExtensionV1Ext {
         fun write(value: LedgerEntryExtensionV1Ext, io: ByteArray)
         fun isValid(value: LedgerEntryExtensionV1Ext): Boolean
         fun toXDR(value: LedgerEntryExtensionV1Ext): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerEntryExtensionV1Ext
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerEntryExtensionV1Ext
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerEntryExtensionV1Ext
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class LedgerEntryData {
+open external class LedgerEntryData {
     open fun switch(): LedgerEntryType
     open fun account(value: AccountEntry = definedExternally): AccountEntry
     open fun trustLine(value: TrustLineEntry = definedExternally): TrustLineEntry
@@ -3846,14 +4223,18 @@ external open class LedgerEntryData {
         fun write(value: LedgerEntryData, io: ByteArray)
         fun isValid(value: LedgerEntryData): Boolean
         fun toXDR(value: LedgerEntryData): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerEntryData
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerEntryData
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerEntryData
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class LedgerEntryExt {
+open external class LedgerEntryExt {
     open fun switch(): Number
     open fun v1(value: LedgerEntryExtensionV1 = definedExternally): LedgerEntryExtensionV1
     open fun value(): dynamic /* LedgerEntryExtensionV1 | Unit */
@@ -3865,14 +4246,18 @@ external open class LedgerEntryExt {
         fun write(value: LedgerEntryExt, io: ByteArray)
         fun isValid(value: LedgerEntryExt): Boolean
         fun toXDR(value: LedgerEntryExt): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerEntryExt
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerEntryExt
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerEntryExt
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class LedgerKey {
+open external class LedgerKey {
     open fun switch(): LedgerEntryType
     open fun account(value: LedgerKeyAccount = definedExternally): LedgerKeyAccount
     open fun trustLine(value: LedgerKeyTrustLine = definedExternally): LedgerKeyTrustLine
@@ -3900,7 +4285,7 @@ external open class LedgerKey {
     }
 }
 
-external open class StellarValueExt {
+open external class StellarValueExt {
     open fun switch(): StellarValueType
     open fun lcValueSignature(value: LedgerCloseValueSignature = definedExternally): LedgerCloseValueSignature
     open fun value(): dynamic /* LedgerCloseValueSignature | Unit */
@@ -3914,14 +4299,18 @@ external open class StellarValueExt {
         fun write(value: StellarValueExt, io: ByteArray)
         fun isValid(value: StellarValueExt): Boolean
         fun toXDR(value: StellarValueExt): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): StellarValueExt
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): StellarValueExt
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): StellarValueExt
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class LedgerHeaderExt {
+open external class LedgerHeaderExt {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3932,14 +4321,18 @@ external open class LedgerHeaderExt {
         fun write(value: LedgerHeaderExt, io: ByteArray)
         fun isValid(value: LedgerHeaderExt): Boolean
         fun toXDR(value: LedgerHeaderExt): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerHeaderExt
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerHeaderExt
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerHeaderExt
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class LedgerUpgrade {
+open external class LedgerUpgrade {
     open fun switch(): LedgerUpgradeType
     open fun newLedgerVersion(value: Number = definedExternally): Number
     open fun newBaseFee(value: Number = definedExternally): Number
@@ -3965,7 +4358,7 @@ external open class LedgerUpgrade {
     }
 }
 
-external open class BucketMetadataExt {
+open external class BucketMetadataExt {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -3976,14 +4369,18 @@ external open class BucketMetadataExt {
         fun write(value: BucketMetadataExt, io: ByteArray)
         fun isValid(value: BucketMetadataExt): Boolean
         fun toXDR(value: BucketMetadataExt): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): BucketMetadataExt
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): BucketMetadataExt
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): BucketMetadataExt
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class BucketEntry {
+open external class BucketEntry {
     open fun switch(): BucketEntryType
     open fun liveEntry(value: LedgerEntry = definedExternally): LedgerEntry
     open fun deadEntry(value: LedgerKey = definedExternally): LedgerKey
@@ -4008,7 +4405,7 @@ external open class BucketEntry {
     }
 }
 
-external open class TransactionHistoryEntryExt {
+open external class TransactionHistoryEntryExt {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4019,14 +4416,22 @@ external open class TransactionHistoryEntryExt {
         fun write(value: TransactionHistoryEntryExt, io: ByteArray)
         fun isValid(value: TransactionHistoryEntryExt): Boolean
         fun toXDR(value: TransactionHistoryEntryExt): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionHistoryEntryExt
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionHistoryEntryExt
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionHistoryEntryExt
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): TransactionHistoryEntryExt
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class TransactionHistoryResultEntryExt {
+open external class TransactionHistoryResultEntryExt {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4037,14 +4442,22 @@ external open class TransactionHistoryResultEntryExt {
         fun write(value: TransactionHistoryResultEntryExt, io: ByteArray)
         fun isValid(value: TransactionHistoryResultEntryExt): Boolean
         fun toXDR(value: TransactionHistoryResultEntryExt): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionHistoryResultEntryExt
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionHistoryResultEntryExt
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionHistoryResultEntryExt
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): TransactionHistoryResultEntryExt
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class LedgerHeaderHistoryEntryExt {
+open external class LedgerHeaderHistoryEntryExt {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4055,14 +4468,22 @@ external open class LedgerHeaderHistoryEntryExt {
         fun write(value: LedgerHeaderHistoryEntryExt, io: ByteArray)
         fun isValid(value: LedgerHeaderHistoryEntryExt): Boolean
         fun toXDR(value: LedgerHeaderHistoryEntryExt): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerHeaderHistoryEntryExt
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerHeaderHistoryEntryExt
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerHeaderHistoryEntryExt
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): LedgerHeaderHistoryEntryExt
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class ScpHistoryEntry {
+open external class ScpHistoryEntry {
     open fun switch(): Number
     open fun v0(value: ScpHistoryEntryV0 = definedExternally): ScpHistoryEntryV0
     open fun value(): ScpHistoryEntryV0
@@ -4074,14 +4495,18 @@ external open class ScpHistoryEntry {
         fun write(value: ScpHistoryEntry, io: ByteArray)
         fun isValid(value: ScpHistoryEntry): Boolean
         fun toXDR(value: ScpHistoryEntry): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ScpHistoryEntry
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ScpHistoryEntry
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ScpHistoryEntry
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class LedgerEntryChange {
+open external class LedgerEntryChange {
     open fun switch(): LedgerEntryChangeType
     open fun created(value: LedgerEntry = definedExternally): LedgerEntry
     open fun updated(value: LedgerEntry = definedExternally): LedgerEntry
@@ -4100,14 +4525,18 @@ external open class LedgerEntryChange {
         fun write(value: LedgerEntryChange, io: ByteArray)
         fun isValid(value: LedgerEntryChange): Boolean
         fun toXDR(value: LedgerEntryChange): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerEntryChange
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerEntryChange
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerEntryChange
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class TransactionMeta {
+open external class TransactionMeta {
     open fun switch(): Number
     open fun operations(value: Array<OperationMeta> = definedExternally): Array<OperationMeta>
     open fun v1(value: TransactionMetaV1 = definedExternally): TransactionMetaV1
@@ -4121,14 +4550,18 @@ external open class TransactionMeta {
         fun write(value: TransactionMeta, io: ByteArray)
         fun isValid(value: TransactionMeta): Boolean
         fun toXDR(value: TransactionMeta): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionMeta
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionMeta
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionMeta
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class LedgerCloseMeta {
+open external class LedgerCloseMeta {
     open fun switch(): Number
     open fun v0(value: LedgerCloseMetaV0 = definedExternally): LedgerCloseMetaV0
     open fun value(): LedgerCloseMetaV0
@@ -4140,14 +4573,18 @@ external open class LedgerCloseMeta {
         fun write(value: LedgerCloseMeta, io: ByteArray)
         fun isValid(value: LedgerCloseMeta): Boolean
         fun toXDR(value: LedgerCloseMeta): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): LedgerCloseMeta
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): LedgerCloseMeta
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): LedgerCloseMeta
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class PeerAddressIp {
+open external class PeerAddressIp {
     open fun switch(): IpAddrType
     open fun ipv4(value: ByteArray = definedExternally): ByteArray
     open fun ipv6(value: ByteArray = definedExternally): ByteArray
@@ -4169,7 +4606,7 @@ external open class PeerAddressIp {
     }
 }
 
-external open class SurveyResponseBody {
+open external class SurveyResponseBody {
     open fun switch(): SurveyMessageCommandType
     open fun topologyResponseBody(value: TopologyResponseBody = definedExternally): TopologyResponseBody
     open fun value(): TopologyResponseBody
@@ -4182,14 +4619,18 @@ external open class SurveyResponseBody {
         fun write(value: SurveyResponseBody, io: ByteArray)
         fun isValid(value: SurveyResponseBody): Boolean
         fun toXDR(value: SurveyResponseBody): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): SurveyResponseBody
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): SurveyResponseBody
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): SurveyResponseBody
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class StellarMessage {
+open external class StellarMessage {
     open fun switch(): MessageType
     open fun error(value: Error = definedExternally): Error
     open fun hello(value: Hello = definedExternally): Hello
@@ -4229,14 +4670,18 @@ external open class StellarMessage {
         fun write(value: StellarMessage, io: ByteArray)
         fun isValid(value: StellarMessage): Boolean
         fun toXDR(value: StellarMessage): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): StellarMessage
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): StellarMessage
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): StellarMessage
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class AuthenticatedMessage {
+open external class AuthenticatedMessage {
     open fun switch(): Number
     open fun v0(value: AuthenticatedMessageV0 = definedExternally): AuthenticatedMessageV0
     open fun value(): AuthenticatedMessageV0
@@ -4248,14 +4693,18 @@ external open class AuthenticatedMessage {
         fun write(value: AuthenticatedMessage, io: ByteArray)
         fun isValid(value: AuthenticatedMessage): Boolean
         fun toXDR(value: AuthenticatedMessage): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): AuthenticatedMessage
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): AuthenticatedMessage
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): AuthenticatedMessage
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class ScpStatementPledges {
+open external class ScpStatementPledges {
     open fun switch(): ScpStatementType
     open fun prepare(value: ScpStatementPrepare = definedExternally): ScpStatementPrepare
     open fun confirm(value: ScpStatementConfirm = definedExternally): ScpStatementConfirm
@@ -4274,14 +4723,18 @@ external open class ScpStatementPledges {
         fun write(value: ScpStatementPledges, io: ByteArray)
         fun isValid(value: ScpStatementPledges): Boolean
         fun toXDR(value: ScpStatementPledges): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ScpStatementPledges
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ScpStatementPledges
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ScpStatementPledges
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class MuxedAccount {
+open external class MuxedAccount {
     open fun switch(): CryptoKeyType
     open fun ed25519(value: ByteArray = definedExternally): ByteArray
     open fun med25519(value: MuxedAccountMed25519 = definedExternally): MuxedAccountMed25519
@@ -4303,7 +4756,7 @@ external open class MuxedAccount {
     }
 }
 
-external open class RevokeSponsorshipOp {
+open external class RevokeSponsorshipOp {
     open fun switch(): RevokeSponsorshipType
     open fun ledgerKey(value: LedgerKey = definedExternally): LedgerKey
     open fun signer(value: RevokeSponsorshipOpSigner = definedExternally): RevokeSponsorshipOpSigner
@@ -4318,14 +4771,18 @@ external open class RevokeSponsorshipOp {
         fun write(value: RevokeSponsorshipOp, io: ByteArray)
         fun isValid(value: RevokeSponsorshipOp): Boolean
         fun toXDR(value: RevokeSponsorshipOp): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): RevokeSponsorshipOp
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): RevokeSponsorshipOp
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): RevokeSponsorshipOp
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class OperationBody {
+open external class OperationBody {
     open fun switch(): OperationType
     open fun createAccountOp(value: CreateAccountOp = definedExternally): CreateAccountOp
     open fun paymentOp(value: PaymentOp = definedExternally): PaymentOp
@@ -4385,7 +4842,7 @@ external open class OperationBody {
     }
 }
 
-external open class OperationId {
+open external class OperationId {
     open fun switch(): EnvelopeType
     open fun id(value: OperationIdId = definedExternally): OperationIdId
     open fun value(): OperationIdId
@@ -4405,7 +4862,7 @@ external open class OperationId {
     }
 }
 
-external open class Memo {
+open external class Memo {
     open fun switch(): MemoType
     open fun text(value: String = definedExternally): dynamic /* String | ByteArray */
     open fun text(): dynamic /* String | ByteArray */
@@ -4435,7 +4892,7 @@ external open class Memo {
     }
 }
 
-external open class TransactionV0Ext {
+open external class TransactionV0Ext {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4446,14 +4903,18 @@ external open class TransactionV0Ext {
         fun write(value: TransactionV0Ext, io: ByteArray)
         fun isValid(value: TransactionV0Ext): Boolean
         fun toXDR(value: TransactionV0Ext): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionV0Ext
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionV0Ext
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionV0Ext
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class TransactionExt {
+open external class TransactionExt {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4464,14 +4925,18 @@ external open class TransactionExt {
         fun write(value: TransactionExt, io: ByteArray)
         fun isValid(value: TransactionExt): Boolean
         fun toXDR(value: TransactionExt): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionExt
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionExt
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionExt
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class FeeBumpTransactionInnerTx {
+open external class FeeBumpTransactionInnerTx {
     open fun switch(): EnvelopeType
     open fun v1(value: TransactionV1Envelope = definedExternally): TransactionV1Envelope
     open fun value(): TransactionV1Envelope
@@ -4484,14 +4949,18 @@ external open class FeeBumpTransactionInnerTx {
         fun write(value: FeeBumpTransactionInnerTx, io: ByteArray)
         fun isValid(value: FeeBumpTransactionInnerTx): Boolean
         fun toXDR(value: FeeBumpTransactionInnerTx): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): FeeBumpTransactionInnerTx
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): FeeBumpTransactionInnerTx
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): FeeBumpTransactionInnerTx
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class FeeBumpTransactionExt {
+open external class FeeBumpTransactionExt {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4502,14 +4971,18 @@ external open class FeeBumpTransactionExt {
         fun write(value: FeeBumpTransactionExt, io: ByteArray)
         fun isValid(value: FeeBumpTransactionExt): Boolean
         fun toXDR(value: FeeBumpTransactionExt): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): FeeBumpTransactionExt
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): FeeBumpTransactionExt
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): FeeBumpTransactionExt
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class TransactionEnvelope {
+open external class TransactionEnvelope {
     open fun switch(): EnvelopeType
     open fun v0(value: TransactionV0Envelope = definedExternally): TransactionV0Envelope
     open fun v1(value: TransactionV1Envelope = definedExternally): TransactionV1Envelope
@@ -4526,14 +4999,18 @@ external open class TransactionEnvelope {
         fun write(value: TransactionEnvelope, io: ByteArray)
         fun isValid(value: TransactionEnvelope): Boolean
         fun toXDR(value: TransactionEnvelope): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionEnvelope
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionEnvelope
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionEnvelope
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class TransactionSignaturePayloadTaggedTransaction {
+open external class TransactionSignaturePayloadTaggedTransaction {
     open fun switch(): EnvelopeType
     open fun tx(value: Transaction = definedExternally): Transaction
     open fun feeBump(value: FeeBumpTransaction = definedExternally): FeeBumpTransaction
@@ -4548,14 +5025,22 @@ external open class TransactionSignaturePayloadTaggedTransaction {
         fun write(value: TransactionSignaturePayloadTaggedTransaction, io: ByteArray)
         fun isValid(value: TransactionSignaturePayloadTaggedTransaction): Boolean
         fun toXDR(value: TransactionSignaturePayloadTaggedTransaction): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionSignaturePayloadTaggedTransaction
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionSignaturePayloadTaggedTransaction
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionSignaturePayloadTaggedTransaction
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): TransactionSignaturePayloadTaggedTransaction
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class CreateAccountResult {
+open external class CreateAccountResult {
     open fun switch(): CreateAccountResultCode
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4567,14 +5052,18 @@ external open class CreateAccountResult {
         fun write(value: CreateAccountResult, io: ByteArray)
         fun isValid(value: CreateAccountResult): Boolean
         fun toXDR(value: CreateAccountResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): CreateAccountResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): CreateAccountResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): CreateAccountResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class PaymentResult {
+open external class PaymentResult {
     open fun switch(): PaymentResultCode
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4593,7 +5082,7 @@ external open class PaymentResult {
     }
 }
 
-external open class PathPaymentStrictReceiveResult {
+open external class PathPaymentStrictReceiveResult {
     open fun switch(): PathPaymentStrictReceiveResultCode
     open fun success(value: PathPaymentStrictReceiveResultSuccess = definedExternally): PathPaymentStrictReceiveResultSuccess
     open fun noIssuer(value: Asset = definedExternally): Asset
@@ -4608,14 +5097,22 @@ external open class PathPaymentStrictReceiveResult {
         fun write(value: PathPaymentStrictReceiveResult, io: ByteArray)
         fun isValid(value: PathPaymentStrictReceiveResult): Boolean
         fun toXDR(value: PathPaymentStrictReceiveResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): PathPaymentStrictReceiveResult
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): PathPaymentStrictReceiveResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): PathPaymentStrictReceiveResult
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): PathPaymentStrictReceiveResult
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class PathPaymentStrictSendResult {
+open external class PathPaymentStrictSendResult {
     open fun switch(): PathPaymentStrictSendResultCode
     open fun success(value: PathPaymentStrictSendResultSuccess = definedExternally): PathPaymentStrictSendResultSuccess
     open fun noIssuer(value: Asset = definedExternally): Asset
@@ -4630,14 +5127,22 @@ external open class PathPaymentStrictSendResult {
         fun write(value: PathPaymentStrictSendResult, io: ByteArray)
         fun isValid(value: PathPaymentStrictSendResult): Boolean
         fun toXDR(value: PathPaymentStrictSendResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): PathPaymentStrictSendResult
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): PathPaymentStrictSendResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): PathPaymentStrictSendResult
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): PathPaymentStrictSendResult
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class ManageOfferSuccessResultOffer {
+open external class ManageOfferSuccessResultOffer {
     open fun switch(): ManageOfferEffect
     open fun offer(value: OfferEntry = definedExternally): OfferEntry
     open fun value(): OfferEntry
@@ -4651,14 +5156,22 @@ external open class ManageOfferSuccessResultOffer {
         fun write(value: ManageOfferSuccessResultOffer, io: ByteArray)
         fun isValid(value: ManageOfferSuccessResultOffer): Boolean
         fun toXDR(value: ManageOfferSuccessResultOffer): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ManageOfferSuccessResultOffer
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): ManageOfferSuccessResultOffer
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ManageOfferSuccessResultOffer
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): ManageOfferSuccessResultOffer
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class ManageSellOfferResult {
+open external class ManageSellOfferResult {
     open fun switch(): ManageSellOfferResultCode
     open fun success(value: ManageOfferSuccessResult = definedExternally): ManageOfferSuccessResult
     open fun value(): ManageOfferSuccessResult
@@ -4671,14 +5184,18 @@ external open class ManageSellOfferResult {
         fun write(value: ManageSellOfferResult, io: ByteArray)
         fun isValid(value: ManageSellOfferResult): Boolean
         fun toXDR(value: ManageSellOfferResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ManageSellOfferResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ManageSellOfferResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ManageSellOfferResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class ManageBuyOfferResult {
+open external class ManageBuyOfferResult {
     open fun switch(): ManageBuyOfferResultCode
     open fun success(value: ManageOfferSuccessResult = definedExternally): ManageOfferSuccessResult
     open fun value(): ManageOfferSuccessResult
@@ -4691,14 +5208,18 @@ external open class ManageBuyOfferResult {
         fun write(value: ManageBuyOfferResult, io: ByteArray)
         fun isValid(value: ManageBuyOfferResult): Boolean
         fun toXDR(value: ManageBuyOfferResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ManageBuyOfferResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ManageBuyOfferResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ManageBuyOfferResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class SetOptionsResult {
+open external class SetOptionsResult {
     open fun switch(): SetOptionsResultCode
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4710,14 +5231,18 @@ external open class SetOptionsResult {
         fun write(value: SetOptionsResult, io: ByteArray)
         fun isValid(value: SetOptionsResult): Boolean
         fun toXDR(value: SetOptionsResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): SetOptionsResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): SetOptionsResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): SetOptionsResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class ChangeTrustResult {
+open external class ChangeTrustResult {
     open fun switch(): ChangeTrustResultCode
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4729,14 +5254,18 @@ external open class ChangeTrustResult {
         fun write(value: ChangeTrustResult, io: ByteArray)
         fun isValid(value: ChangeTrustResult): Boolean
         fun toXDR(value: ChangeTrustResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ChangeTrustResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ChangeTrustResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ChangeTrustResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class AllowTrustResult {
+open external class AllowTrustResult {
     open fun switch(): AllowTrustResultCode
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4748,14 +5277,18 @@ external open class AllowTrustResult {
         fun write(value: AllowTrustResult, io: ByteArray)
         fun isValid(value: AllowTrustResult): Boolean
         fun toXDR(value: AllowTrustResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): AllowTrustResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): AllowTrustResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): AllowTrustResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class AccountMergeResult {
+open external class AccountMergeResult {
     open fun switch(): AccountMergeResultCode
     open fun sourceAccountBalance(value: Int64 = definedExternally): Int64
     open fun value(): Int64
@@ -4768,14 +5301,18 @@ external open class AccountMergeResult {
         fun write(value: AccountMergeResult, io: ByteArray)
         fun isValid(value: AccountMergeResult): Boolean
         fun toXDR(value: AccountMergeResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): AccountMergeResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): AccountMergeResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): AccountMergeResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class InflationResult {
+open external class InflationResult {
     open fun switch(): InflationResultCode
     open fun payouts(value: Array<InflationPayout> = definedExternally): Array<InflationPayout>
     open fun value(): Array<InflationPayout>
@@ -4788,14 +5325,18 @@ external open class InflationResult {
         fun write(value: InflationResult, io: ByteArray)
         fun isValid(value: InflationResult): Boolean
         fun toXDR(value: InflationResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): InflationResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): InflationResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): InflationResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class ManageDataResult {
+open external class ManageDataResult {
     open fun switch(): ManageDataResultCode
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4807,14 +5348,18 @@ external open class ManageDataResult {
         fun write(value: ManageDataResult, io: ByteArray)
         fun isValid(value: ManageDataResult): Boolean
         fun toXDR(value: ManageDataResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ManageDataResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ManageDataResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ManageDataResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class BumpSequenceResult {
+open external class BumpSequenceResult {
     open fun switch(): BumpSequenceResultCode
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4826,14 +5371,18 @@ external open class BumpSequenceResult {
         fun write(value: BumpSequenceResult, io: ByteArray)
         fun isValid(value: BumpSequenceResult): Boolean
         fun toXDR(value: BumpSequenceResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): BumpSequenceResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): BumpSequenceResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): BumpSequenceResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class CreateClaimableBalanceResult {
+open external class CreateClaimableBalanceResult {
     open fun switch(): CreateClaimableBalanceResultCode
     open fun balanceId(value: ClaimableBalanceId = definedExternally): ClaimableBalanceId
     open fun value(): ClaimableBalanceId
@@ -4846,14 +5395,22 @@ external open class CreateClaimableBalanceResult {
         fun write(value: CreateClaimableBalanceResult, io: ByteArray)
         fun isValid(value: CreateClaimableBalanceResult): Boolean
         fun toXDR(value: CreateClaimableBalanceResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): CreateClaimableBalanceResult
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): CreateClaimableBalanceResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): CreateClaimableBalanceResult
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): CreateClaimableBalanceResult
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class ClaimClaimableBalanceResult {
+open external class ClaimClaimableBalanceResult {
     open fun switch(): ClaimClaimableBalanceResultCode
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4865,14 +5422,22 @@ external open class ClaimClaimableBalanceResult {
         fun write(value: ClaimClaimableBalanceResult, io: ByteArray)
         fun isValid(value: ClaimClaimableBalanceResult): Boolean
         fun toXDR(value: ClaimClaimableBalanceResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ClaimClaimableBalanceResult
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): ClaimClaimableBalanceResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ClaimClaimableBalanceResult
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): ClaimClaimableBalanceResult
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class BeginSponsoringFutureReservesResult {
+open external class BeginSponsoringFutureReservesResult {
     open fun switch(): BeginSponsoringFutureReservesResultCode
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4884,14 +5449,22 @@ external open class BeginSponsoringFutureReservesResult {
         fun write(value: BeginSponsoringFutureReservesResult, io: ByteArray)
         fun isValid(value: BeginSponsoringFutureReservesResult): Boolean
         fun toXDR(value: BeginSponsoringFutureReservesResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): BeginSponsoringFutureReservesResult
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): BeginSponsoringFutureReservesResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): BeginSponsoringFutureReservesResult
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): BeginSponsoringFutureReservesResult
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class EndSponsoringFutureReservesResult {
+open external class EndSponsoringFutureReservesResult {
     open fun switch(): EndSponsoringFutureReservesResultCode
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4903,14 +5476,22 @@ external open class EndSponsoringFutureReservesResult {
         fun write(value: EndSponsoringFutureReservesResult, io: ByteArray)
         fun isValid(value: EndSponsoringFutureReservesResult): Boolean
         fun toXDR(value: EndSponsoringFutureReservesResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): EndSponsoringFutureReservesResult
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): EndSponsoringFutureReservesResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): EndSponsoringFutureReservesResult
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): EndSponsoringFutureReservesResult
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class RevokeSponsorshipResult {
+open external class RevokeSponsorshipResult {
     open fun switch(): RevokeSponsorshipResultCode
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4922,14 +5503,18 @@ external open class RevokeSponsorshipResult {
         fun write(value: RevokeSponsorshipResult, io: ByteArray)
         fun isValid(value: RevokeSponsorshipResult): Boolean
         fun toXDR(value: RevokeSponsorshipResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): RevokeSponsorshipResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): RevokeSponsorshipResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): RevokeSponsorshipResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class ClawbackResult {
+open external class ClawbackResult {
     open fun switch(): ClawbackResultCode
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4941,14 +5526,18 @@ external open class ClawbackResult {
         fun write(value: ClawbackResult, io: ByteArray)
         fun isValid(value: ClawbackResult): Boolean
         fun toXDR(value: ClawbackResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ClawbackResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ClawbackResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): ClawbackResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class ClawbackClaimableBalanceResult {
+open external class ClawbackClaimableBalanceResult {
     open fun switch(): ClawbackClaimableBalanceResultCode
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4960,14 +5549,22 @@ external open class ClawbackClaimableBalanceResult {
         fun write(value: ClawbackClaimableBalanceResult, io: ByteArray)
         fun isValid(value: ClawbackClaimableBalanceResult): Boolean
         fun toXDR(value: ClawbackClaimableBalanceResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): ClawbackClaimableBalanceResult
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): ClawbackClaimableBalanceResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): ClawbackClaimableBalanceResult
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): ClawbackClaimableBalanceResult
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class SetTrustLineFlagsResult {
+open external class SetTrustLineFlagsResult {
     open fun switch(): SetTrustLineFlagsResultCode
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -4979,14 +5576,18 @@ external open class SetTrustLineFlagsResult {
         fun write(value: SetTrustLineFlagsResult, io: ByteArray)
         fun isValid(value: SetTrustLineFlagsResult): Boolean
         fun toXDR(value: SetTrustLineFlagsResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): SetTrustLineFlagsResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): SetTrustLineFlagsResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): SetTrustLineFlagsResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class OperationResultTr {
+open external class OperationResultTr {
     open fun switch(): OperationType
     open fun createAccountResult(value: CreateAccountResult = definedExternally): CreateAccountResult
     open fun paymentResult(value: PaymentResult = definedExternally): PaymentResult
@@ -5041,14 +5642,18 @@ external open class OperationResultTr {
         fun write(value: OperationResultTr, io: ByteArray)
         fun isValid(value: OperationResultTr): Boolean
         fun toXDR(value: OperationResultTr): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): OperationResultTr
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): OperationResultTr
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): OperationResultTr
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class OperationResult {
+open external class OperationResult {
     open fun switch(): OperationResultCode
     open fun tr(value: OperationResultTr = definedExternally): OperationResultTr
     open fun value(): OperationResultTr
@@ -5061,14 +5666,18 @@ external open class OperationResult {
         fun write(value: OperationResult, io: ByteArray)
         fun isValid(value: OperationResult): Boolean
         fun toXDR(value: OperationResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): OperationResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): OperationResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): OperationResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class InnerTransactionResultResult {
+open external class InnerTransactionResultResult {
     open fun switch(): TransactionResultCode
     open fun results(value: Array<OperationResult> = definedExternally): Array<OperationResult>
     open fun value(): dynamic /* Array<OperationResult> | Unit */
@@ -5094,14 +5703,22 @@ external open class InnerTransactionResultResult {
         fun write(value: InnerTransactionResultResult, io: ByteArray)
         fun isValid(value: InnerTransactionResultResult): Boolean
         fun toXDR(value: InnerTransactionResultResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): InnerTransactionResultResult
-        fun fromXDR(input: String, format: String /* "hex" | "base64" */): InnerTransactionResultResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): InnerTransactionResultResult
+
+        fun fromXDR(
+            input: String,
+            format: String /* "hex" | "base64" */
+        ): InnerTransactionResultResult
+
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class InnerTransactionResultExt {
+open external class InnerTransactionResultExt {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -5112,14 +5729,18 @@ external open class InnerTransactionResultExt {
         fun write(value: InnerTransactionResultExt, io: ByteArray)
         fun isValid(value: InnerTransactionResultExt): Boolean
         fun toXDR(value: InnerTransactionResultExt): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): InnerTransactionResultExt
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): InnerTransactionResultExt
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): InnerTransactionResultExt
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class TransactionResultResult {
+open external class TransactionResultResult {
     open fun switch(): TransactionResultCode
     open fun innerResultPair(value: InnerTransactionResultPair = definedExternally): InnerTransactionResultPair
     open fun results(value: Array<OperationResult> = definedExternally): Array<OperationResult>
@@ -5136,14 +5757,18 @@ external open class TransactionResultResult {
         fun write(value: TransactionResultResult, io: ByteArray)
         fun isValid(value: TransactionResultResult): Boolean
         fun toXDR(value: TransactionResultResult): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionResultResult
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionResultResult
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionResultResult
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class TransactionResultExt {
+open external class TransactionResultExt {
     open fun switch(): Number
     open fun value()
     open fun toXDR(format: String /* "raw" | "hex" | "base64" */ = definedExternally): dynamic /* ByteArray | String */
@@ -5154,14 +5779,18 @@ external open class TransactionResultExt {
         fun write(value: TransactionResultExt, io: ByteArray)
         fun isValid(value: TransactionResultExt): Boolean
         fun toXDR(value: TransactionResultExt): ByteArray
-        fun fromXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): TransactionResultExt
+        fun fromXDR(
+            input: ByteArray,
+            format: String /* "raw" */ = definedExternally
+        ): TransactionResultExt
+
         fun fromXDR(input: String, format: String /* "hex" | "base64" */): TransactionResultExt
         fun validateXDR(input: ByteArray, format: String /* "raw" */ = definedExternally): Boolean
         fun validateXDR(input: String, format: String /* "hex" | "base64" */): Boolean
     }
 }
 
-external open class PublicKey {
+open external class PublicKey {
     open fun switch(): PublicKeyType
     open fun ed25519(value: ByteArray = definedExternally): ByteArray
     open fun value(): ByteArray
@@ -5181,7 +5810,7 @@ external open class PublicKey {
     }
 }
 
-external open class SignerKey {
+open external class SignerKey {
     open fun switch(): SignerKeyType
     open fun ed25519(value: ByteArray = definedExternally): ByteArray
     open fun preAuthTx(value: ByteArray = definedExternally): ByteArray

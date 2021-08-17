@@ -1,19 +1,21 @@
-.appheader{
-   color: white;
+.appheader {
+    color: white;
 }
 
-.buypixels{
-   height: fit-content;
-   width: fit-content;
+.buypixels {
+    height: fit-content;
+    width: fit-content;
 
 }
 
-a:hover{
-   color: white;
+a:hover {
+    color: white;
 }
-a{
-   color: white;
+
+a {
+    color: white;
 }
-#kvapp{
-   min-height: 100vh;
+
+#kvapp {
+    min-height: 100vh;
 }

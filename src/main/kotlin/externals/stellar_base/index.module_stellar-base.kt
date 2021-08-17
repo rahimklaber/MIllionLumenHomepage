@@ -1,27 +1,24 @@
-@file:Suppress("INTERFACE_WITH_SUPERCLASS", "OVERRIDING_FINAL_MEMBER", "RETURN_TYPE_MISMATCH_ON_OVERRIDE", "CONFLICTING_OVERLOADS")
+@file:Suppress(
+    "INTERFACE_WITH_SUPERCLASS",
+    "OVERRIDING_FINAL_MEMBER",
+    "RETURN_TYPE_MISMATCH_ON_OVERRIDE",
+    "CONFLICTING_OVERLOADS"
+)
 @file:JsNonModule
 @file:JsModule("stellar-base")
-import kotlin.js.*
-import xdr.ClaimPredicate
-import xdr.DecoratedSignature
-import xdr.AccountId
-import xdr.PublicKey
-import MemoType.None
-import MemoType.Hash
-import MemoType.ID
-import MemoType.Return
-import MemoType.Text
-import xdr.TransactionEnvelope
+
+import MemoType.*
+import xdr.*
 import xdrHidden.Operation
 
-external open class Account(accountId: String, sequence: String) {
+open external class Account(accountId: String, sequence: String) {
     open fun accountId(): String
     open fun sequenceNumber(): String
     open fun incrementSequenceNumber()
     open fun createSubaccount(id: String): MuxedAccount
 }
 
-external open class MuxedAccount(account: Account, sequence: String) {
+open external class MuxedAccount(account: Account, sequence: String) {
     open fun accountId(): String
     open fun sequenceNumber(): String
     open fun incrementSequenceNumber()
@@ -38,7 +35,7 @@ external open class MuxedAccount(account: Account, sequence: String) {
     }
 }
 
-external open class Asset(code: String, issuer: String = definedExternally) {
+open external class Asset(code: String, issuer: String = definedExternally) {
     open fun getCode(): String
     open fun getIssuer(): String
     open fun getAssetType(): String /* "native" | "credit_alphanum4" | "credit_alphanum12" */
@@ -54,7 +51,7 @@ external open class Asset(code: String, issuer: String = definedExternally) {
     }
 }
 
-external open class Claimant(destination: String, predicate: ClaimPredicate = definedExternally) {
+open external class Claimant(destination: String, predicate: ClaimPredicate = definedExternally) {
     open var destination: String
     open var predicate: ClaimPredicate
     open fun toXDRObject(): xdr.Claimant
@@ -85,9 +82,10 @@ external interface `T$1` {
     var publicKey: String
 }
 
-external open class Keypair {
+open external class Keypair {
     constructor(keys: `T$0`)
     constructor(keys: `T$1`)
+
     open var type: String /* "ed25519" */
     open fun publicKey(): String
     open fun secret(): String
@@ -121,13 +119,14 @@ external var MemoHash: Any
 
 external var MemoReturn: Any
 
-external open class Memo<T> {
+open external class Memo<T> {
     constructor(type: None, value: Nothing? = definedExternally)
     constructor(type: None)
     constructor(type: Hash, value: ByteArray)
     constructor(type: Hash, value: String)
     constructor(type: T, value: String?)
     constructor(type: T, value: ByteArray?)
+
     open var type: T
     open var value: Any
     open fun toXDRObject(): xdr.Memo
@@ -156,7 +155,7 @@ external var AuthImmutableFlag: Number /* 4 */
 
 external var AuthClawbackEnabledFlag: Number /* 8 */
 
-external open class TransactionI {
+open external class TransactionI {
     open fun addSignature(publicKey: String, signature: String)
     open var fee: String
     open fun getKeypairSignature(keypair: Keypair): String
@@ -171,11 +170,22 @@ external open class TransactionI {
     open fun toXDR(): String
 }
 
-external open class FeeBumpTransaction : TransactionI {
-    constructor(envelope: String, networkPassphrase: String, withMuxing: Boolean = definedExternally)
+open external class FeeBumpTransaction : TransactionI {
+    constructor(
+        envelope: String,
+        networkPassphrase: String,
+        withMuxing: Boolean = definedExternally
+    )
+
     constructor(envelope: String, networkPassphrase: String)
-    constructor(envelope: TransactionEnvelope, networkPassphrase: String, withMuxing: Boolean = definedExternally)
+    constructor(
+        envelope: TransactionEnvelope,
+        networkPassphrase: String,
+        withMuxing: Boolean = definedExternally
+    )
+
     constructor(envelope: TransactionEnvelope, networkPassphrase: String)
+
     open var feeSource: String
     open var innerTransaction: Transaction__0
 }
@@ -185,11 +195,23 @@ external interface `T$3` {
     var maxTime: String
 }
 
-external open class Transaction<TMemo : Memo<Any>, TOps : Array<dynamic /* Operation.CreateAccount | Operation.Payment | Operation.PathPaymentStrictReceive | Operation.PathPaymentStrictSend | Operation.CreatePassiveSellOffer | Operation.ManageSellOffer | Operation.ManageBuyOffer | SetOptions__0 | Operation.ChangeTrust | Operation.AllowTrust | Operation.AccountMerge | Operation.Inflation | Operation.ManageData | Operation.BumpSequence | Operation.CreateClaimableBalance | Operation.ClaimClaimableBalance | Operation.BeginSponsoringFutureReserves | Operation.EndSponsoringFutureReserves | Operation.RevokeAccountSponsorship | Operation.RevokeTrustlineSponsorship | Operation.RevokeOfferSponsorship | Operation.RevokeDataSponsorship | Operation.RevokeClaimableBalanceSponsorship | Operation.RevokeSignerSponsorship | Operation.Clawback | Operation.ClawbackClaimableBalance | Operation.SetTrustLineFlags */>> : TransactionI {
-    constructor(envelope: String, networkPassphrase: String, withMuxing: Boolean = definedExternally)
+open external class Transaction<TMemo : Memo<Any>, TOps : Array<dynamic /* Operation.CreateAccount | Operation.Payment | Operation.PathPaymentStrictReceive | Operation.PathPaymentStrictSend | Operation.CreatePassiveSellOffer | Operation.ManageSellOffer | Operation.ManageBuyOffer | SetOptions__0 | Operation.ChangeTrust | Operation.AllowTrust | Operation.AccountMerge | Operation.Inflation | Operation.ManageData | Operation.BumpSequence | Operation.CreateClaimableBalance | Operation.ClaimClaimableBalance | Operation.BeginSponsoringFutureReserves | Operation.EndSponsoringFutureReserves | Operation.RevokeAccountSponsorship | Operation.RevokeTrustlineSponsorship | Operation.RevokeOfferSponsorship | Operation.RevokeDataSponsorship | Operation.RevokeClaimableBalanceSponsorship | Operation.RevokeSignerSponsorship | Operation.Clawback | Operation.ClawbackClaimableBalance | Operation.SetTrustLineFlags */>> :
+    TransactionI {
+    constructor(
+        envelope: String,
+        networkPassphrase: String,
+        withMuxing: Boolean = definedExternally
+    )
+
     constructor(envelope: String, networkPassphrase: String)
-    constructor(envelope: TransactionEnvelope, networkPassphrase: String, withMuxing: Boolean = definedExternally)
+    constructor(
+        envelope: TransactionEnvelope,
+        networkPassphrase: String,
+        withMuxing: Boolean = definedExternally
+    )
+
     constructor(envelope: TransactionEnvelope, networkPassphrase: String)
+
     open var memo: TMemo
     open var operations: TOps
     open var sequence: String
@@ -197,19 +219,24 @@ external open class Transaction<TMemo : Memo<Any>, TOps : Array<dynamic /* Opera
     open var timeBounds: `T$3`
 }
 
-external open class Transaction__0 : Transaction<Memo<Any>, Array<dynamic /* Operation.CreateAccount | Operation.Payment | Operation.PathPaymentStrictReceive | Operation.PathPaymentStrictSend | Operation.CreatePassiveSellOffer | Operation.ManageSellOffer | Operation.ManageBuyOffer | SetOptions__0 | Operation.ChangeTrust | Operation.AllowTrust | Operation.AccountMerge | Operation.Inflation | Operation.ManageData | Operation.BumpSequence | Operation.CreateClaimableBalance | Operation.ClaimClaimableBalance | Operation.BeginSponsoringFutureReserves | Operation.EndSponsoringFutureReserves | Operation.RevokeAccountSponsorship | Operation.RevokeTrustlineSponsorship | Operation.RevokeOfferSponsorship | Operation.RevokeDataSponsorship | Operation.RevokeClaimableBalanceSponsorship | Operation.RevokeSignerSponsorship | Operation.Clawback | Operation.ClawbackClaimableBalance | Operation.SetTrustLineFlags */>>
+open external class Transaction__0 :
+    Transaction<Memo<Any>, Array<dynamic /* Operation.CreateAccount | Operation.Payment | Operation.PathPaymentStrictReceive | Operation.PathPaymentStrictSend | Operation.CreatePassiveSellOffer | Operation.ManageSellOffer | Operation.ManageBuyOffer | SetOptions__0 | Operation.ChangeTrust | Operation.AllowTrust | Operation.AccountMerge | Operation.Inflation | Operation.ManageData | Operation.BumpSequence | Operation.CreateClaimableBalance | Operation.ClaimClaimableBalance | Operation.BeginSponsoringFutureReserves | Operation.EndSponsoringFutureReserves | Operation.RevokeAccountSponsorship | Operation.RevokeTrustlineSponsorship | Operation.RevokeOfferSponsorship | Operation.RevokeDataSponsorship | Operation.RevokeClaimableBalanceSponsorship | Operation.RevokeSignerSponsorship | Operation.Clawback | Operation.ClawbackClaimableBalance | Operation.SetTrustLineFlags */>>
 
 external var BASE_FEE: Any
 
 external var TimeoutInfinite: Any
 
-external open class TransactionBuilder(sourceAccount: Account, options: TransactionBuilderOptions = definedExternally) {
+open external class TransactionBuilder(
+    sourceAccount: Account,
+    options: TransactionBuilderOptions = definedExternally
+) {
     open fun addOperation(operation: Operation): TransactionBuilder /* this */
     open fun addMemo(memo: Memo<Any>): TransactionBuilder /* this */
     open fun setTimeout(timeoutInSeconds: Number): TransactionBuilder /* this */
     open fun build(): Transaction__0
     open fun setNetworkPassphrase(networkPassphrase: String): TransactionBuilder /* this */
     open var supportMuxedAccounts: Boolean
+
     interface `T$4` {
         var minTime: dynamic /* Number? | String? */
             get() = definedExternally
@@ -218,6 +245,7 @@ external open class TransactionBuilder(sourceAccount: Account, options: Transact
             get() = definedExternally
             set(value) = definedExternally
     }
+
     interface TransactionBuilderOptions {
         var fee: String
         var timebounds: `T$4`?
@@ -238,10 +266,31 @@ external open class TransactionBuilder(sourceAccount: Account, options: Transact
     }
 
     companion object {
-        fun buildFeeBumpTransaction(feeSource: Keypair, baseFee: String, innerTx: Transaction__0, networkPassphrase: String, withMuxing: Boolean = definedExternally): FeeBumpTransaction
-        fun buildFeeBumpTransaction(feeSource: String, baseFee: String, innerTx: Transaction__0, networkPassphrase: String, withMuxing: Boolean = definedExternally): FeeBumpTransaction
-        fun fromXDR(envelope: String, networkPassphrase: String): dynamic /* Transaction__0 | FeeBumpTransaction */
-        fun fromXDR(envelope: TransactionEnvelope, networkPassphrase: String): dynamic /* Transaction__0 | FeeBumpTransaction */
+        fun buildFeeBumpTransaction(
+            feeSource: Keypair,
+            baseFee: String,
+            innerTx: Transaction__0,
+            networkPassphrase: String,
+            withMuxing: Boolean = definedExternally
+        ): FeeBumpTransaction
+
+        fun buildFeeBumpTransaction(
+            feeSource: String,
+            baseFee: String,
+            innerTx: Transaction__0,
+            networkPassphrase: String,
+            withMuxing: Boolean = definedExternally
+        ): FeeBumpTransaction
+
+        fun fromXDR(
+            envelope: String,
+            networkPassphrase: String
+        ): dynamic /* Transaction__0 | FeeBumpTransaction */
+
+        fun fromXDR(
+            envelope: TransactionEnvelope,
+            networkPassphrase: String
+        ): dynamic /* Transaction__0 | FeeBumpTransaction */
     }
 }
 

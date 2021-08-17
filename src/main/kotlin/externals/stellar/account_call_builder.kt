@@ -1,5 +1,6 @@
 @file:JsNonModule
 @file:JsModule("stellar-sdk")
+
 package externals.stellar
 
 import Asset

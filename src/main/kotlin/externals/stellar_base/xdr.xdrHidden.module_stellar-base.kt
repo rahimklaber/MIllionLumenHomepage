@@ -26,7 +26,7 @@ open external class Operation(attributes: `T$81`) {
     open fun toXDR(): ByteArray
 
     companion object {
-        fun payment(options: OperationOptions.Payment) : Operation
+        fun payment(options: OperationOptions.Payment): Operation
         fun accountMerge(options: OperationOptions.AccountMerge): Operation
         fun allowTrust(options: OperationOptions.AllowTrust): Operation
         fun changeTrust(options: OperationOptions.ChangeTrust): Operation

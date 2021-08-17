@@ -30,12 +30,12 @@ const val aboutTest = """
 
 
 fun Container.about() = vPanel {
-    div(rich = true, content = aboutTest){
+    div(rich = true, content = aboutTest) {
         style {
             color = Color("white")
         }
     }
-    style{
+    style {
         border = Border(CssSize(1, UNIT.px), BorderStyle.SOLID, Color.name(Col.LIGHTGRAY))
         padding = CssSize(10, UNIT.px)
         width = CssSize(1000, UNIT.px)

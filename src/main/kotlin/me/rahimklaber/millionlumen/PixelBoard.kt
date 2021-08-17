@@ -1,11 +1,9 @@
 package me.rahimklaber.millionlumen
 
-import Operation.payment
 import externals.stellar.ServerApi
 import io.kvision.core.*
 import io.kvision.html.Canvas
 import io.kvision.state.ObservableValue
-import io.kvision.toast.Toast
 import kotlinx.browser.window
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -47,25 +45,45 @@ class ImageInfo(
 fun CanvasRenderingContext2D.drawImage(
     imageInfo: ImageInfo,
     initialDraw: Boolean = false,
-    onlyBoxes : Boolean = false
+    onlyBoxes: Boolean = false
 ) {
-    if(onlyBoxes && !imageInfo.draggable){
+    if (onlyBoxes && !imageInfo.draggable) {
         this.fillStyle = "red"
-        this.fillRect(imageInfo.x,imageInfo.y,imageInfo.width!!,imageInfo.height!!)
+        this.fillRect(imageInfo.x, imageInfo.y, imageInfo.width!!, imageInfo.height!!)
         return
     }
     val image = Image()
     image.src = imageInfo.url
     if (initialDraw) {
         image.onload = {
-            if(imageInfo.width == null && imageInfo.height == null){
+            if (imageInfo.width == null && imageInfo.height == null) {
                 imageInfo.width = image.height.toDouble()
                 imageInfo.height = image.height.toDouble()
             }
-            this.drawImage(image, 0.0, 0.0, imageInfo.width!!, imageInfo.height!!, imageInfo.x, imageInfo.y, imageInfo.width!!, imageInfo.height!!)
+            this.drawImage(
+                image,
+                0.0,
+                0.0,
+                imageInfo.width!!,
+                imageInfo.height!!,
+                imageInfo.x,
+                imageInfo.y,
+                imageInfo.width!!,
+                imageInfo.height!!
+            )
         }
     } else {
-        this.drawImage(image, 0.0, 0.0, imageInfo.width!!, imageInfo.height!!, imageInfo.x, imageInfo.y, imageInfo.width!!, imageInfo.height!!)
+        this.drawImage(
+            image,
+            0.0,
+            0.0,
+            imageInfo.width!!,
+            imageInfo.height!!,
+            imageInfo.x,
+            imageInfo.y,
+            imageInfo.width!!,
+            imageInfo.height!!
+        )
     }
 
 }
@@ -78,9 +96,9 @@ class PixelBoardState(
     var settingImageLocation: Boolean = false,
     var imageInfo: ImageInfo? = null,
     var imageFile: File? = null, // file for uploading to ipfs
-    var ipfsHash : String? = null,
-    var txSucces : Boolean? = null,
-    var tryDraw: (Boolean,Boolean) -> Unit = {_,_ -> }
+    var ipfsHash: String? = null,
+    var txSucces: Boolean? = null,
+    var tryDraw: (Boolean, Boolean) -> Unit = { _, _ -> }
 
 )
 
@@ -92,11 +110,15 @@ class PixelBoardState(
  * @param canvaswidth canvaswidth of the image.
  * @param canvasheight canvasheight of the image.
  */
-fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, canvaswidth: Int, canvasheight: Int) =
+fun Container.pixelBoard(
+    state: ObservableValue<PixelBoardState>,
+    canvaswidth: Int,
+    canvasheight: Int
+) =
     Canvas(canvaswidth, canvasheight) {
         val scope = CoroutineScope(Dispatchers.Default)
         val imageInfos = state.value.imageInfos
-        val draw = { ctx: CanvasRenderingContext2D, init: Boolean, onlyBoxes : Boolean ->
+        val draw = { ctx: CanvasRenderingContext2D, init: Boolean, onlyBoxes: Boolean ->
             ctx.fillStyle = "#D3D3D3"
             ctx.fillRect(0.0, 0.0, canvaswidth.toDouble(), canvasheight.toDouble())
             // draw lines
@@ -113,13 +135,13 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, canvaswidth: I
                 ctx.lineTo(canvaswidth.toDouble(), 10.0 * i)
                 ctx.stroke()
             }
-            imageInfos.forEach { ctx.drawImage(it, init,onlyBoxes) }
+            imageInfos.forEach { ctx.drawImage(it, init, onlyBoxes) }
         }
         onEvent {
             var moving = false
             var movingX = 0.0
             var movingY = 0.0
-            var currentlyMoving : ImageInfo? = null
+            var currentlyMoving: ImageInfo? = null
             mousedown = {
                 if (state.value.settingImageLocation) {
                     it.preventDefault()
@@ -147,17 +169,17 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, canvaswidth: I
                     currentlyMoving?.also {
                         val remainderX = it.x % 10
                         val remainderY = it.y % 10
-                        if(remainderX > 5){
-                            it.x = it.x - remainderX +10
-                        }else{
+                        if (remainderX > 5) {
+                            it.x = it.x - remainderX + 10
+                        } else {
                             it.x = it.x - remainderX
                         }
-                        if(remainderY > 5){
-                            it.y = it.y - remainderY +10
-                        }else{
+                        if (remainderY > 5) {
+                            it.y = it.y - remainderY + 10
+                        } else {
                             it.y = it.y - remainderY
                         }
-                        draw(ctx,false,true)
+                        draw(ctx, false, true)
                     }
                     moving = false
                 }
@@ -175,24 +197,24 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, canvaswidth: I
 
                     val ctx = this@Canvas.context2D
                     if (moving) {
-                        currentlyMoving?.also{
+                        currentlyMoving?.also {
                             it.x += dx
                             it.y += dy
                             movingX = x
                             movingY = y
-                            draw(ctx,false,true)
+                            draw(ctx, false, true)
                         }
                     }
                 }
             }
             // Suppor for adding image by draging it.
             dragenter = {
-                    it.stopPropagation()
-                    it.preventDefault()
+                it.stopPropagation()
+                it.preventDefault()
             }
             dragover = {
-                    it.stopPropagation()
-                    it.preventDefault()
+                it.stopPropagation()
+                it.preventDefault()
             }
 
             drop = {
@@ -222,7 +244,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, canvaswidth: I
                                     imageInfo = imageInfos.last()
                                     this.imageFile = file
                                 }
-                                draw(this@Canvas.context2D,true,true)
+                                draw(this@Canvas.context2D, true, true)
                                 null // why do I have to do this? wrong typedefs?
                             }
 
@@ -236,11 +258,12 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, canvaswidth: I
         }
         addAfterInsertHook {
             val ctx = this.context2D
-            state.value.tryDraw = {init,onlyBoxes -> draw(ctx,init,onlyBoxes)}
+            state.value.tryDraw = { init, onlyBoxes -> draw(ctx, init, onlyBoxes) }
             scope.launch {
-                val transactions = server.transactions().forAccount(Config.address).limit(200).call().await()
+                val transactions =
+                    server.transactions().forAccount(Config.address).limit(200).call().await()
                 transactions.records.forEach { tx ->
-                        if (tx.memo == "millionlumen") {
+                    if (tx.memo == "millionlumen") {
                         try {
                             require(tx.operation_count == 3) { "operation count not 3" }
                             val ops = tx.operations().await()
@@ -257,7 +280,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, canvaswidth: I
                             val height = dimensions[1].toInt()
                             val x = data[1].toInt()
                             val y = data[2].toInt()
-                            require(amountPaid.toDouble() >= width * height * PRICEPERPIXEL){
+                            require(amountPaid.toDouble() >= width * height * PRICEPERPIXEL) {
                                 "Insufficient payment"
                             }
                             val ipfsHash = manageDataOp.name
@@ -276,7 +299,7 @@ fun Container.pixelBoard(state: ObservableValue<PixelBoardState>, canvaswidth: I
                     }
                 }
                 launch(Dispatchers.Main) {
-                    draw(ctx, true,state.value.addingImageToCanvas)
+                    draw(ctx, true, state.value.addingImageToCanvas)
                 }
             }
         }

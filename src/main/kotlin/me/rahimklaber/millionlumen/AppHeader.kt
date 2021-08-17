@@ -10,9 +10,9 @@ import kotlinx.browser.window
 
 fun Container.appHeader() = div(className = "appheader") {
     vPanel {
-        h1("Million Lumen Homepage", className = "appheaderh1"){
+        h1("Million Lumen Homepage", className = "appheaderh1") {
             onClick {
-                window.location.href="/"
+                window.location.href = "/"
             }
             style {
                 cursor = Cursor.POINTER
@@ -25,10 +25,10 @@ fun Container.appHeader() = div(className = "appheader") {
                     color = Color.name(Col.WHITE)
                 }
             }
-            div("|"){
+            div("|") {
                 style {
-                    marginRight = CssSize(5,UNIT.px)
-                    marginLeft = CssSize(5,UNIT.px)
+                    marginRight = CssSize(5, UNIT.px)
+                    marginLeft = CssSize(5, UNIT.px)
                 }
             }
             link("Buy pixels", "?a=buy&testnet=${Config.testnet}") {
@@ -36,10 +36,10 @@ fun Container.appHeader() = div(className = "appheader") {
                     color = Color.name(Col.WHITE)
                 }
             }
-            div("|"){
+            div("|") {
                 style {
-                    marginRight = CssSize(5,UNIT.px)
-                    marginLeft = CssSize(5,UNIT.px)
+                    marginRight = CssSize(5, UNIT.px)
+                    marginLeft = CssSize(5, UNIT.px)
                 }
             }
             link("About", "?a=about&?testnet=${Config.testnet}") {
@@ -47,15 +47,15 @@ fun Container.appHeader() = div(className = "appheader") {
                     color = Color.name(Col.WHITE)
                 }
             }
-            div("|"){
+            div("|") {
                 style {
-                    marginRight = CssSize(5,UNIT.px)
-                    marginLeft = CssSize(5,UNIT.px)
+                    marginRight = CssSize(5, UNIT.px)
+                    marginLeft = CssSize(5, UNIT.px)
                 }
             }
-            val networkText =if(Config.testnet){
+            val networkText = if (Config.testnet) {
                 "switch to pub-net"
-            }else{
+            } else {
                 "switch to test-net"
             }
             link(networkText, "?testnet=${!Config.testnet}") {

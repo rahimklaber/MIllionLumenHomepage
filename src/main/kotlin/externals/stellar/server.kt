@@ -1,9 +1,9 @@
 @file:JsNonModule
 @file:JsModule("stellar-sdk")
+
 package externals.stellar
 
 import FeeBumpTransaction
-import Transaction
 import TransactionI
 import kotlin.js.Promise
 
@@ -31,7 +31,8 @@ open external class Server(serverURL: String, opts: Options = definedExternally)
     //    open fun claimableBalances(): ClaimableBalanceCallBuilder
 //    open fun ledgers(): LedgerCallBuilder
     open fun transactions(): TransactionCallBuilder
-//    open fun offers(): OfferCallBuilder
+
+    //    open fun offers(): OfferCallBuilder
 //    open fun orderbook(selling: Asset, buying: Asset): OrderbookCallBuilder
 //    open fun trades(): TradesCallBuilder
 //    open fun operations(): OperationCallBuilder

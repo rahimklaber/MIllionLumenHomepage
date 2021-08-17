@@ -1,5 +1,6 @@
 @file:JsModule("ipfs-http-client")
 @file:JsNonModule
+
 package externals.ipfs
 
 import org.khronos.webgl.Uint8Array
@@ -28,13 +29,15 @@ external interface Options {
     var url: dynamic /* URL? | String? | Multiaddr? */
         get() = definedExternally
         set(value) = definedExternally
-//    var ipld: IPLDOptionsPartial?
+
+    //    var ipld: IPLDOptionsPartial?
 //        get() = definedExternally
 //        set(value) = definedExternally
     var agent: dynamic /* HttpAgent? | HttpsAgent? */
         get() = definedExternally
         set(value) = definedExternally
 }
+
 external interface AddOptions {
     var chunker: String?
         get() = definedExternally
@@ -51,7 +54,8 @@ external interface AddOptions {
     var pin: Boolean?
         get() = definedExternally
         set(value) = definedExternally
-//    var progress: AddProgressFn?
+
+    //    var progress: AddProgressFn?
 //        get() = definedExternally
 //        set(value) = definedExternally
     var rawLeaves: Boolean?
@@ -70,7 +74,13 @@ external interface AddOptions {
         get() = definedExternally
         set(value) = definedExternally
 }
-external open class CID(version: Number /* 0 | 1 */, code: Number, multihash: Any, bytes: Uint8Array) {
+
+open external class CID(
+    version: Number /* 0 | 1 */,
+    code: Number,
+    multihash: Any,
+    bytes: Uint8Array
+) {
     open var code: Number
     open var version: Number /* 0 | 1 */
     open var multihash: Any
@@ -109,6 +119,7 @@ external interface AddResult {
 //        get() = definedExternally
 //        set(value) = definedExternally
 }
+
 external interface API {
     var add: (entry: dynamic /* ToFile | ToDirectory | String | InstanceType<Any> | ArrayBufferView | ArrayBuffer | Blob | Iterable<Uint8Array> | AsyncIterable<Uint8Array> | ReadableStream<Uint8Array> */, options: AddOptions /* AddOptions & OptionExtension */) -> Promise<AddResult>
     var isOnline: () -> Boolean

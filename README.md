@@ -3,7 +3,7 @@
 ## About
 This project allows users to buy pixels in 10 by 10 increments at 0.1 XLM per pixel. Inspired by [The Million Dollar Homepage](http://www.milliondollarhomepage.com/).
 ## How it works
-First, the image is uploaded to IPFS. Afterwards, a transaction is created with "millionlumen" the memo. The first operation of the transaction is a payment to the project address. The second operation is a managedata operation with the IPFS hash as the name and the dimensions and coordinates of the image as the value.
+First, the image is uploaded to IPFS. Afterwards, a transaction is created with "millionlumen" the memo. The first operation of the transaction is a payment to the project address. The second operation is a managedata operation with the IPFS hash as the name and the dimensions and coordinates of the image as the value. the last operation is another managedata operation to delete the data entry created with the previous operation.
 
 When the website Loads, It requests all transactions to the project address that have "millionlumen" as the memo. After verifying the transactions, the images are loaded from information in the managedata operation.
 

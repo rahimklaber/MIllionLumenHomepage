@@ -1,17 +1,16 @@
 package me.rahimklaber.millionlumen
 
+import com.github.snabbdom.htmlDomApi
 import externals.stellar.ServerApi
 import io.kvision.core.*
 import io.kvision.html.Canvas
 import io.kvision.state.ObservableValue
 import kotlinx.browser.window
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.await
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import me.rahimklaber.millionlumen.Config.PRICEPERPIXEL
 import me.rahimklaber.millionlumen.Config.server
 import org.w3c.dom.CanvasRenderingContext2D
+import org.w3c.dom.HTMLVideoElement
 import org.w3c.dom.Image
 import org.w3c.files.File
 import org.w3c.files.FileReader
@@ -26,13 +25,14 @@ import org.w3c.files.get
  * @property height The height of the image.
  * @property width The width of the image.
  */
-class ImageInfo(
+data class ImageInfo(
     val url: String,
     var x: Double,
     var y: Double,
     var height: Double?,
     var width: Double?,
-    var draggable: Boolean = false
+    var draggable: Boolean = false,
+    val video: Boolean = true
 )
 
 /**
@@ -88,6 +88,54 @@ fun CanvasRenderingContext2D.drawImage(
 
 }
 
+fun CanvasRenderingContext2D.renderVideo(
+    videoInfo: ImageInfo,
+    initialDraw: Boolean = false,
+    onlyBoxes: Boolean = false
+) {
+    if (onlyBoxes && !videoInfo.draggable) {
+        this.fillStyle = "red"
+        this.fillRect(videoInfo.x, videoInfo.y, videoInfo.width!!, videoInfo.height!!)
+        return
+    }
+    if(initialDraw){
+        val video = htmlDomApi.createElement("video") as HTMLVideoElement
+
+        /**
+         * Todo: [video.onload] isn't called, So I can't reliably set the height and width.
+         */
+        val playFun = {
+            GlobalScope.launch {
+                while (true){
+                    delay(50)
+                    this@renderVideo.drawImage(
+                        video,
+                       videoInfo.x,
+                        videoInfo.y
+                    )
+                }
+            }
+        }
+        video.muted = true
+        video.onplay = {
+            videoInfo.height = video.videoHeight.toDouble()
+            videoInfo.width = video.videoWidth.toDouble()
+            null
+        }
+        video.onended = {
+            video.play()
+        }
+        video.src =  videoInfo.url
+        // If I don't do this, I won't get the video height in the onplay event
+        // no idea why.
+        GlobalScope.launch {
+            delay(100)
+        video.play()
+        }
+        playFun()
+    }
+}
+
 
 class PixelBoardState(
     var imageInfos: MutableList<ImageInfo> = mutableListOf(),
@@ -135,7 +183,10 @@ fun Container.pixelBoard(
                 ctx.lineTo(canvaswidth.toDouble(), 10.0 * i)
                 ctx.stroke()
             }
-            imageInfos.forEach { ctx.drawImage(it, init, onlyBoxes) }
+            val images = imageInfos.filter{ !it.video }
+            images.forEach { ctx.drawImage(it, init, onlyBoxes) }
+            val videos = imageInfos - images
+            videos.forEach { ctx.renderVideo(it,init,onlyBoxes) }
         }
         onEvent {
             var moving = false
@@ -149,13 +200,16 @@ fun Container.pixelBoard(
 
                     movingX = it.offsetX
                     movingY = it.offsetY
-
-                    for (imageInfo in imageInfos) {
-                        if (imageInfo.draggable && movingX > imageInfo.x && movingX < imageInfo.x + imageInfo.width!! && movingY > imageInfo.y && movingY < imageInfo.y + imageInfo.height!!) {
-                            moving = true
-                            currentlyMoving = imageInfo
+                    console.log(state.value.imageFile)
+                    console.log(state.value.imageInfo)
+                        for (imageInfo in imageInfos) {
+                            if (imageInfo.draggable && movingX > imageInfo.x && movingX < imageInfo.x + imageInfo.width!! && movingY > imageInfo.y && movingY < imageInfo.y + imageInfo.height!!) {
+                                moving = true
+                                currentlyMoving = imageInfo
+                                console.log(currentlyMoving)
+                            }
                         }
-                    }
+
 
 
                 }
@@ -222,6 +276,7 @@ fun Container.pixelBoard(
                 it.preventDefault()
                 if (state.value.addingImageToCanvas) {
                     val imageFile = it.dataTransfer?.files?.get(0)
+                    console.log(imageFile?.type)
                     imageFile?.let { file ->
                         scope.launch {
                             val reader = FileReader()
@@ -234,7 +289,8 @@ fun Container.pixelBoard(
                                         500.0,
                                         null,
                                         null,
-                                        true
+                                        true,
+                                        imageFile.type.startsWith("video")
                                     )
                                 )
                                 state.value = state.value.apply {

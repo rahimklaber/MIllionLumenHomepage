@@ -32,7 +32,7 @@ data class ImageInfo(
     var height: Double?,
     var width: Double?,
     var draggable: Boolean = false,
-    val video: Boolean = true
+    val video: Boolean = false
 )
 
 /**
@@ -187,6 +187,7 @@ fun Container.pixelBoard(
             images.forEach { ctx.drawImage(it, init, onlyBoxes) }
             val videos = imageInfos - images
             videos.forEach { ctx.renderVideo(it,init,onlyBoxes) }
+            console.log(imageInfos)
         }
         onEvent {
             var moving = false
@@ -276,7 +277,6 @@ fun Container.pixelBoard(
                 it.preventDefault()
                 if (state.value.addingImageToCanvas) {
                     val imageFile = it.dataTransfer?.files?.get(0)
-                    console.log(imageFile?.type)
                     imageFile?.let { file ->
                         scope.launch {
                             val reader = FileReader()
@@ -347,6 +347,8 @@ fun Container.pixelBoard(
                                     y.toDouble(),
                                     height.toDouble(),
                                     width.toDouble(),
+                                    // this should be cached.
+                                    video = window.fetch("https://ipfs.io/ipfs/$ipfsHash").await().headers.get("content-type")?.startsWith("video") ?: false
                                 )
                             )
                         } catch (e: Exception) {
